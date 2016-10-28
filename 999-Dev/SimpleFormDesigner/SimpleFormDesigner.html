@@ -1,0 +1,67 @@
+<!-- 
+    Simple Form Desinger 
+      Design Form Layout in Form Desinger. It could generate code for various purpose. 
+      1. generate for simple html form
+      Wish List
+      2. generate code for page with JQuery Widget.
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<title>IT Tech Office - Simple Form Designer v0.0.18</title>
+        <!-- Jquery Core -->
+		<script src="lib/jquery-3.1.0.min.js"></script>
+        <!-- Jquery UI -->
+		<script src="lib/jquery-ui.min.js"></script>
+        <!-- vkbeautify (for pretty print)-->
+        <script src="lib/vkbeautify.0.99.00.beta.js"></script>
+        <!-- Simple Form Desinger CSS -->
+        <link rel="stylesheet" type="text/css" href="SimpleFormDesigner.css">
+        
+		<!-- Simple Form Desinger-->
+		<script src="ControlConstant.js"></script>
+		<script src="ControlGenerator.js"></script>
+		<script src="DrawingPanel.js"></script>
+		<script src="ControlList.js"></script>
+
+        
+	</head>
+	<body>
+		<h1>IT Tech Office - Simple Form Designer v0.0.18</h1>
+		<table border="1">
+            <tr>
+                <td colspan="3">
+                    Rows: <input id="insertTableRowNum" value="2"/>
+                    Cols: <input id="insertTableColNum" value="2"/>
+                    <button id="insertTableBtn" type="button">Insert Table</button>
+                </td>
+            </tr>
+			<tr>
+				<td id="controlListCell">
+					<div id="controlList"></div>
+				</td>
+				<td>
+                    <div id="drawingPanel"></div>
+				</td>
+				<td id="controlAttrsCell">
+					<div id="controlAttrs"></div>
+				</td>
+			</tr>
+		</table>
+		<div>
+			<div>
+				<button id="generateBtn" type="button">Generate</button>
+			</div>
+			<div>
+				<textarea id="meta" rows="3" cols="100"></textarea>
+			</div>
+			<div>
+				<textarea id="generatedCodeTextArea" rows="30" cols="100"></textarea>
+			</div>
+		</div>
+	</body>
+</html>
