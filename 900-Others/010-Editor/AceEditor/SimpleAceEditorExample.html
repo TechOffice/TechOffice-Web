@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.5/ace.js"></script>
+        <style type="text/css" media="screen">
+            #editor { 
+                width: 600px;
+                height: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Simple Ace Editor Example</h1>
+        <div id="editor"></div>        
+        <script>
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/monokai");
+            editor.getSession().setMode("ace/mode/javascript");
+        </script>
+    </body>
+</html>

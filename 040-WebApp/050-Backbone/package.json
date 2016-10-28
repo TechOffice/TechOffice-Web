@@ -1,0 +1,16 @@
+{
+  "name": "BackboneExample",
+  "version": "0.0.0",
+  "description": "* NodeJs\r * Npm\r * lite-server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"dev": "lite-server"
+	
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lite-server": "^2.2.2"
+  }
+}

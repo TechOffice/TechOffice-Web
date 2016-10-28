@@ -1,0 +1,31 @@
+<!-- 
+  HTML5 Canvas is used to draw grapics on they fly via Javascript
+  In this example, it would load a image into canvas for editing
+-->
+<html>
+	<head>
+		<script>
+			document.onreadystatechange = function () {
+				if (document.readyState === 'complete') {
+					var canvas = document.getElementById("canvasEditor");
+					var context = canvas.getContext("2d");
+					var image = new Image();
+					image.src = "image.jpg";
+					image.onload = function(){
+						var width = image.width;
+						var height = image.height
+						canvas.height = height;
+						canvas.width = width;
+						context.drawImage(image, 0, 0)
+					};
+				}
+			};
+		</script>
+	</head>
+	
+	<body>
+		<canvas id="canvasEditor">
+		
+		</canvas>
+	</body>
+</html>

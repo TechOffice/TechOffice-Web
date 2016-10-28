@@ -1,0 +1,50 @@
+<html lang="en">
+	<head>
+		<title>jQuery UI - Simple Drappable Example</title>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+		<script>
+			$( function() {
+				// define label is draggable
+				$("#label1").draggable({ revert: true });
+				
+				// define label 2 is draggable
+				$("#label2").draggable({ revert: true });
+				
+				// define drawingPanel is droppable
+				$("#drawingPanel").droppable({
+					accept: "#label1, #label2",
+					drop: function( event, ui ) {
+						debugger;
+						// if the dropped object is label
+						if (ui.draggable[0].id && ui.draggable[0].id == 'label1'){
+							$("<div>Label 1</div>").appendTo($("#drawingPanel"));
+						}
+						
+						// if the dropped object is label 2
+						if (ui.draggable[0].id && ui.draggable[0].id == 'label2'){
+							$("<div>Label 2</div>").appendTo($("#drawingPanel"));
+						}
+					}
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<h1>jQuery UI - Simple Droppable Example</h1>
+		<table border="1">
+			<tr>
+				<td style="vertical-align:top">
+					<div id="elementList">
+						<div id="label1">Label 1</div>
+						<div id="label2">Label 2</div>
+					</div>
+				</td>
+				<td>
+					<div id="drawingPanel" style="width:700px;height:500px;background-color:snow">
+					</div>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

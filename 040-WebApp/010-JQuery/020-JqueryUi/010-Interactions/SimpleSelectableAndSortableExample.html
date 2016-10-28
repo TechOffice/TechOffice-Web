@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+
+        <!-- jQuery UI - sortable and selectable -->
+
+        <!-- Jquery Core -->
+        <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <!-- Jquery UI -->
+		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+        <style>
+            #simpleSelect .ui-selecting { 
+                background: #707070 ; 
+            }
+
+            #simpleSelect .ui-selected { 
+                background: #EEEEEE; 
+                color: #000000; 
+            }
+
+            #simpleSelect {
+                padding: 1em;
+            }
+
+            #simpleSelect div {
+                padding: 1em;
+            }
+
+            #simpleSelect .handle {
+                background: #f8f8f8;
+                padding: 8px;
+                display: inline-block;                
+            } 
+         }
+
+        </style>
+        <script>
+			$( function() {
+                $("#simpleSelect").sortable({
+                    handle: ".handle"
+                }).selectable({
+                    cancel: ".handle",
+                    selected: function(event, ui){
+                        debugger;
+                        console.log("selected");
+                    }
+                }).find("div")
+                    .prepend("<div class='handle'><span></span></div>");
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id="simpleSelect">
+            <div>Item 1</div>
+            <div>Item 2</div>
+            <div>Item 3</div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <style>
+            div {
+                border: 1px solid;
+            }
+        </style>
+        <script src="diff_match_patch.js"></script>
+        <script>
+            document.onreadystatechange = function () {
+                if (document.readyState == "complete") {
+                    var v1 = document.getElementById('v1').innerText;
+                    var v2 = document.getElementById('v2').innerText;
+                    var dmp = new diff_match_patch();
+                    dmp.Diff_EditCost = 4;
+                    dmp.Diff_Timeout = 1;
+                    var d = dmp.diff_main(v1, v2);
+                    dmp.diff_cleanupEfficiency(d);
+                    var ds = dmp.diff_prettyHtml(d);
+                    document.getElementById("diff").innerHTML = ds;
+                }
+            } 
+        </script>
+    </head>
+
+    <body>
+        <h1>Google-Diff-Path-Match - Simple Diff Example</h1>
+        <table>
+            <tr>
+                <td>
+                    <b>Version 1 </b>
+                    <div id="v1">
+                        This is testing abc def ghi jkl nmo p And This would test remove Somthing.
+                    </div>
+                </td>
+                <td>
+                    <b>Version 2 </b>
+                    <div id="v2">This is Testing abc def ghi jki nmo p and This would test Something</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <br/>
+                    <b>Diff Output</b> <br/>
+                    <div id="diff"></div>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

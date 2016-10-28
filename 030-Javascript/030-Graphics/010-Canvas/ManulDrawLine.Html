@@ -1,0 +1,127 @@
+<html>
+    <head>
+		<style>
+			pre{
+				background-color: WhiteSmoke;
+				width: 800px
+			}
+		</style>
+        <script>
+            document.onreadystatechange = function() {
+                if (document.readyState == 'complete'){
+                    var canvas = document.getElementById("canvas");
+                    var ctx = canvas.getContext("2d");
+
+                    canvas.flag = false;
+                    canvas.startX = 0;
+                    canvas.startY = 0;
+                    canvas.endX = 0;
+                    canvas.endY = 0;
+                    canvas.objWidth = 0;
+                    canvas.objHeight = 0;
+                    canvas.mousedown = function(event){
+                        this.flag = true;
+                        this.startX = event.clientX;
+                        this.startY = event.clientY;
+                    };
+                    canvas.addEventListener("mousedown", canvas.mousedown);
+                    canvas.mouseup = function(event){
+                        this.flag = false;
+                    };
+                    canvas.addEventListener("mouseup", canvas.mouseup);
+                    canvas.mousemove = function(event){
+                        if (!this.flag){
+                            return;
+                        }
+                        this.endX = event.clientX;
+                        this.endY = event.clientY;
+                        ctx.fillStyle = "#FF0000";
+                        ctx.beginPath();
+                        ctx.moveTo(this.startX, this.startY);
+                        ctx.lineTo(this.endX, this.endY);
+                        ctx.stroke();
+                        this.startX = this.endX;
+                        this.startY = this.endY;
+                    };
+                    canvas.addEventListener("mousemove", canvas.mousemove);
+                    canvas.mouseleave = function(event){
+                        
+                    };
+                    canvas.addEventListener("mouseleave", canvas.mouseleave);
+                    
+                }
+            };
+        </script>
+    </head>
+
+    <body> 
+        <div style="border: 1px solid; width:1000px">
+            <canvas id="canvas" width="1000" height="300">
+            </canvas>
+        </div>
+		<h1>Canvas</h1>
+        <p>
+            Canvas is used to <b>draw graphics</b> on the fly via JavaScript. The 2d object of this would provide method to draw text, line, box, circles and more on it.
+        </p>
+        <h1>Draw Line Example</h1>
+		    <p>
+				This is an example of canvas which allow you use mouse to draw line on it. 
+			</p>
+        <h2>Main Part of the Script</h2>
+<pre>
+canvas = document.getElementById("canvas");
+context = canvas.getContext("2d");
+context.beginPath();
+context.moveTo(startX, startY);
+context.lineTo(endX, endY);
+context.stroke();
+</pre>
+        <h2>Complete Script</h2>
+<pre>
+document.onreadystatechange = function() {
+    if (document.readyState == 'complete'){
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+
+        canvas.flag = false;
+        canvas.startX = 0;
+        canvas.startY = 0;
+        canvas.endX = 0;
+        canvas.endY = 0;
+        canvas.objWidth = 0;
+        canvas.objHeight = 0;
+        canvas.mousedown = function(event){
+            this.flag = true;
+            this.startX = event.clientX;
+            this.startY = event.clientY;
+        };
+        canvas.addEventListener("mousedown", canvas.mousedown);
+        canvas.mouseup = function(event){
+            this.flag = false;
+        };
+        canvas.addEventListener("mouseup", canvas.mouseup);
+        canvas.mousemove = function(event){
+            if (!this.flag){
+                return;
+            }
+            this.endX = event.clientX;
+            this.endY = event.clientY;
+            ctx.fillStyle = "#FF0000";
+            ctx.beginPath();
+            ctx.moveTo(this.startX, this.startY);
+            ctx.lineTo(this.endX, this.endY);
+            ctx.stroke();
+            this.startX = this.endX;
+            this.startY = this.endY;
+        };
+        canvas.addEventListener("mousemove", canvas.mousemove);
+        canvas.mouseleave = function(event){
+            
+        };
+        canvas.addEventListener("mouseleave", canvas.mouseleave);
+        
+    }
+};
+</pre>
+    </body>
+</html>

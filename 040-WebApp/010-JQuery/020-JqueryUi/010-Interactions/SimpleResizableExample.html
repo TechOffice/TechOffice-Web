@@ -1,0 +1,27 @@
+<html lang="en">
+	<head>
+
+	<title>jQuery UI - Simple Resizable Example</title>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+		<script>
+			$( function() {
+				// define label is resizable
+				$("#label1").resizable();
+				
+				// define label 2 is resizable
+				$("#label2").resizable();
+				
+				// define resizableTextarea is resizable
+				$("#resizableTextarea").resizable();
+			});
+		</script>
+	</head>
+	<body>
+		<div id="label1" class="ui-widget-content" style="width:300px">Label 1</div>
+		<div id="label2" class="ui-widget-content" style="width:300px">Label 2</div>
+		<textarea id="resizableTextarea" rows="5" cols="20"></textarea>
+	</body>
+</html>

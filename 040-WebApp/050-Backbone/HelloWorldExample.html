@@ -1,0 +1,101 @@
+<html>
+	<head>
+		<script src="lib/jquery-3.1.1.min.js"></script>
+		<script src="lib/underscore-min.js"></script>
+		<script src="lib/backbone-min.js"></script>
+	</head>
+	<body>
+		<h1 id="view"></h1>
+		<script>
+			SearchView = Backbone.View.extend({
+				initialize: function(){
+				  this.render();
+				},
+				render: function(){
+				  this.$el.html("Backbone Hello World Example");
+				}
+			  });	
+			search_view = new SearchView({ el: $("#view") });
+		</script>
+		<p><b>The below code is used to render above title</b></p>
+<pre>
+View = Backbone.View.extend({
+initialize: function(){
+	this.render();
+},
+render: function(){
+	this.$el.html("Backbone Hello World Example");
+}
+});	
+view = new View({ el: $("#view") });
+</pre>
+		<div id="collection"></div>	
+		<script>
+			Student = Backbone.Model.extend({
+				defaults: {
+					name: "",
+					age: 0
+				}
+			});
+			StudentCollection = Backbone.Collection.extend({
+				model: Student
+			});
+			studentCollection = new StudentCollection();
+			student1 = new Student({name: "Testing 1", age: 20 });
+			student2 = new Student({name: "Testing 2", age: 22 });
+			studentCollection.add(student1);
+			studentCollection.add(student2);
+			CollectionView = Backbone.View.extend({
+				initialize: function(){
+				  this.render();
+				},
+				render: function(){
+					debugger;
+					var table = $("<table border='1'></table>");
+					studentCollection.each(function(student){
+						var tr = $("<tr></tr>");
+						tr.append("<td>" + student.get("name") + "</td>");
+						tr.append("<td>" + student.get("age") + "</td>");
+						table.append(tr);
+					});
+					this.$el.html(table);
+				}
+			});	
+			collectionView = new CollectionView({ el: $("#collection") });
+		</script>
+		<p><b>The below code is used to render above table with Backbone Model, View and Collection</b></p>
+<pre>
+Student = Backbone.Model.extend({
+	defaults: {
+		name: "",
+		age: 0
+	}
+});
+StudentCollection = Backbone.Collection.extend({
+	model: Student
+});
+studentCollection = new StudentCollection();
+student1 = new Student({name: "Testing 1", age: 20 });
+student2 = new Student({name: "Testing 2", age: 22 });
+studentCollection.add(student1);
+studentCollection.add(student2);
+Collection = Backbone.View.extend({
+	initialize: function(){
+		this.render();
+	},
+	render: function(){
+		debugger;
+		var table = $("&lt;table border='1'&gt;&lt;/table&gt;");
+		studentCollection.each(function(student){
+			var tr = $("&lt;tr>&lt;/tr&gt;");
+			tr.append("&lt;td>" + student.get("name") + "&lt;/td&gt;");
+			tr.append("&lt;td>" + student.get("age") + "&lt;/td&gt;");
+			table.append(tr);
+		});
+		this.$el.html(table);
+	}
+});	
+collection = new Collection({ el: $("#collection") });
+</pre>
+	</body>
+</html>

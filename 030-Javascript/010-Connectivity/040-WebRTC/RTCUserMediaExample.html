@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <script src="lib/adapter-1.0.2.js"></script>
+    </head>
+
+    <body>
+        <h1>Web RTC User Stream Example</h1>
+        <video autoplay></video>
+        <p>There are various implementation of Web RTC. The syntax is quite different, so that adapter.js is required to use in order to use same code in different platform.</p>
+        <script>
+            var constraints = {
+                audio: false,
+                video: true
+            };
+
+            function processUserMedia(stream){
+                var videoTracks = stream.getVideoTracks();
+                var video = document.querySelector('video');
+                video.srcObject = stream;
+            }
+
+            // navigator.mediaDevices contain access right information of media input device.
+            // navigator.mediaDevices.getUserMedia is only supported in firefox. 
+            // In order to make it support in other browser, adapter.js is required to include in web page.
+            // This statement request user to get access right and then run the function processUserMedia as defined.
+            navigator.mediaDevices.getUserMedia(constraints).then(processUserMedia);
+
+        </script>
+    </body>
+</html>

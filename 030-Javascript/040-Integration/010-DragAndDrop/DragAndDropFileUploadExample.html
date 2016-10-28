@@ -1,0 +1,62 @@
+<html>
+	<head>
+		<style>
+			#dropDemo {
+				width: 500px;
+				height: 100px;
+				border: 1px solid;
+			}
+		</style>
+		
+		<script>
+		
+			function allowDrop(event) {
+				event.preventDefault();
+			}
+
+			function drop(event){
+			    event.preventDefault();
+				var file = event.dataTransfer.files[0];
+				fileName.innerText = file.name;
+				fileSize.innerText = file.size + " byte";
+				
+				var content;
+				var reader = new FileReader();
+				reader.onload = function(e){
+					content = reader.result;
+					fileContent.innerText = content;
+				}
+				reader.readAsText(file);
+			}
+		</script>
+	</head>
+	
+	<body>
+		<h1>Drag and Drop File Upload Example</h1>
+		
+		<div id="dropDemo" ondrop="drop(event)" ondragover="allowDrop(event)">
+			Drop a external file here!!!
+		</div>
+		
+		<table >
+			<tr>
+				<td>Name:</td>
+				<td><span id="fileName"></span></td>
+			</tr>
+			<tr>
+				<td>Size:</td>
+				<td><span id="fileSize"></span></td>
+			</tr>
+		</table>
+		
+		<h2>File Content</h2>
+		<br/>
+		<div id="fileContent"></div>
+		
+		<script>
+			fileName = document.getElementById("fileName");
+			fileSize = document.getElementById("fileSize");
+			fileContent = document.getElementById("fileContent");
+		</script>
+	</body>
+</html>

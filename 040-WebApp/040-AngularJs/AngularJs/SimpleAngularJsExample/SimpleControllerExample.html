@@ -1,0 +1,45 @@
+<!--
+    AngularJs Controller Example
+    1. define module and controller 
+    2. view get data from controller 
+-->
+<html  ng-app="testApp">
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script>
+        // define testApp module
+        var testApp = angular.module('testApp', []);
+        // define TestController on phonecatApp
+        testApp.controller('TestController', function TestController($scope) {
+            $scope.name = "Test Controller";
+            $scope.data = [
+                {
+                    'name' : 'name 1',
+                    'value' : 'value 1'
+                }, 
+                {
+                    'name' : 'name 2',
+                    'value' : 'value 2'
+                }
+            ];
+        });
+    </script>
+ </head>
+
+ <body ng-controller="TestController">
+     <p>
+         {{name}}
+     </p>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+        </tr>
+        <tr ng-repeat="row in data">
+            <td>{{row.name}}</td>
+            <td>{{row.value}}</td>
+        </tr>
+     </table>
+ </body>
+
+</html>

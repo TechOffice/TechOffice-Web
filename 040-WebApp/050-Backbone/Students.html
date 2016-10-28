@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<script src="lib/jquery-3.1.1.min.js"></script>
+		<script src="lib/underscore-min.js"></script>
+		<script src="lib/backbone-min.js"></script>
+	</head>
+	<body>
+		<div id="studentDiv"></div>
+        <script>
+            Students = Backbone.Collection.extend({
+                url: 'Students.json',
+                parse: function(data) {
+                    return data.data;
+                }
+            });
+
+			StudentDiv = Backbone.View.extend({
+				
+				initialize: function() {
+					this.collection.bind('add remove change reset', this.render);
+					this.collection.fetch();
+				},
+
+				render: function(){
+					studentDiv = $("#studentDiv");
+					var table = $("<table border='1'></table>");
+					students.each(function(student){
+						var tr = $("<tr></tr>");
+						tr.append("<td>" + student.get("name") +"</td>");
+						tr.append("<td>" + student.get("age") +"</td>");
+						table.append(tr);
+					});
+					studentDiv.html(table);
+				}
+			});
+			
+			students = new Students();
+			studentDiv = new StudentDiv({collection: students});
+        </script>
+	</body>
+</html>

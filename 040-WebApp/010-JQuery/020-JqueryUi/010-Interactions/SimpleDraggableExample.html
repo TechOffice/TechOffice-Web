@@ -1,0 +1,21 @@
+<html lang="en">
+	<head>
+		<title>jQuery UI - Simple Draggable Example</title>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+		<script>
+			$( function() {
+				// define drag is draggable
+				$("#drag1").draggable({ revert: true });
+				
+				// define drag 2 is draggable
+				$("#drag2").draggable({ revert: true });
+			});
+		</script>
+	</head>
+	<body>
+		<h1>jQuery UI - Simple Draggable Example</h1>
+		<div id="drag1" style="border: 1px solid; width:500px">I can be dragged to anywhere!</div>
+		<div id="drag2" style="border: 1px solid; width:500px">I can be dragged to anywhere too!</div>
+	</body>
+</html>

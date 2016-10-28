@@ -1,0 +1,24 @@
+
+<html>
+    <head>
+        <script src="lib/ckeditor/ckeditor.js"></script>
+        <script>
+            function getEditorToDataDiv(){
+	            var editor_data = CKEDITOR.instances.editor1.getData();
+                document.getElementById("dataDiv").innerHTML = editor_data; 
+            }
+        </script>
+    </head>
+
+    <body>
+        <h1>CK Editor Example</h1>
+        <h2>Editor</h2>
+        <textarea id="editor1" name="editor1"></textarea>
+        <script type="text/javascript">
+            CKEDITOR.replace( 'editor1' );
+        </script>
+        <button id="getData" onclick="getEditorToDataDiv()">Retrieve Editor Data</button>
+        <h2>Editor Data</h2>
+        <div id="dataDiv"></div>
+    </body>
+</html>

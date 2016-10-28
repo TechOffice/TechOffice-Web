@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <script src="lib/adapter-1.0.2.js"></script>
+    </head>
+
+    <body>
+        <h1>Web RTC Peer Connection Example</h1>
+        <script>
+            servers = null;
+            pc1 = new RTCPeerConnection(servers);
+            pc2 = new RTCPeerConnection(servers);
+			
+			// send channel
+			sendChannel = pc1.createDataChannel('sendDataChannel', null)
+			
+			// receive channel
+			pc2.ondatachannel = function(event){
+				receiveChannel = event.channel;
+				receiveChannel.onmessage = function(event){
+					console.log("received data: " + event.data);
+				};
+			};
+
+			// build connection
+			pc1.onicecandidate = function(event){
+				if (event.candidate){
+					// Send Ice Candidate to pc2
+					pc2.addIceCandidate(event.candidate);
+				}
+			};
+			
+			pc2.onicecandidate = function(event){
+				if (event.candidate){
+					// Send Ice Candidate to pc1
+					pc1.addIceCandidate(event.candidate);
+				}
+			};
+			
+			pc1.createOffer().then(function(desc){
+				console.log("===Offer Desc===");
+				console.log(desc);
+				pc1.setLocalDescription(desc);
+				
+				// Send the SDP descroptor to pc2
+				pc2.setRemoteDescription(desc);
+				pc2.createAnswer().then(function(desc){
+					console.log("===Answer Desc===");
+					console.log(desc);
+					
+					pc2.setLocalDescription(desc);
+					// Send the SDP descriptor to pc1
+					pc1.setRemoteDescription(desc);
+				});
+			});
+        </script>
+    </body>
+</html>

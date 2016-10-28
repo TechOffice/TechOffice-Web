@@ -1,0 +1,67 @@
+<html>
+    <head>
+    </head>
+
+    <body>
+        <h1>Http5 Canvas - Moving Ball Example</h1>
+        <div style="border: 1px solid; width: 500px; height: 200px;">
+            <canvas id="movingBallCanvas" width=500 height=200></canvas>
+        </div>
+        <script>
+            var movingBallCanvas = document.getElementById("movingBallCanvas");
+            var ctx = movingBallCanvas.getContext("2d");
+            function drawCircle(ctx, x, y){
+                ctx.beginPath();
+                ctx.arc(x, y, 70, 0, 2 * Math.PI, false);
+                ctx.stroke();
+            }
+            var distance = 10;
+            var coordinate = {x:0, y:0};
+            var moveDirection = {x:"right", y:"down"}
+            function up(){
+                coordinate.y -=  distance;
+            }
+            function down(){
+                coordinate.y +=  distance;
+            }
+            function left(){
+                coordinate.x -=  distance;
+            }
+            function right(){
+                coordinate.x +=  distance;
+            }
+            function move(){
+                if (moveDirection.x == 'right'){
+                    right();
+                    if (coordinate.x == movingBallCanvas.width - 70){
+                        moveDirection.x = "left";
+                    }
+                }else if (moveDirection.x == 'left'){
+                    left();
+                    if (coordinate.x == 70){
+                        moveDirection.x = "right";
+                    }
+                }
+                if (moveDirection.y == 'up'){
+                    up();
+                    if (coordinate.y == 70){
+                        moveDirection.y = "down";
+                    }
+                }else if (moveDirection.y == 'down'){
+                    down();
+                    if (coordinate.y == movingBallCanvas.height - 70){
+                        moveDirection.y = "up";
+                    }
+                }
+            }
+            function movingBall(){
+                console.log("Drawing");
+                move();
+                ctx.clearRect(0, 0, movingBallCanvas.width, movingBallCanvas.height);
+                drawCircle(ctx, coordinate.x, coordinate.y );
+            }
+            
+            setInterval(movingBall, 100);
+        </script>
+    </body>
+</html>
