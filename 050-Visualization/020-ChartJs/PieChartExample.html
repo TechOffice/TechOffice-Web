@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+	</head>
+	
+	<body>
+		<canvas id="pieChart" width="400" height="400"></canvas>
+		<script>
+			var lineChart = new Chart("pieChart", {
+				type: 'pie',
+				data: {
+					labels: ["Red", "Blue", "Yellow"],
+					datasets: [{
+						data: [300, 50, 100],
+						backgroundColor: [
+							"#FF6384",
+							"#36A2EB",
+							"#FFCE56"
+						]
+					}]
+				},
+				options: {
+					responsive: false
+				}
+			});
+		</script>
+	</body>
+</html>

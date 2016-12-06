@@ -1,0 +1,24 @@
+<html>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
+	</head>
+	
+	<body>
+		<canvas id="barChart" width="400" height="400"></canvas>
+		<script>
+			var lineChart = new Chart("barChart", {
+				type: 'bar',
+				data: {
+					labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+					datasets: [{
+						label: "Bar Chart Example",
+						data: [12, 19, 3, 5, 2, 3]
+					}]
+				},
+				options: {
+					responsive: false
+				}
+			});
+		</script>
+	</body>
+</html>
