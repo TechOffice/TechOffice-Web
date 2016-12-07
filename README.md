@@ -3,3 +3,7 @@ This is a Tech Office Web Example Project. You could find many Front-end Example
 
 Github Page: https://imben1109.github.io/techoffice-web/ 
 
+Blog: http://techofficejs.wordpress.com/
+
+Tech Office Blog: https://ittechoffice.wordpress.com/
+

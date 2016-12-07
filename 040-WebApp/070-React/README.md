@@ -1,8 +1,4 @@
 # React Example 
 
-## JSX
-It is a oject-oriented programming language.
+React Home Page: https://facebook.github.io/react/
 
-## Babel
-It is a Javascript compiler.
-It can convert JSX syntax into Javascript.
