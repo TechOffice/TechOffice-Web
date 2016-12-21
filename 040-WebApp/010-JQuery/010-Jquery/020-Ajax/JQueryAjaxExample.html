@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<style>
+			#message{
+				background-color: LightGrey;
+				display: inline-block;
+				color: green;
+			}
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script>
+			$(function(){
+				$.ajax({
+					url: "data.json",
+					dataType: "text",
+					success: function(response, status, xhr){
+						$("#message").html(response);
+					},
+					error: function(status, error){
+						alert(error);
+					}
+				});
+			});
+		</script>
+	</head>
+
+	<body>
+		<h1>JQuery Ajax Example</h1>
+		<div id="message"></div>
+		<div>
+			<p>The above message is return by the ajax call from data.json.</p>
+		</div>
+	</body>
+	
+</html>

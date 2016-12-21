@@ -1,0 +1,9 @@
+{
+	data: {
+		student: [
+			{name: "test1", age: 21},
+			{name: "test2", age: 22},
+			{name: "test3", age: 33}
+		]
+	}
+}
