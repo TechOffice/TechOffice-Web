@@ -1,10 +1,10 @@
-.ui-selecting { 
-    background: #707070 ;            
+.ui-selecting {
+    background: #707070 ;
 }
 
-.ui-selected { 
-    background: #EEEEEE; 
-    color: #000000; 
+.ui-selected {
+    background: #EEEEEE;
+    color: #000000;
 }
 
 #drawingPanel {

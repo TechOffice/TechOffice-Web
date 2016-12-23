@@ -2,7 +2,7 @@ $(function(){
     $("#drawingPanel").sortable({
         receive: function(event, ui){
             ui.helper.removeAttr("style");
-		},
+		    },
         placeholder: "control-placeholder",
         handle: '.handle'
     }).selectable({
@@ -16,7 +16,7 @@ $(function(){
                 if (!$(children[i]).hasClass("ui-selected")){
                     $(children[i]).addClass("ui-selected");
                 }
-            }						
+            }
             $(selected.children()[0]).prop("checked", true);
         },
         unselected: function(event, ui){
@@ -27,9 +27,8 @@ $(function(){
                 if ($(children[i]).hasClass("ui-selected")){
                     $(children[i]).removeClass("ui-selected");
                 }
-            }						
+            }
             $(unselected.children()[0]).prop("checked", false);
         }
     });
 });
-

@@ -1,0 +1,21 @@
+<html>
+    <head>
+    </head>
+
+    <body>
+        <h1>Http5 Canvas - Simple Canvas Example</h1>
+        <div style="border: 1px solid; width: 500px; height: 200px;">
+            <canvas id="simeplCanvas" width=500 height=200 ></canvas>
+        </div>
+		<img id="simpleImg"/>
+        <script>
+            var simeplCanvas = document.getElementById("simeplCanvas");
+            var ctx = simeplCanvas.getContext("2d");
+			ctx.font = "30px Arial";
+			ctx.strokeText("Hello World",10,50);
+			var dataUrl = simeplCanvas.toDataURL("image/png");
+			var simpleImg = document.getElementById("simpleImg");
+			simpleImg.src = dataUrl;
+        </script>
+    </body>
+</html>

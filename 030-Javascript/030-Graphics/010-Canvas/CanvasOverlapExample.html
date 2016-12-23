@@ -1,0 +1,27 @@
+<html>
+    <head>
+		<style>
+			canvas{
+				position: absolute;
+				top: 30px;
+			}
+		</style>
+    </head>
+
+    <body>
+        <h1>Http5 Canvas - Canvas Overlay Example</h1>
+            <canvas id="simeplCanvas1" width=500 height=200 ></canvas>
+			<canvas id="simeplCanvas2" width=500 height=200 ></canvas>
+        <script>
+            var simeplCanvas1 = document.getElementById("simeplCanvas1");
+            var ctx1 = simeplCanvas1.getContext("2d");
+			ctx1.font = "30px Arial";
+			ctx1.strokeText("Canvas 1",10,50);
+			
+			var simeplCanvas2 = document.getElementById("simeplCanvas2");
+            var ctx1 = simeplCanvas1.getContext("2d");
+			ctx1.font = "30px Arial";
+			ctx1.strokeText("Canvas 2",10,100);
+        </script>
+    </body>
+</html>

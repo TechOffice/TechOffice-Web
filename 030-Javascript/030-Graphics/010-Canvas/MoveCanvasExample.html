@@ -1,0 +1,30 @@
+<html>
+    <head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<style>
+			canvas{
+				position: absolute;
+			}
+		</style>
+    </head>
+
+    <body>
+		<canvas id="simeplCanvas1"></canvas>
+		<canvas id="simeplCanvas2"></canvas>
+        <script>
+		
+			// init simeplCanvas1 and simeplCanvas2
+            var simeplCanvas1 = document.getElementById("simeplCanvas1");
+            var ctx1 = simeplCanvas1.getContext("2d");
+			ctx1.font = "30px Arial";
+			ctx1.strokeText("Canvas 1",10,50);
+			
+			var simeplCanvas2 = document.getElementById("simeplCanvas2");
+            var ctx1 = simeplCanvas1.getContext("2d");
+			ctx1.font = "30px Arial";
+			ctx1.strokeText("Canvas 2",10,100);
+			
+			
+        </script>
+    </body>
+</html>
