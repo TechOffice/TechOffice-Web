@@ -1,18 +1,24 @@
 <html>
 	<head>
-		<script src="../lib/jquery-3.1.1.min.js"></script>
-		<link rel="stylesheet" href="../lib/bootstrap.min.css" />
-		<link rel="stylesheet" href="../lib/bootstrap-theme.min.css"/>
-		<script src="../lib/bootstrap.min.js"></script>
+		<script src="../../lib/jquery-3.1.1.min.js"></script>
+		<link rel="stylesheet" href="../../lib/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../lib/bootstrap-theme.min.css"/>
+		<script src="../../lib/bootstrap.min.js"></script>
 	</head>
 	
 	<body>
 		<div class="container-fluid">
 			<h1>JQuery</h1>
 			<ul>
-				<li>JQuery</li>
-				<li>JQuery UI</li>
+				<li><a href="010-Jquery/index.html">JQuery</a></li>
+				<li><a href="020-JqueryUI/index.html">JQuery UI</a></li>
 			</ul>
+			<button onclick="goBack()">Back</button>
+			<script>
+				function goBack(){
+					window.history.back();
+				}
+			</script>
 		</div>
 	</body>
 </html>
