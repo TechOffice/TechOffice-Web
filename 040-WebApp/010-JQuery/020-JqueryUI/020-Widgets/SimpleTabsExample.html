@@ -26,5 +26,34 @@
                 This is tab3's Content
             </div>
         </div>
+		
+		<!-- Source Code -->
+		<pre>
+&lt;div id=&quot;tabs&quot;&gt;
+	&lt;ul&gt;
+		&lt;li&gt;&lt;a href=&quot;#tab1&quot;&gt;Tab 1&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#tab2&quot;&gt;Tab 2&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&quot;#tab3&quot;&gt;Tab 3&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+	&lt;div id=&quot;tab1&quot;&gt;
+		This is tab1's Content
+	&lt;/div&gt;
+	&lt;div id=&quot;tab2&quot;&gt;
+		This is tab2's Content
+	&lt;/div&gt;
+	&lt;div id=&quot;tab3&quot;&gt;
+		This is tab3's Content
+	&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+	$(&quot;#tabs&quot;).tabs();
+&lt;/script&gt;
+		</pre>
+		<button onclick="goBack()">Back</button>
+		<script>
+			function goBack(){
+				window.history.back();
+			}
+		</script>
     </body>
 </html>
