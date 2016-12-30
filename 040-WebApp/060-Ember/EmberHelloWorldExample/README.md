@@ -22,7 +22,7 @@ Step 4: Edit templates/about.hbs
 <h1>{{model.title}}</h1>
 ```
 
-Step 5: Edit routes/about.hbs
+Step 5: Edit routes/about.js
 ```
 import Ember from 'ember';
 

@@ -91,7 +91,7 @@ define('hello-world-example/initializers/ember-data', ['exports', 'ember-data/se
       adapter: 'custom'
     });
   
-    App.PostsController = Ember.ArrayController.extend({
+    App.PostsController = Ember.Controller.extend({
       // ...
     });
   
@@ -116,6 +116,18 @@ define('hello-world-example/initializers/export-application-global', ['exports',
   function initialize() {
     var application = arguments[1] || arguments[0];
     if (_helloWorldExampleConfigEnvironment['default'].exportApplicationGlobal !== false) {
+      var theGlobal;
+      if (typeof window !== 'undefined') {
+        theGlobal = window;
+      } else if (typeof global !== 'undefined') {
+        theGlobal = global;
+      } else if (typeof self !== 'undefined') {
+        theGlobal = self;
+      } else {
+        // no reasonable global, just bail
+        return;
+      }
+
       var value = _helloWorldExampleConfigEnvironment['default'].exportApplicationGlobal;
       var globalName;
 
@@ -125,13 +137,13 @@ define('hello-world-example/initializers/export-application-global', ['exports',
         globalName = _ember['default'].String.classify(_helloWorldExampleConfigEnvironment['default'].modulePrefix);
       }
 
-      if (!window[globalName]) {
-        window[globalName] = application;
+      if (!theGlobal[globalName]) {
+        theGlobal[globalName] = application;
 
         application.reopen({
           willDestroy: function willDestroy() {
             this._super.apply(this, arguments);
-            delete window[globalName];
+            delete theGlobal[globalName];
           }
         });
       }
@@ -206,7 +218,7 @@ define('hello-world-example/router', ['exports', 'ember', 'hello-world-example/c
   });
 
   Router.map(function () {
-    this.route('about');
+    this.route('about', { path: '/' });
   });
 
   exports['default'] = Router;
@@ -232,7 +244,7 @@ define("hello-world-example/templates/about", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     return {
       meta: {
-        "revision": "Ember@2.8.1",
+        "revision": "Ember@2.8.3",
         "loc": {
           "source": null,
           "start": {
@@ -307,7 +319,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("hello-world-example/app")["default"].create({"name":"hello-world-example","version":"0.0.0+8c9821a4"});
+  require("hello-world-example/app")["default"].create({"name":"hello-world-example","version":"0.0.0+2a4622f8"});
 }
 
 /* jshint ignore:end */
