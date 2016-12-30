@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'hello-world-example',
     environment: environment,
-    rootURL: '/techoffice-web/040-WebApp/060-Ember/EmberHelloWorldExample/dist/',
+    rootURL: '/TechOffice-Web/040-WebApp/060-Ember/EmberHelloWorldExample/dist/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {

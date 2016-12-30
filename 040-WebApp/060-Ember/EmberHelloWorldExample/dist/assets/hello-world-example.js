@@ -319,7 +319,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("hello-world-example/app")["default"].create({"name":"hello-world-example","version":"0.0.0+a5d3cbbe"});
+  require("hello-world-example/app")["default"].create({"name":"hello-world-example","version":"0.0.0+b1bb3606"});
 }
 
 /* jshint ignore:end */
