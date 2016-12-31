@@ -1,7 +1,12 @@
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.js"></script>
+		<link rel="stylesheet" href="../../lib/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../lib/bootstrap-theme.min.css"/>
+		<script src="../../lib/bootstrap.min.js"></script>
+
 		<script id="entry-template" type="text/x-handlebars-template">
 			<div class="entry">
 				<h1>{{title}}</h1>
@@ -23,6 +28,39 @@
 	</head>
 	
 	<body>
-		<div id="content"></div>
+		<div class="container-fluid">
+			<div class="panel panel-default">
+				<div class="panel-heading">Display</div>
+				<div class="panel-body">
+					<div id="content"></div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">Display</div>
+				<div class="panel-body">
+					<pre>
+&lt;script id=&quot;entry-template&quot; type=&quot;text/x-handlebars-template&quot;&gt;
+	&lt;div class=&quot;entry&quot;&gt;
+		&lt;h1&gt;{{title}}&lt;/h1&gt;
+		&lt;div class=&quot;body&quot;&gt;
+			{{body}}
+		&lt;/div&gt;
+	&lt;/div&gt;
+&lt;/script&gt;
+&lt;script&gt;
+	$(function(){
+		var source   	= $(&quot;#entry-template&quot;).html();
+		var template 	= Handlebars.compile(source);
+		var context 	= {title: &quot;My New Post&quot;, body: &quot;This is my first post!&quot;};
+		var html    	= template(context);
+		$(&quot;#content&quot;).html(html);
+	});			
+&lt;/script&gt;
+
+&lt;div id=&quot;content&quot;&gt;&lt;/div&gt;
+					</pre>
+				</div>
+			</div>	
+		</div>
 	</body>
 </html>
