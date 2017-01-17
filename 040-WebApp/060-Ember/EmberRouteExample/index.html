@@ -40,10 +40,13 @@
 				<li>Book 1</li>
 				<li>Book 2</li>
 			</ul>
+			  {{input type="text" value=search action="query"}}
+
 		</script>
 
 		<script type="text/javascript">
 			App = Ember.Application.create();
+			
 
 			App.Router.map(function() {
 			//refers to the authors template and path refers within page
