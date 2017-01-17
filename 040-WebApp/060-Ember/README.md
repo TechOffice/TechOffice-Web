@@ -15,7 +15,7 @@ start a local server for test
 ```
 cd <Application Name>
 ember server
-``
+```
 Visit http://localhost:4200
 
 
