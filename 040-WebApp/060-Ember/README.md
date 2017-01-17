@@ -53,7 +53,7 @@ app/tempalte/<Roulte Name>.hbs
         <li>{{scientist}}</li>
     {{each}
 </ul>
-``
+```
 
 ## UI Component
 ```
