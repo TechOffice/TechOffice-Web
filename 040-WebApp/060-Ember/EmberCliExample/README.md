@@ -1,5 +1,11 @@
 #EmberJs Hello World Example
 
+## Pre-requisite
+```
+npm install ember-cli -g
+```
+
+
 ## Steps of Creating a new Ember Application
 
 Step 1: Create a new Project
@@ -39,7 +45,7 @@ export default Ember.Route.extend({
 Step 6: Run Ember Server
 ```
 ember server
-``` 
+```
 
 Step 7: Visit http://localhost:4200/about
 
@@ -56,5 +62,3 @@ It is the presistent state of Data.
 
 ###Components
 It is the reusable component including layout and behavior for Ember Application.
-
-
