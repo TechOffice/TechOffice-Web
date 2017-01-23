@@ -22,6 +22,7 @@ define('hello-world-example/app', ['exports', 'ember', 'hello-world-example/reso
 
   exports['default'] = App;
 });
+/*jshint esversion: 6 */
 define('hello-world-example/components/app-version', ['exports', 'ember-cli-app-version/components/app-version', 'hello-world-example/config/environment'], function (exports, _emberCliAppVersionComponentsAppVersion, _helloWorldExampleConfigEnvironment) {
 
   var name = _helloWorldExampleConfigEnvironment['default'].APP.name;
@@ -68,7 +69,7 @@ define('hello-world-example/initializers/data-adapter', ['exports', 'ember'], fu
   exports['default'] = {
     name: 'data-adapter',
     before: 'store',
-    initialize: _ember['default'].K
+    initialize: function initialize() {}
   };
 });
 define('hello-world-example/initializers/ember-data', ['exports', 'ember-data/setup-container', 'ember-data/-private/core'], function (exports, _emberDataSetupContainer, _emberDataPrivateCore) {
@@ -168,7 +169,7 @@ define('hello-world-example/initializers/injectStore', ['exports', 'ember'], fun
   exports['default'] = {
     name: 'injectStore',
     before: 'store',
-    initialize: _ember['default'].K
+    initialize: function initialize() {}
   };
 });
 define('hello-world-example/initializers/store', ['exports', 'ember'], function (exports, _ember) {
@@ -183,7 +184,7 @@ define('hello-world-example/initializers/store', ['exports', 'ember'], function 
   exports['default'] = {
     name: 'store',
     after: 'ember-data',
-    initialize: _ember['default'].K
+    initialize: function initialize() {}
   };
 });
 define('hello-world-example/initializers/transforms', ['exports', 'ember'], function (exports, _ember) {
@@ -198,7 +199,7 @@ define('hello-world-example/initializers/transforms', ['exports', 'ember'], func
   exports['default'] = {
     name: 'transforms',
     before: 'store',
-    initialize: _ember['default'].K
+    initialize: function initialize() {}
   };
 });
 define("hello-world-example/instance-initializers/ember-data", ["exports", "ember-data/-private/instance-initializers/initialize-store-service"], function (exports, _emberDataPrivateInstanceInitializersInitializeStoreService) {
@@ -210,6 +211,7 @@ define("hello-world-example/instance-initializers/ember-data", ["exports", "embe
 define('hello-world-example/resolver', ['exports', 'ember-resolver'], function (exports, _emberResolver) {
   exports['default'] = _emberResolver['default'];
 });
+/*jshint esversion: 6 */
 define('hello-world-example/router', ['exports', 'ember', 'hello-world-example/config/environment'], function (exports, _ember, _helloWorldExampleConfigEnvironment) {
 
   var Router = _ember['default'].Router.extend({
@@ -223,6 +225,7 @@ define('hello-world-example/router', ['exports', 'ember', 'hello-world-example/c
 
   exports['default'] = Router;
 });
+/*jshint esversion: 6 */
 define("hello-world-example/routes/about", ["exports", "ember"], function (exports, _ember) {
   exports["default"] = _ember["default"].Route.extend({
     model: function model() {
@@ -232,6 +235,7 @@ define("hello-world-example/routes/about", ["exports", "ember"], function (expor
     }
   });
 });
+/*jshint esversion: 6 */
 define('hello-world-example/services/ajax', ['exports', 'ember-ajax/services/ajax'], function (exports, _emberAjaxServicesAjax) {
   Object.defineProperty(exports, 'default', {
     enumerable: true,
@@ -319,7 +323,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("hello-world-example/app")["default"].create({"name":"hello-world-example","version":"0.0.0+b1bb3606"});
+  require("hello-world-example/app")["default"].create({"name":"hello-world-example","version":"0.0.0+ecb87bfc"});
 }
 
 /* jshint ignore:end */
