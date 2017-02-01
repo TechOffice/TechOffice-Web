@@ -1,11 +1,23 @@
 <html>
     <head>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 		<style>
 			canvas{
 				position: absolute;
 			}
 		</style>
+		<script>
+			$( function() {
+				// define drag is draggable
+				$("#simeplCanvas1").draggable();
+				
+				// define drag 2 is draggable
+				$("#simeplCanvas2").draggable();
+				$('#simeplCanvas2').animate({top: 100});
+
+			});
+		</script>
     </head>
 
     <body>
@@ -24,8 +36,7 @@
 			var simeplCanvas2 = document.getElementById("simeplCanvas2");
             var ctx2 = simeplCanvas2.getContext("2d");
 			ctx2.font = "30px Arial";
-			ctx2.strokeText("Canvas 2",10,100);
-			
+			ctx2.strokeText("Canvas 2",10,50);
 			
         </script>
     </body>
