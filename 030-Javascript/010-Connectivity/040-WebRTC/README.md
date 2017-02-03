@@ -15,9 +15,10 @@ Connection between local and remote peer.
 ### RTCDataChannel
 Network channel for bidirectional peer-to-peer transfer.
 
-
 ## Reference
 ### SDP (Session Description Protocal)
 It is a standard describing a peer-to-peer connection.
 
-
+## Libraries
+* Adaptar.js : https://github.com/webrtc/adapter
+There are various implementation of Web RTC. The syntax is quite different, so that adapter.js is required to use in order to use same code in different platform.
