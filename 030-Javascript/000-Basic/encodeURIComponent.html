@@ -1,0 +1,17 @@
+<html>
+	<head>
+	
+	</head>
+	
+	<body>
+		<h1>encodeURIComponent</h1>
+		<p>This function is used to encodes a URI component. It would encode  ", / ? : @ & = + $ #"</p>
+		<script>
+			var element = document.createElement('a');
+			element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent("Testing"));
+			element.setAttribute('download', "test.txt");
+			element.innerHTML = "download";
+			document.body.appendChild(element);
+		</script>
+	</body>
+</html>
