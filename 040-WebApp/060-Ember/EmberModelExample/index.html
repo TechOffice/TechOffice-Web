@@ -21,6 +21,14 @@
       <script type="text/javascript">
          App = Ember.Application.create();
 		 
+		 var attr = DS.attr;
+
+		App.TestModel = DS.Model.extend({
+		  attr1: attr(),
+		  attr2: attr(),
+		  attr3: attr()
+		});
+		 
 		 // Ember.js automatically define the name of routes. 
 		 // |	URL		Route Name		Controller			Route			Template
 		 // |	/		index			IndexController		IndexRoute		index
@@ -28,8 +36,39 @@
 		 //	| 	/test	test			TestController		TestRoute		test
          App.IndexRoute = Ember.Route.extend({
             //set up the controller and its content
-            setupController: function(controller) {
-               controller.set('content','Welcome to Tutorials Point');
+
+			
+			model() {
+				var data = {
+				  data: [{
+					id: 1,
+					type: 'testModel',
+					attributes: {
+					  attr1: 'ID 1 Testing Attr 1',
+					  attr2: 'ID 1 Testing Attr 2',
+					  attr3: 10
+					},
+					relationships: {}
+				  }, {
+					id: 2,
+					type: 'testModel',
+					attributes: {
+					  attr1: 'ID 2 Testing Attr 1',
+					  attr2: 'ID 2 Testing Attr 2',
+					  attr3: 10
+					},
+					relationships: {}
+				  }]
+				};
+			
+				this.get('store').push(data);
+			},
+			
+			
+			setupController: function(controller) {
+				var testModel = this.store.peekRecord('testModel', 1);
+				var content = testModel.get('attr1');
+				controller.set('content', content);
             }
          });
       </script>
