@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script>
+			$(function(){
+				if (window.localStorage){
+					var key = "LocalStorageTestKey";
+					var localStorage = window.localStorage;
+					var value = localStorage.getItem(key);
+					if (!value){
+						localStorage.setItem(key, "Testing Value");
+						$("#message").html("Setting value to local storage");
+					}else{
+						$("#message").html("Value stored in local storage: " + value);
+					}
+				}
+			});
+		</script>
+		
+	</head>
+	
+	<body>
+		<div id="message"></div>
+	</body>
+</html>

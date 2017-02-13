@@ -1,0 +1,15 @@
+<html>
+	<head></head>
+	<body>
+		<h1>Load jQuery after Document loaded</h1>
+		<div id="message"></div>
+		<script>
+			var script = document.createElement('script');
+			script.src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js";
+			script.onload = function(){
+				$("#message").html("jQuery loaded!");
+			};
+			document.getElementsByTagName('head')[0].append(script);
+		</script>
+	</body>
+</html>
