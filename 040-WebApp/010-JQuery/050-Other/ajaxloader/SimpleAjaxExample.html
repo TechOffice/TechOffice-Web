@@ -1,3 +1,15 @@
+<!--
+	jQuery provides method to register handlers to be called when any ajax request takes place on the page. 
+	Reference: http://api.jquery.com/category/ajax/global-ajax-event-handlers/
+	The following is the even occurred in ajax call.
+	* ajaxComplete
+	* ajaxError
+	* ajaxSend
+	* ajaxStart
+	* ajaxStop
+	* ajaxSuccess
+-->
+
 <html>
 	<head>
 		<style>
@@ -43,8 +55,9 @@
 				$(document).ajaxError(function(event, jqxhr, settings, thrownError){
 					$(".log").append("<br/>");	
 					var d = new Date();
-					$(".log").append(d.toString() + ": Ajax Error.");	
+					$(".log").append(d.toString() + ": Ajax Error.");
 				});
+				
 				
 
 			});
