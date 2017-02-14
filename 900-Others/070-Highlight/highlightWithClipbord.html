@@ -2,18 +2,36 @@
 	<head>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.0/clipboard.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 		<script>hljs.initHighlightingOnLoad();</script>
+		<script>
+			$(function(){
+				new Clipboard('.codeBtn', {
+					target: function(trigger) {
+						return trigger.nextElementSibling;
+					}
+				});			
+			});
+		</script>
 	</head>
 	<body>
-		<pre><code class="java">
+
+		<!-- Highlight Example: Java Code -->
+		<pre>
+			<button class="codeBtn">Copy</button>
+			<code class="java codeBtn">
 public class App {
 	public static void main(String[] args){
 		System.out.println("Hello!");
 	}
 }
-		</code></pre>
+			</code>
+		</pre>
 		
+		<!-- Highlight Example 2 -->
 		<pre>
+			<button class="codeBtn">Copy</button>
 			<code>
 &lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css&quot;&gt;
 &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js&quot;&gt;&lt;/script&gt;
