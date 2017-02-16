@@ -4,6 +4,11 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.6.0/clipboard.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<style>
+			.codeBtn{
+				float: right
+			}
+		</style>
 		<script>hljs.initHighlightingOnLoad();</script>
 		<script>
 			$(function(){
@@ -16,20 +21,21 @@
 		</script>
 	</head>
 	<body>
-
+		<div>
 		<!-- Highlight Example: Java Code -->
-		<pre>
-			<button class="codeBtn">Copy</button>
-			<code class="java codeBtn">
+			<pre>
+				<button class="codeBtn">Copy</button>
+				<code class="java">
 public class App {
 	public static void main(String[] args){
 		System.out.println("Hello!");
 	}
 }
-			</code>
-		</pre>
-		
+				</code>
+			</pre>
+		</div>
 		<!-- Highlight Example 2 -->
+		<div>
 		<pre>
 			<button class="codeBtn">Copy</button>
 			<code>
@@ -45,6 +51,6 @@ public class App {
 &lt;/code&gt;&lt;/pre&gt;
 			</code>
 		</pre>
-
+		</div>
 	</body>
 </html>
