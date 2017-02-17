@@ -25,10 +25,10 @@
 				// Create the schema
 				conn.onupgradeneeded = function() {
 					db = conn.result;
-					var store = db.createObjectStore("Student", {keyPath: "id"});
+					var store = db.createObjectStore("Student", {keyPath: "id", autoIncrement:true});
 					var index = store.createIndex("StudentIndex", ["name"]);
-					addStudent({id: 1, name: "Tester1"});
-					addStudent({id: 2, name: "Tester2"});					
+					addStudent({name: "Tester1"});
+					addStudent({name: "Tester2"});					
 				};
 				
 				function listStudent(callback){
@@ -84,10 +84,8 @@
 				}
 				
 				$("#newStudentBtn").click(function(){
-					var studentId = $("#newStudentId").val();
 					var studetName = $("#newStudentName").val();
 					var student = {
-						id: studentId,
 						name: studetName
 					};
 					addStudent(student);
@@ -105,10 +103,6 @@
 		<div>
 			<h2>New Student</h2>
 			<table>
-				<tr>
-					<td><b>ID: </b></td>
-					<td><input id="newStudentId"/></td>
-				</tr>
 				<tr>
 					<td><b>Name: </b></td>
 					<td><input id="newStudentName"/></td>
