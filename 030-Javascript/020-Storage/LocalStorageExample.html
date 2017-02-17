@@ -9,17 +9,42 @@
 					var value = localStorage.getItem(key);
 					if (!value){
 						localStorage.setItem(key, "Testing Value");
-						$("#message").html("Setting value to local storage");
+						$("#message").html("Testing Value");
 					}else{
-						$("#message").html("Value stored in local storage: " + value);
+						$("#message").html(value);
 					}
 				}
+				
+				$("#updateBtn").click(function(){
+					var testingValue = $("#testingValueInput").val();
+					var localStorage = window.localStorage;
+					localStorage.setItem(key, testingValue);
+					$("#message").html(testingValue);
+				});
 			});
 		</script>
 		
 	</head>
 	
 	<body>
-		<div id="message"></div>
+		<h1>Local Storage Example</h1>
+		<p>There are three ways of storing data in browser</p>
+		<ul>
+			<li>Local Storage</li>
+			<li>IndexedDB (as successor of Local Storage and WebSQL)</li>
+		</ul>
+		<br/>
+		<br/>
+		<br/>
+		<div>
+			<b>Testing Value in Local Storage: </b>
+			<span id="message"></span>
+		</div>
+		<table>
+			<tr>
+				<td><input id="testingValueInput"/></td>
+				<td><button id="updateBtn">Update</button></td>
+			</tr>
+		</table>
 	</body>
 </html>
