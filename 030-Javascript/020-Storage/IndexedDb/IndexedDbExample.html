@@ -1,0 +1,114 @@
+<html>
+	<head>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script>
+			$(function(){
+				// This works on all devices/browsers, and uses IndexedDBShim as a final fallback 
+				var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+
+				// Open (or create) the database
+				var conn = indexedDB.open("TechOfficeDatabase", 1);
+				
+				// database
+				var db; 
+				
+				conn.onsuccess = function(event) {
+					console.log("connected to database");
+					db = conn.result;
+					updateResultTable();
+				};
+				
+				conn.onerror  = function(event) {
+					console.log("unabled to connect to database");
+				}
+				
+				// Create the schema
+				conn.onupgradeneeded = function() {
+					db = conn.result;
+					var store = db.createObjectStore("Student", {keyPath: "id", autoIncrement:true});
+					var index = store.createIndex("StudentIndex", ["name"]);
+					addStudent({name: "Tester1"});
+					addStudent({name: "Tester2"});					
+				};
+				
+				function listStudent(callback){
+					var tx = db.transaction("Student");
+					var store = tx.objectStore("Student");
+					var request = store.getAll();
+					request.onsuccess = function(){
+						var result = request.result;
+						callback(result);
+					}
+				}
+				
+				function updateResultTable(){
+					listStudent(function(result){
+						var table = studentListToHtml(result);
+						var resultTable = $("#resultTable");
+						resultTable.html(table);
+					});
+				}
+				
+				function studentListToHtml(list){
+					var table = $("<table></table>");
+					var thead = $("<thead><th>ID</th><th>Name</th></thead>")
+					var tbody = $("<tbody></tbody>");
+					table.append(thead);
+					table.append(tbody);
+					for (var i=0; i<list.length; i++){
+						var row = $("<tr></tr>");
+						var idCol = $("<td></td>");
+						var nameCol = $("<td></td>");
+						var item = list[i];
+						idCol.append(item.id);
+						nameCol.append(item.name);
+						row.append(idCol);
+						row.append(nameCol);
+						tbody.append(row);
+					}
+					return table;
+				}
+				
+				function addStudent(student){
+					var tx = db.transaction(["Student"], "readwrite")
+					var store = tx.objectStore("Student");
+					store.add(student);
+					
+					store.onsuccess = function(event){
+						console.log("inserted into Student");
+					}
+					
+					store.onerror = function(event){
+						console.log("unable to insert into Student");
+					}
+				}
+				
+				$("#newStudentBtn").click(function(){
+					var studetName = $("#newStudentName").val();
+					var student = {
+						name: studetName
+					};
+					addStudent(student);
+					updateResultTable();
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<h1>Indexed DB Example</h1>
+		<div id="resultTable"></div>
+		<br/>
+		<br/>
+		<br/>
+		<div>
+			<h2>New Student</h2>
+			<table>
+				<tr>
+					<td><b>Name: </b></td>
+					<td><input id="newStudentName"/></td>
+				</tr>
+			</table>
+			<button id="newStudentBtn">Add</button>
+		</div>
+	</body>
+</html>
