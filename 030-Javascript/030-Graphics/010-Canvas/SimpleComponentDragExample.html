@@ -1,0 +1,184 @@
+<html>
+    <head>
+		<style>
+			#canvasContainer{
+				display: inline-block;
+				border: 1px solid;
+			}
+		</style>
+    </head>
+
+    <body>
+        <h1>Http5 Canvas - Simple Component Drag Example</h1>
+        <div id="canvasContainer"></div>
+		<p>This is an example show how to move component in the canvas </p>
+        <script>
+			var CanvasFactory = (function(){
+				var canvas = document.createElement("canvas");
+				canvas.components = null;
+				canvas.selectedComponent = null;
+				canvas.mousedown = function(event){
+					canvas.mousedownFlag = true;
+					canvas.mouseX = event.clientX - canvas.offsetLeft;
+					canvas.mouseY = event.clientY - canvas.offsetTop;
+					if (canvas.components){
+						var components = canvas.components;
+						for (var i=0; i< components.length; i++){
+							var component = components[i];
+							if (component.isClicked(canvas.mouseX, canvas.mouseY)){
+								this.selectedComponent = component;
+							}
+						}
+					}
+				};
+				canvas.mouseup = function(event){
+					canvas.mousedownFlag = false;
+					canvas.selectedComponent = null;
+				}
+				canvas.mousemove = function(event) {
+					if (this.mousedownFlag){
+						canvas.mouseX = event.clientX - canvas.offsetLeft;
+						canvas.mouseY = event.clientY - canvas.offsetTop;
+						if (this.selectedComponent){
+							var component = this.selectedComponent;
+							component.setX(canvas.mouseX);
+							component.setY(canvas.mouseY);
+							if (canvas.update){
+								canvas.update();
+							}
+						}
+					}
+				}
+				canvas.setComponents = function(components){
+					this.components = components;
+				};
+				canvas.addEventListener("mousedown", canvas.mousedown);
+				canvas.addEventListener("mouseup", canvas.mouseup)
+				canvas.addEventListener("mousemove", canvas.mousemove);
+				return {
+					getCanvas: function(){
+						return canvas;
+					},
+				};
+			})();
+		
+			var simpleCanvas = (function(containerId, interval){
+				var components = [];
+				var canvas = CanvasFactory.getCanvas();
+				var canvasContainer = document.getElementById(containerId);
+				canvasContainer.append(canvas);
+				var context = canvas.getContext("2d");
+				canvas.setComponents(components);
+				canvas.update = function(){
+					context.clearRect(0, 0, canvas.width, canvas.height);
+					for (var i=0; i<components.length; i++){
+						var component = components[i];
+						component.update(context);
+					}
+				};
+				return {
+					
+					getContainerId: function(){
+						return containerId;
+					},
+					
+					getInterval: function(){
+						return interval;
+					},
+					
+					setInterval: function(lInterval){
+						interval = lInterval;
+					},
+					
+					getCanvas: function(){
+						return canvas;
+					},
+					
+					getComponents: function(){
+						return components;
+					},
+					
+					getContext: function(){
+						return context;
+					},
+					
+					add: function(component){
+						components.push(component);
+					},
+					
+					update: function(){
+						canvas.update();
+					},
+					
+					start: function(){
+						//setInterval(this.update, interval)
+						this.update();
+					}
+					
+				};
+			})("canvasContainer", 500); 	
+		
+			function CanvasStrokeText(str, x, y){
+				this.str = str;
+				this.x = x;
+				this.y = y;
+				this.font = "16px Arial";
+				this.height = 16;
+				this.width;
+				this.update = function(context){
+					if (this.font){
+						context.font = this.font;
+					}
+					this.width = context.measureText(this.str).width;
+					context.strokeText(this.str, this.x, this.y + this.height);
+				};
+				this.isClicked = function(x, y){
+					var startX = this.x;
+					var startY = this.y;
+					var endX = this.x + this.width;
+					var endY = this.y + this.height;
+					if (x >= startX && x <= endX && y >= startY && y <= endY){
+						return true;
+					}
+					return false;
+				}
+				this.setX = function(x){
+					this.x = x;
+				};
+				this.setY = function(y){
+					this.y = y;
+				};
+				this.getHeight = function(){
+					return this.height;
+				};
+				this.getWidth = function(){
+					return this.width;
+				};
+
+			}
+			
+			function CanvasFillText(str, x, y){
+				this.str = str;
+				this.x = x;
+				this.y = y;
+				this.update = function(context){
+					context.fillText(str, x, y);
+				};
+			}
+			
+			function CanvasFillRect(x, y, width, height){
+				this.x = x;
+				this.y = y;
+				this.width = width;
+				this.height = height;
+				this.update = function(context){
+					context.fillRect(this.x, this.y, this.width, this.height);
+				};
+			}
+			
+			var text = new CanvasStrokeText("Test", 0, 0);
+			simpleCanvas.add(text);
+			simpleCanvas.start();
+        </script>
+    </body>
+</html>
