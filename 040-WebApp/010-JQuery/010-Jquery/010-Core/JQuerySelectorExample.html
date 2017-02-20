@@ -1,0 +1,85 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+		<script>
+			$(function(){
+				$("#queryStr").keyup(function(){
+					$("#exampleDiv>div").css("background-color", "");
+					var queryTyp = $("#queryTyp").val();
+					var queryStr = $(this).val();
+					var jQueryStatementDiv = $("#jQueryStatement");
+					var jQueryStatement = "$(\"div[name";
+					if (queryTyp == "prefix"){
+						jQueryStatement = jQueryStatement + "|='";
+					}else if (queryTyp == "contain"){
+						jQueryStatement = jQueryStatement + "*='";
+					}else if (queryTyp == "containWord"){
+						jQueryStatement = jQueryStatement + "~='";
+					}else if (queryTyp == "start"){
+						jQueryStatement = jQueryStatement + "^='";
+					}else if (queryTyp == "end"){
+						jQueryStatement = jQueryStatement + "$='";
+					}else if (queryTyp == "equal"){
+						jQueryStatement = jQueryStatement + "='";
+					}else if (queryTyp == "notEqual"){
+						jQueryStatement = jQueryStatement + "!='";
+					}
+					jQueryStatement = jQueryStatement + queryStr + "']\")";
+					jQueryStatement = jQueryStatement + ".css(\"background-color\", \"yellow\")"
+					jQueryStatementDiv.html(jQueryStatement);
+					eval(jQueryStatement);
+				});
+			
+			});
+		</script>
+	</head>
+
+	<body>
+		<div class="container-fluid">
+			<h1>JQuery Attribute Selectors Example</h1>
+			<p>This example shows the selector tool in jquery. It is a tooling for match a set of elements in a document using meta character. If the meta character is required to use, it can be escaped by "\'.</p>
+			
+			<!--
+				Prefix 			[name|="value"]	the prefix would be separated by '-'
+				Contain			[name*="value"]
+				Contain word 	[name~="value"]
+				Start			[name^="value"]
+				End				[name$="value"]
+				Equal			[name="value"]
+				Not Equal 		[name!="value"]
+			-->
+			
+			<div id="exampleDiv">
+				<div name="testing">testing</div>
+				<div name="test2">test2</div>
+				<div name="techoffice">techoffice</div>
+				<div name="tech office">tech office</div>
+				<div name="techoffice testing">techoffice testing</div>
+				<div name="techoffice-testing">techoffice-testing</div>
+				<div name="tech-test good">tech-test good</div>
+			</div>
+			
+			<br/>
+			
+			<div>
+				<select id="queryTyp">
+					<option value="prefix">Prefix</option>
+					<option value="contain">Contain</option>
+					<option value="containWord">Contain Word</option>
+					<option value="start">Start</option>
+					<option value="end">End</option>
+					<option value="equal">Equal</option>
+					<option value="notEqual">Not Equal</option>
+				</select>
+				<input id="queryStr"/>
+				<button id="selectBtn">Select</button>
+				<div><b>JQuery Statement: </b><span id="jQueryStatement"></span></div>
+			</div>
+		</div>		
+	</body>
+	
+</html>
