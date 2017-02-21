@@ -35,7 +35,7 @@
     <body>
         <h1>Http5 Canvas - Simple Component Drag Example</h1>
 		<div id="buttonBar">
-			<button id="fillRectBtn" onclick="imageUpload()">Fill Rect</button>
+			<button id="fillRectBtn" onclick="fillRect()">Fill Rect</button>
 			<button id="selectComponentBtn" onclick="selectComponent()">Select Component</button>
 			<input id="imageUpload" type="file" onchange="imageUpload()" />
 		</div>
@@ -186,12 +186,20 @@
 					}
 					
 				};
-			})("canvasContainer", 1000, 500); 	
+			})("canvasContainer", 1000, 500); 
 		
-			function CanvasStrokeText(str, lx, ly){
+			function CanvasStrokeRect(x, y, width, height){
+				this.x = x;
+				thix.y = y;
+				this.width = width;
+				this.height = height;
+				
+			}
+		
+			function CanvasStrokeText(str, x, y){
 				this.str = str;
-				this.x = lx;
-				this.y = ly;
+				this.x = x;
+				this.y = y;
 				this.font = "16px Arial";
 				this.height = 16;
 				this.width;
@@ -202,12 +210,12 @@
 					this.width = context.measureText(this.str).width;
 					context.strokeText(this.str, this.x, this.y + this.height);
 				};
-				this.isClicked = function(lx, ly){
+				this.isClicked = function(x, y){
 					var startX = this.x;
 					var startY = this.y;
 					var endX = this.x + this.width;
 					var endY = this.y + this.height;
-					if (lx >= startX && lx <= endX && ly >= startY && ly <= endY){
+					if (x >= startX && lx <= endX && y >= startY && y <= endY){
 						return true;
 					}
 					return false;
@@ -215,14 +223,14 @@
 				this.getX = function(){
 					return this.x;
 				};
-				this.setX = function(lx){
-					this.x = lx;
+				this.setX = function(x){
+					this.x = x;
 				};
 				this.getY = function(){
 					return this.y;
 				};
-				this.setY = function(ly){
-					this.y = ly;
+				this.setY = function(y){
+					this.y = y;
 				};
 				this.getHeight = function(){
 					return this.height;
@@ -233,28 +241,28 @@
 
 			}
 			
-			function CanvasFillText(str, lx, ly){
+			function CanvasFillText(str, x, y){
 				this.str = str;
-				this.x = lx;
-				this.y = ly;
+				this.x = x;
+				this.y = y;
 				this.update = function(context){
-					context.fillText(str, lx, ly);
+					context.fillText(str, x, y);
 				};
 			}
 			
-			function CanvasImage(image, lx, ly){
-				this.x = lx;
-				this.y = ly;
+			function CanvasImage(image, x, y){
+				this.x = x;
+				this.y = y;
 				this.image = image;
 				this.width = image.width;
 				this.height = image.height;
 				
-				this.isClicked = function(lx, ly){
+				this.isClicked = function(x, y){
 					var startX = this.x;
 					var startY = this.y;
 					var endX = this.x + this.width;
 					var endY = this.y + this.height;
-					if (lx >= startX && lx <= endX && ly >= startY && ly <= endY){
+					if (x >= startX && x <= endX && y >= startY && y <= endY){
 						return true;
 					}
 					return false;
@@ -268,16 +276,16 @@
 					return this.x;
 				};
 				
-				this.setX = function(lx){
-					this.x = lx;
+				this.setX = function(x){
+					this.x = x;
 				};
 				
 				this.getY = function(){
 					return this.y;
 				};
 				
-				this.setY = function(ly){
-					this.y = ly;
+				this.setY = function(y){
+					this.y = y;
 				};
 				
 				
@@ -294,14 +302,14 @@
 				this.getX = function(){
 					return this.x;
 				};
-				this.setX = function(lx){
-					this.x = lx;
+				this.setX = function(x){
+					this.x = x;
 				};
 				this.getY = function(){
 					return this.y;
 				};
-				this.setY = function(ly){
-					this.y = ly;
+				this.setY = function(y){
+					this.y = y;
 				};
 				this.setWidth = function(width){
 					this.width = width;
