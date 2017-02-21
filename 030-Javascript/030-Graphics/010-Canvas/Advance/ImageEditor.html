@@ -7,6 +7,21 @@
 			}
 		</style>
 		<script>
+			function imageUpload(){
+				var file = document.getElementById("imageUpload").files[0];
+				var reader = new FileReader();
+				reader.onload = function(e){
+					var content = reader.result;
+					var image = new Image();
+					image.src = content;
+					var canvasImage = new CanvasImage(image, 0, 0);
+					simpleCanvas.add(canvasImage);
+				};
+				if (file){
+					reader.readAsDataURL(file);
+				}
+			}
+		
 			function fillRect(){
 				simpleCanvas.fillRect();
 			}
@@ -20,8 +35,9 @@
     <body>
         <h1>Http5 Canvas - Simple Component Drag Example</h1>
 		<div id="buttonBar">
-			<button id="fillRectBtn" onclick="fillRect()">Fill Rect</button>
+			<button id="fillRectBtn" onclick="imageUpload()">Fill Rect</button>
 			<button id="selectComponentBtn" onclick="selectComponent()">Select Component</button>
+			<input id="imageUpload" type="file" onchange="imageUpload()" />
 		</div>
         <div id="canvasContainer"></div>
 		<p>This is an example show how to move component in the canvas </p>
@@ -148,6 +164,7 @@
 					
 					add: function(component){
 						components.push(component);
+						canvas.update();
 					},
 					
 					update: function(){
@@ -171,10 +188,10 @@
 				};
 			})("canvasContainer", 1000, 500); 	
 		
-			function CanvasStrokeText(str, x, y){
+			function CanvasStrokeText(str, lx, ly){
 				this.str = str;
-				this.x = x;
-				this.y = y;
+				this.x = lx;
+				this.y = ly;
 				this.font = "16px Arial";
 				this.height = 16;
 				this.width;
@@ -185,12 +202,12 @@
 					this.width = context.measureText(this.str).width;
 					context.strokeText(this.str, this.x, this.y + this.height);
 				};
-				this.isClicked = function(x, y){
+				this.isClicked = function(lx, ly){
 					var startX = this.x;
 					var startY = this.y;
 					var endX = this.x + this.width;
 					var endY = this.y + this.height;
-					if (x >= startX && x <= endX && y >= startY && y <= endY){
+					if (lx >= startX && lx <= endX && ly >= startY && ly <= endY){
 						return true;
 					}
 					return false;
@@ -198,14 +215,14 @@
 				this.getX = function(){
 					return this.x;
 				};
-				this.setX = function(x){
-					this.x = x;
+				this.setX = function(lx){
+					this.x = lx;
 				};
 				this.getY = function(){
 					return this.y;
 				};
-				this.setY = function(y){
-					this.y = y;
+				this.setY = function(ly){
+					this.y = ly;
 				};
 				this.getHeight = function(){
 					return this.height;
@@ -216,13 +233,54 @@
 
 			}
 			
-			function CanvasFillText(str, x, y){
+			function CanvasFillText(str, lx, ly){
 				this.str = str;
-				this.x = x;
-				this.y = y;
+				this.x = lx;
+				this.y = ly;
 				this.update = function(context){
-					context.fillText(str, x, y);
+					context.fillText(str, lx, ly);
 				};
+			}
+			
+			function CanvasImage(image, lx, ly){
+				this.x = lx;
+				this.y = ly;
+				this.image = image;
+				this.width = image.width;
+				this.height = image.height;
+				
+				this.isClicked = function(lx, ly){
+					var startX = this.x;
+					var startY = this.y;
+					var endX = this.x + this.width;
+					var endY = this.y + this.height;
+					if (lx >= startX && lx <= endX && ly >= startY && ly <= endY){
+						return true;
+					}
+					return false;
+				};
+				
+				this.update = function(context){
+					context.drawImage(this.image, this.x, this.y);
+				};
+				
+				this.getX = function(){
+					return this.x;
+				};
+				
+				this.setX = function(lx){
+					this.x = lx;
+				};
+				
+				this.getY = function(){
+					return this.y;
+				};
+				
+				this.setY = function(ly){
+					this.y = ly;
+				};
+				
+				
 			}
 			
 			function CanvasFillRect(x, y, width, height){
@@ -236,14 +294,14 @@
 				this.getX = function(){
 					return this.x;
 				};
-				this.setX = function(x){
-					this.x = x;
+				this.setX = function(lx){
+					this.x = lx;
 				};
 				this.getY = function(){
 					return this.y;
 				};
-				this.setY = function(y){
-					this.y = y;
+				this.setY = function(ly){
+					this.y = ly;
 				};
 				this.setWidth = function(width){
 					this.width = width;
