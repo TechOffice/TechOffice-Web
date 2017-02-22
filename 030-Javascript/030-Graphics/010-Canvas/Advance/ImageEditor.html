@@ -23,7 +23,12 @@
 			}
 		
 			function fillRect(){
-				simpleCanvas.fillRect();
+				simpleCanvas.setDrawMode("FILL_RECT");
+				
+			}
+			
+			function strokeRect(){
+				simpleCanvas.setDrawMode("STROKE_RECT");
 			}
 			
 			function selectComponent(){
@@ -36,6 +41,7 @@
         <h1>Http5 Canvas - Simple Component Drag Example</h1>
 		<div id="buttonBar">
 			<button id="fillRectBtn" onclick="fillRect()">Fill Rect</button>
+			<button id="strokeRectBtn" onclick="strokeRect()">Stroke Rect</button>
 			<button id="selectComponentBtn" onclick="selectComponent()">Select Component</button>
 			<input id="imageUpload" type="file" onchange="imageUpload()" />
 		</div>
@@ -48,6 +54,7 @@
 				canvas.selectedComponent = null;
 				canvas.selectFlag = false;
 				canvas.drawFlag = true;
+				canvas.drawCanvasType = "";
 				canvas.mousedown = function(event){
 					canvas.mousedownFlag = true;
 					canvas.mouseX = event.clientX - canvas.offsetLeft;
@@ -68,15 +75,22 @@
 					}
 					// if draw component
 					if (canvas.drawFlag){
-						var rect = new CanvasFillRect(canvas.mouseX, canvas.mouseY, 10, 10);
-						simpleCanvas.add(rect);
-						this.selectedComponent = rect;
+						if (this.drawCanvasType == "FILL_RECT"){
+							var rect = new CanvasFillRect(canvas.mouseX, canvas.mouseY, 10, 10);
+							simpleCanvas.add(rect);
+							this.selectedComponent = rect;
+						}
+						if (this.drawCanvasType == "STROKE_RECT"){
+							var rect = new CanvasStrokeRect(canvas.mouseX, canvas.mouseY, 10, 10);
+							simpleCanvas.add(rect);
+							this.selectedComponent = rect;
+						}
 					}
 				};
 				canvas.mouseup = function(event){
 					canvas.mousedownFlag = false;
 					canvas.selectedComponent = null;
-				}
+				};
 				canvas.mousemove = function(event) {
 					if (this.mousedownFlag){
 						canvas.mouseX = event.clientX - canvas.offsetLeft;
@@ -114,7 +128,7 @@
 							}
 						}
 					}
-				}
+				};
 				canvas.setComponents = function(components){
 					this.components = components;
 				};
@@ -175,9 +189,10 @@
 						this.update();
 					},
 					
-					fillRect: function(){
+					setDrawMode: function(canvasType){
 						canvas.selectFlag = false;
 						canvas.drawFlag = true;
+						canvas.drawCanvasType = canvasType;
 					},
 					
 					selectComponent: function(){
@@ -190,9 +205,46 @@
 		
 			function CanvasStrokeRect(x, y, width, height){
 				this.x = x;
-				thix.y = y;
+				this.y = y;
 				this.width = width;
 				this.height = height;
+				this.update = function(context){
+					context.strokeRect(this.x, this.y, this.width, this.height);
+				};
+				this.isClicked = function(x, y){
+					var startX = this.x;
+					var startY = this.y;
+					var endX = this.x + this.width;
+					var endY = this.y + this.height;
+					if (this.x >= startX && this.x <= endX && this.y >= startY && this,y <= endY){
+						return true;
+					}
+					return false;
+				}
+				this.getX = function(){
+					return x;
+				};
+				this.setX = function(x){
+					this.x = x;
+				};
+				this.getY = function(){
+					return y;
+				};
+				this.setY = function(y){
+					this.y = y;
+				};
+				this.getWidth = function(){
+					return width;
+				};
+				this.setWidth = function(width){
+					this.width = width;
+				};
+				this.getHeight = function(){
+					return this.height;
+				};
+				this.setHeight = function(height){
+					this.height = height
+				};
 				
 			}
 		
@@ -211,11 +263,12 @@
 					context.strokeText(this.str, this.x, this.y + this.height);
 				};
 				this.isClicked = function(x, y){
+					debugger;
 					var startX = this.x;
 					var startY = this.y;
 					var endX = this.x + this.width;
 					var endY = this.y + this.height;
-					if (x >= startX && lx <= endX && y >= startY && y <= endY){
+					if (this.x >= startX && this.x <= endX && this.y >= startY && this.y <= endY){
 						return true;
 					}
 					return false;
@@ -246,7 +299,7 @@
 				this.x = x;
 				this.y = y;
 				this.update = function(context){
-					context.fillText(str, x, y);
+					context.fillText(this.str, this.x, this.y);
 				};
 			}
 			
@@ -288,7 +341,9 @@
 					this.y = y;
 				};
 				
-				
+				this.select = function(context){
+					
+				}
 			}
 			
 			function CanvasFillRect(x, y, width, height){
