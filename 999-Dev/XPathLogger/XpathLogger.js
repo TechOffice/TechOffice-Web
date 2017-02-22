@@ -48,14 +48,12 @@ var xpathLogger = (function(){
 		}
 	};
 	
-	var isEnabled = function(){
-		return enabled;
-	};
-	
 	return {
 		enable: enableLogger, 
 		diable: disableLogger,
-		isEnabled: isEnabled
+		isEnabled: function(){
+			return enabled;
+		}
 	};
 })();;
 
