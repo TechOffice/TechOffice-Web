@@ -1,0 +1,1 @@
+This is a Simple Bootstrap DataTable developed by reactjs and bootstrap.

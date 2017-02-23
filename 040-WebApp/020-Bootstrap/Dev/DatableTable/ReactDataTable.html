@@ -1,0 +1,112 @@
+<html>
+		
+	<head>
+		<script src="https://code.jquery.com/jquery-3.1.1.js" integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA=" crossorigin="anonymous"></script>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		
+		<script src="https://unpkg.com/react@15.3.2/dist/react.min.js"></script>
+        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.min.js"></script>
+        <script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+		
+		<script type="text/babel">
+			function DataTableTable(props) {
+				return (
+					<table className="table table-bordered" style={{marginBottom: '0px'}}>
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Age</th>
+								<th>Sex</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Tom</td>
+								<td>25</td>
+								<td>M</td>
+							</tr>
+							<tr>
+								<td>Mary</td>
+								<td>21</td>
+								<td>F</td>
+							</tr>
+							<tr>
+								<td>Peter</td>
+								<td>27</td>
+								<td>M</td>
+							</tr>
+						</tbody>
+					</table>
+				);
+			};
+		
+			function DataTablePagination(props) {
+				const paginationContainerStyle = {
+					float: 'right'
+				};
+				const paginationStyle = {
+					marginTop: '0px'
+				};
+				return (
+					<div className="paginationContainer" style={paginationContainerStyle}>
+						<nav aria-label="Page navigation">
+						  <ul className="pagination" style={paginationStyle}>
+							<li>
+							  <a href="#" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							  </a>
+							</li>
+							<li><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li>
+							  <a href="#" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+							  </a>
+							</li>
+						  </ul>	
+						</nav>
+					</div>
+				);
+			}
+			
+			function DataTableDesc(prop){
+				return <div style="float: left;">Showing {props.start} to {props.end} of {prop.total} entries</div>;
+			}
+			
+			class DataTable extends React.Component{
+				render(){
+					return(
+						<div class="datatable" >
+							<div class="panel panel-default">
+								<DataTableTable/>
+								<DataTablePagination/>
+							</div>
+						</div>
+					);
+				}
+			};
+			
+			ReactDOM.render(
+                <DataTable/>,
+                document.getElementById('container')
+            );
+		</script>
+
+	</head>
+	<body>
+		<div class="container-fluid">
+			<div id="container" >
+			</div>
+		</div>
+	</body>
+</html>
