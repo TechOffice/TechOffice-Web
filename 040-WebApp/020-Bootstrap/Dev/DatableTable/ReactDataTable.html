@@ -18,6 +18,16 @@
 		<script type="text/babel">
 		
 			function DataTableTable(props) {
+				const data = props.data.data;
+				debugger;
+				const rows = data.map((row) =>
+					<tr>
+						<td>{row.name}</td>
+						<td>{row.age}</td>
+						<td>{row.sex}</td>
+					</tr>
+				);
+				debugger;
 				return (
 					<table className="table table-bordered" style={{marginBottom: '0px'}}>
 						<thead>
@@ -28,21 +38,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>Tom</td>
-								<td>25</td>
-								<td>M</td>
-							</tr>
-							<tr>
-								<td>Mary</td>
-								<td>21</td>
-								<td>F</td>
-							</tr>
-							<tr>
-								<td>Peter</td>
-								<td>27</td>
-								<td>M</td>
-							</tr>
+							{rows}
 						</tbody>
 					</table>
 				);
@@ -89,7 +85,7 @@
 					return(
 						<div class="datatable" >
 							<div class="panel panel-default">
-								<DataTableTable/>
+								<DataTableTable data={this.props.data}/>
 								<DataTablePagination/>
 							</div>
 						</div>
@@ -97,8 +93,38 @@
 				}
 			};
 			
+			class QueryPanel extends React.Component {
+				
+				constructor(props){
+					super(props);
+					this.name;
+					this.data = {"data":[{"name":"Tom","age":25,"sex":"m"},{"name":"Mary","age":21,"sex":"f"},{"name":"Peter","age":27,"sex":"m"}]};
+					this.query = this.query.bind(this);
+				}
+				
+				query(e){
+					this.name = e.target.value;
+					$.get("data.php", function(data){
+						this.data = data;
+					});
+				}
+				
+				render(){
+					return (
+						<div>
+							<div>
+								Name: <input onChange={this.query}/>
+							</div>
+							<DataTable data={this.data}/>
+						</div>
+					);
+				}
+			}
+			
+			const data = {};
+			
 			ReactDOM.render(
-                <DataTable/>,
+                <QueryPanel/>,
                 document.getElementById('container')
             );
 		</script>
