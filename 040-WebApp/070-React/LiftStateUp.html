@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <script src="https://unpkg.com/react@15.3.2/dist/react.min.js"></script>
+        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.min.js"></script>
+        <script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+    </head>
+
+    <body>
+        <div id="container"></div>
+        <script type="text/babel">
+            class Hello extends React.Component {
+				
+				constructor(props){
+					super(props);
+					this.handleChange = this.handleChange.bind(this);
+					this.state = {value: ''};
+				}
+			
+				handleChange(e) {
+					this.setState({value: e.target.value})
+				}
+			
+                render() {
+                    return (
+						<div>
+							<div>The value input: {this.state.value}</div>
+							<input onChange={this.handleChange} />
+						</div>
+					);
+                }
+            }
+
+            ReactDOM.render(
+                <Hello/>,
+                document.getElementById('container')
+            );
+        </script>
+    </body>
+</html>
