@@ -1,0 +1,99 @@
+<html>
+	<head>
+		<style>
+			table, th, td {
+				border : 1px solid black;
+				width : 100%;
+			}
+		</style>
+		<script>
+				function setCookie(cname, cvalue, exdays) {
+					var d = new Date();
+					d.setTime(d.getTime() + (exdays*24*60*60*1000));
+					var expires = "expires="+ d.toUTCString();
+					console.log( cname + "=" + cvalue + ";" + expires + ";path=/");
+					document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+				}
+				
+				function getCookie(cname) {
+					var name = cname + "=";
+					var decodedCookie = decodeURIComponent(document.cookie);
+					var ca = decodedCookie.split(';');
+					for(var i = 0; i <ca.length; i++) {
+						var c = ca[i];
+						while (c.charAt(0) == ' ') {
+							c = c.substring(1);
+						}
+						if (c.indexOf(name) == 0) {
+							return c.substring(name.length, c.length);
+						}
+					}
+					return "";
+				}
+				
+				function listCookie(){
+					var result = [];
+					var decodedCookie = decodeURIComponent(document.cookie);
+					var ca = decodedCookie.split(';');
+					for(var i = 0; i <ca.length; i++) {
+						var c = ca[i];
+						while (c.charAt(0) == ' ') {
+							c = c.substring(1);
+						}
+						var arr = c.split("=");
+						var map = {};
+						map[arr[0]] = arr[1];
+						result.push(map);
+					}
+					return result;
+				}
+				
+				function cell(str){
+					return "<td>" + str + "</td>";
+				}
+				
+				function arr2Table(arr){
+					var table = "<table>";
+					for (var i=0; i<arr.length; i++){
+						var obj = arr[i];
+						var row = "<tr>" + cell(Object.keys(obj)[0]) + cell(obj[Object.keys(obj)[0]]) + "</tr>"
+						table = table + row;
+					}
+					table = table + "</table>";
+					return table;
+				}
+				
+				function updateCookieList(){
+					var cookieList = document.getElementById("cookieList");
+					var cookieArr = listCookie();
+					var html = arr2Table(cookieArr);
+					cookieList.innerHTML = html;
+				}
+				
+				function saveCookie(){
+					var keyInput = document.getElementById("keyInput").value;
+					var valueInput = document.getElementById("valueInput").value;
+					if (keyInput && keyInput != ""){
+						setCookie(keyInput, valueInput, 1);
+						updateCookieList();
+					}
+				}
+			</script>
+	</head>
+	<body>
+		<h1>Cookie Example</h1>
+		<p>It requires that this web page should be open in <b>HTTP</b> protocal instead of file protocol. </p>
+		
+		<div>
+			<b>Key:</b><input id="keyInput"/>
+			<b>Value:</b><input id="valueInput"/>
+			<button id="saveCookie" onclick="saveCookie()">Save</button>
+		</div>
+		<br/>
+		<div id="cookieList"></div>
+		
+		<script>
+			updateCookieList();
+		</script>
+	</body>
+</html>
