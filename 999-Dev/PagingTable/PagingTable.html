@@ -2,13 +2,60 @@
 	<head>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 		<script>
+			function insertAt(container, element, index){
+				var children = container.children();
+				var size = children.length;
+				if (index + 1 > size){
+					var lastElement = children.eq(size-1);
+					lastElement.append(element);
+				}else{
+					var indexElement = children.eq(index - 1);
+					indexElement.append(element);
+				}
+			}
+			
+			var pageLimit = 2;
+			
 			$(function(){
-				$("#message").html("Hello World");
+				var table = $("#table");
+				var parent = table.parent();
+				var index = parent.children().index(table)
+				if(table.find("tbody").length > 0 ){
+					var tbody = table.find("tbody");
+					var rows = table.find("tbody>tr");
+					var pagingRows = [];
+					var pageNum = Math.ceil(rows.length / pageLimit);
+					var remainders = rows.splice(pageLimit);
+					pagingRows.push(rows);
+					if (pageNum > 1 ){
+						for (var i=0; i<pageNum-1; i++){
+							var newReminders = remainders.splice(pageLimit)
+							pagingRows.push(remainders);
+							remainders = newReminders;
+						}
+						// paging
+						var paging = $("<div></div>");
+						for (var i=0; i<pageNum; i++){
+							var pageNumSpan = $("<span>" + i + "</span>");
+							pageNumSpan.click(function(){
+								var pageNum = parseInt($(this).html());
+								if (pageNum){
+									var rows = pagingRows[pageNum - 1];
+									tbody.html(rows);
+								}
+							});
+							paging.append(pageNumSpan);
+						}
+						table.append(paging);
+					}
+					tbody.html(pagingRows[0]);
+				}
 			});
 		</script>
 	</head>
 
 	<body>
+		<h1>Paging Table</h1>
 		<table id="table">
 			<thead>
 				<tr>
@@ -91,6 +138,7 @@
 				</tr>
 			</tbody>
 		</table>
+		<div>Testing</div>
 	</body>
 	
 </html>
