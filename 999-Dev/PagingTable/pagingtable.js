@@ -80,7 +80,6 @@ $.fn.pagingTable = function(config){
 		tbody.html(me.pagingRows[0]);
 		
 		// show thead if not exisit
-		debugger;
 		if (me.find("thead").length == 0){
 			var thead = $("<thead></thead>");
 			thead.append(me.headers);
@@ -119,17 +118,7 @@ $.fn.pagingTable = function(config){
 	
 	// search header
 	me.enableSearchHeader = function(){
-		var searchHeader = $("<div></div>");
-		for (var i=0; i< me.headers.length; i++){
-			var header = me.headers[i];
-			var searhField = $("<span><b>" + $(header).html() + ": </b></span>" + "<input/>");
-			me.searchFields.push(searhField);
-			searchHeader.append(searhField);
-			searchHeader.append($("<span>&nbsp;&nbsp;&nbsp;</span>"))
-		}
-		searchHeader.append($("<br/>"));
-		var searchButton = $("<input type='button' value='Search'/>");
-		searchButton.click($.proxy(function(){
+		me.search = $.proxy(function(){
 			var me = this;
 			me.rows = me.originalRows;
 			var searchFields = me.searchFields;
@@ -151,7 +140,26 @@ $.fn.pagingTable = function(config){
 				me.rows = filteredRows;
 			}, me);
 			me.paging();
-		}, me));
+		}, me);
+		var searchHeader = $("<div></div>");
+		for (var i=0; i< me.headers.length; i++){
+			var header = me.headers[i];
+			var searhField = $("<span><b>" + $(header).html() + ": </b></span>" );
+			var searchInput = $("<input/>");
+			searchInput.keypress(function(e){
+				var keycode = (e.keyCode ? e.keyCode : e.which);
+				if (keycode == '13') {
+					me.search();
+				}
+			});
+			searhField = searhField.add(searchInput);
+			me.searchFields.push(searhField);
+			searchHeader.append(searhField);
+			searchHeader.append($("<span>&nbsp;&nbsp;&nbsp;</span>"))
+		}
+		searchHeader.append($("<br/>"));
+		var searchButton = $("<input type='button' value='Search'/>");
+		searchButton.click(me.search);
 		var clearButton = $("<input type='button' value='Reset'/>")
 		clearButton.click($.proxy(function(){
 			var me = this;
@@ -190,6 +198,7 @@ $.fn.pagingTable = function(config){
 		},
 		getConfig: function(){
 			return config;
-		}
+		},
+		enableSearchHeader: me.enableSearchHeader
 	};
 };
