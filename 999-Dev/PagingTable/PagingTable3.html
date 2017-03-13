@@ -3,15 +3,14 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 		<script>
 			
-			var pageLimit = 5;
-		
-			$.fn.pagingTable = function(){
+			$.fn.pagingTable = function(config){
 				var me = this;
+				var config = config ? config: {};
+				me.pageLimit = config.pageLimit ? config.pageLimit : 20
 				me.index = me.parent().children().index(me);
 				me.headers = [];
 				me.originalRows = [];
 				me.rows = [];
-				me.pageLimit = pageLimit
 				me.pagingRows = [];
 				me.pageNum = 0;
 				me.pageBar = null;
@@ -52,10 +51,10 @@
 				// paging function
 				me.paging = function(){
 					var rows = me.rows.slice(0);
-					var pageNum = Math.ceil(rows.length / pageLimit);
+					var pageNum = Math.ceil(rows.length / me.pageLimit);
 					me.pageNum = pageNum;
 					me.pagingRows = [];
-					var remainders = rows.splice(pageLimit);
+					var remainders = rows.splice(me.pageLimit);
 					if (rows.toArray){
 						me.pagingRows.push(rows.toArray());
 					}else{
@@ -66,7 +65,7 @@
 					rows = remainders;
 					if (pageNum > 1 ){
 						for (var i=0; i<pageNum-1; i++){
-							remainders = rows.splice(pageLimit)
+							remainders = rows.splice(me.pageLimit)
 							me.pagingRows.push(rows);
 							rows = remainders;
 						}						
@@ -105,8 +104,8 @@
 						var searhField = $("<span><b>" + $(header).html() + ": </b></span>" + "<input/>");
 						me.searchFields.push(searhField);
 						searchHeader.append(searhField);
+						searchHeader.append($("<span>&nbsp;&nbsp;&nbsp;</span>"))
 					}
-					searchHeader.append($("<br/>"));
 					searchHeader.append($("<br/>"));
 					var searchButton = $("<input type='button' value='search'/>");
 					searchButton.click($.proxy(function(){
@@ -133,6 +132,8 @@
 						me.paging();
 					}, me));
 					searchHeader.append(searchButton);
+					searchHeader.append($("<br/>"));
+					searchHeader.append($("<br/>"));
 					me.searchHeader = searchHeader;
 					me.searchHeader.insertBefore(me);
 				}
@@ -154,7 +155,7 @@
 			};
 			
 			$(function(){
-				pagingTable = $("#table").pagingTable();
+				pagingTable = $("#table").pagingTable({pageLimit: 10});
 			});
 		</script>
 	</head>
