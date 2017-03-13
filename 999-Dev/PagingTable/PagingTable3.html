@@ -1,0 +1,245 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script>
+			
+			var pageLimit = 5;
+		
+			$.fn.pagingTable = function(){
+				var me = this;
+				me.index = me.parent().children().index(me);
+				me.headers = [];
+				me.orginRows = [];
+				me.rows = [];
+				me.pageLimit = pageLimit
+				me.pagingRows = [];
+				me.pageNum = 0;
+				me.pageBar = null;
+				me.searchFields = [];
+				me.searchHeader = null;
+				
+				// Rows
+				if(me.find("tbody").length > 0 ){
+					var rows = me.find("tbody>tr");
+					me.rows= rows;
+					me.orginRows = me.rows.slice(0);
+				}
+				
+				// Headers
+				if(me.find("thead").length > 0 ){
+					var thead = me.find("thead");
+					me.headers = thead.find("th");
+				}
+				
+				me.enableHeadersSorting = function(){
+					me.headers.click($.proxy(function(event){
+						var me = this;
+						var target = $(event.target);
+						var index = me.headers.index(target);
+						var rows = me.rows;
+						rows.sort($.proxy(function(a,b){
+							var index = this.index;
+							var jA = $(a).find("td")[index];
+							var jB = $(b).find("td")[index];
+							var aValue = $(jA).html();
+							var bValue = $(jB).html();
+							return aValue.localeCompare(bValue);
+						}, {index: index}));
+						me.paging();
+					}, me));
+				};
+				
+				// paging function
+				me.paging = function(){
+					var rows = me.rows.slice(0);
+					var pageNum = Math.ceil(rows.length / pageLimit);
+					me.pageNum = pageNum;
+					me.pagingRows = [];
+					var remainders = rows.splice(pageLimit);
+					if (rows.toArray){
+						me.pagingRows.push(rows.toArray());
+					}
+					rows = remainders;
+					if (pageNum > 1 ){
+						for (var i=0; i<pageNum-1; i++){
+							remainders = rows.splice(pageLimit)
+							me.pagingRows.push(rows);
+							rows = remainders;
+						}						
+					}
+					
+					// show the first page
+					var tbody = me.find("tbody");
+					tbody.html(me.pagingRows[0]);
+				}
+				
+				// page bar
+				me.enablePageBar = function(){
+					var pageBar = $("<div></div>");
+					for (var i=0; i<me.pageNum; i++){
+						var pageNumSpan = $("<span>" + (i+1) + "</span>");
+						pageNumSpan.click(function(){
+							var pageNum = parseInt($(this).html());
+							if (pageNum){
+								var rows = me.pagingRows[pageNum - 1];
+								var tbody = me.find("tbody");
+								tbody.html(rows);
+							}
+						});
+						pageBar.append(pageNumSpan);
+					}
+					me.pageBar = pageBar;
+					pageBar.insertAfter(me);
+				}
+				
+				// search header
+				me.enableSearchHeader = function(){
+					var searchHeader = $("<div></div>");
+					for (var i=0; i< me.headers.length; i++){
+						var header = me.headers[i];
+						var searhField = $("<span><b>" + $(header).html() + ": </b></span>" + "<input/>");
+						me.searchFields.push(searhField);
+						searchHeader.append(searhField);
+					}
+					searchHeader.append($("<br/>"));
+					searchHeader.append($("<br/>"));
+					var searchButton = $("<input type='button' value='search'/>");
+					searchButton.click($.proxy(function(){
+						var me = this;
+						me.rows = me.orginRows;
+						var searchFields = me.searchFields;
+						searchFields.forEach(function(item, index, arr){
+							var me = this;
+							var input = $(item[1]);
+							var value = input.val();
+							var rows = me.rows;
+							var filteredRows = [];
+							for (var i=0; i<rows.length; i++){
+								var row = $(rows[i]);
+								var cols = row.find("td");
+								var col = $(cols[index]);
+								var colValue = col.html();
+								if (value == "" || colValue.includes(value)){
+									filteredRows.push(rows[i]);
+								}
+							}
+							me.rows = filteredRows;
+						}, me);
+						me.paging();
+					}, me));
+					searchHeader.append(searchButton);
+					me.searchHeader = searchHeader;
+					me.searchHeader.insertBefore(me);
+				}
+				
+				me.paging();
+				me.enablePageBar();
+				me.enableHeadersSorting();
+				me.enableSearchHeader();
+				
+				return {
+					table: me, 
+					header: me.headers,
+					rows: me.rows,
+					pagingRows: me.pagingRows
+				};
+			};
+			
+			$(function(){
+				pagingTable = $("#table").pagingTable();
+			});
+		</script>
+	</head>
+
+	<body>
+		<h1>Paging Table</h1>
+		<table id="table">
+			<thead>
+				<tr>
+					<th>Header 1</th>
+					<th>Header 2</th>
+					<th>Header 3</th>
+				</tr>				
+			</thead>
+			<tbody>
+				<tr>
+					<td>Data 7 1</td>
+					<td>Data 7 2</td>
+					<td>Data 7 3</td>
+				</tr>
+				<tr>
+					<td>Data 1 1</td>
+					<td>Data 1 2</td>
+					<td>Data 1 3</td>
+				</tr>
+				<tr>
+					<td>Data 2 1</td>
+					<td>Data 2 2</td>
+					<td>Data 2 3</td>
+				</tr>
+				<tr>
+					<td>Data 3 1</td>
+					<td>Data 3 2</td>
+					<td>Data 3 3</td>
+				</tr>
+				<tr>
+					<td>Data 4 1</td>
+					<td>Data 4 2</td>
+					<td>Data 4 3</td>
+				</tr>
+				<tr>
+					<td>Data 5 1</td>
+					<td>Data 5 2</td>
+					<td>Data 5 3</td>
+				</tr>
+				<tr>
+					<td>Data 6 1</td>
+					<td>Data 6 2</td>
+					<td>Data 6 3</td>
+				</tr>
+
+				<tr>
+					<td>Data 8 1</td>
+					<td>Data 8 2</td>
+					<td>Data 8 3</td>
+				</tr>
+				<tr>
+					<td>Data 9 1</td>
+					<td>Data 9 2</td>
+					<td>Data 9 3</td>
+				</tr>
+				<tr>
+					<td>Data 10 1</td>
+					<td>Data 10 2</td>
+					<td>Data 10 3</td>
+				</tr>
+				<tr>
+					<td>Data 11 1</td>
+					<td>Data 11 2</td>
+					<td>Data 11 3</td>
+				</tr>
+				<tr>
+					<td>Data 12 1</td>
+					<td>Data 12 2</td>
+					<td>Data 12 3</td>
+				</tr>
+				<tr>
+					<td>Data 13 1</td>
+					<td>Data 13 2</td>
+					<td>Data 13 3</td>
+				</tr>
+				<tr>
+					<td>Data 14 1</td>
+					<td>Data 14 2</td>
+					<td>Data 14 3</td>
+				</tr>
+				<tr>
+					<td>Data 15 1</td>
+					<td>Data 15 2</td>
+					<td>Data 15 3</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+	
+</html>
