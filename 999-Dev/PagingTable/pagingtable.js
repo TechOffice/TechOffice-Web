@@ -14,7 +14,14 @@ $.fn.pagingTable = function(config){
 	
 	// Rows
 	if(me.find("tbody").length > 0 ){
-		var rows = me.find("tbody>tr");
+		var rows = null;
+		if (config.firstRowHeader){
+			var thead = me.find("tbody>tr:eq(0)");
+			me.headers = thead.find("th");
+			rows = me.find("tbody>tr:not(:eq(0))");
+		}else{
+			rows = me.find("tbody>tr");
+		}
 		me.rows= rows;
 		me.originalRows = me.rows.slice(0);
 	}
@@ -26,21 +33,23 @@ $.fn.pagingTable = function(config){
 	}
 	
 	me.enableHeadersSorting = function(){
-		me.headers.click($.proxy(function(event){
-			var me = this;
-			var target = $(event.target);
-			var index = me.headers.index(target);
-			var rows = me.rows;
-			rows.sort($.proxy(function(a,b){
-				var index = this.index;
-				var jA = $(a).find("td")[index];
-				var jB = $(b).find("td")[index];
-				var aValue = $(jA).html();
-				var bValue = $(jB).html();
-				return aValue.localeCompare(bValue);
-			}, {index: index}));
-			me.paging();
-		}, me));
+		if (me.headers.length > 0){
+			me.headers.click($.proxy(function(event){
+				var me = this;
+				var target = $(event.target);
+				var index = me.headers.index(target);
+				var rows = me.rows;
+				rows.sort($.proxy(function(a,b){
+					var index = this.index;
+					var jA = $(a).find("td")[index];
+					var jB = $(b).find("td")[index];
+					var aValue = $(jA).html();
+					var bValue = $(jB).html();
+					return aValue.localeCompare(bValue);
+				}, {index: index}));
+				me.paging();
+			}, me));
+		}
 	};
 	
 	// paging function
@@ -69,6 +78,14 @@ $.fn.pagingTable = function(config){
 		// show the first page
 		var tbody = me.find("tbody");
 		tbody.html(me.pagingRows[0]);
+		
+		// show thead if not exisit
+		debugger;
+		if (me.find("thead").length == 0){
+			var thead = $("<thead></thead>");
+			thead.append(me.headers);
+			thead.insertBefore(tbody);
+		}
 	}
 	
 	// page bar
