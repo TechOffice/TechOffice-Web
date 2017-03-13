@@ -136,7 +136,9 @@ $.fn.pagingTable = function(config){
 	me.paging();
 	me.enablePageBar();
 	me.enableHeadersSorting();
-	me.enableSearchHeader();
+	if (config.enableSearchHeader){
+		me.enableSearchHeader();
+	}
 	
 	return {
 		table: me,
