@@ -9,7 +9,7 @@
 				var me = this;
 				me.index = me.parent().children().index(me);
 				me.headers = [];
-				me.orginRows = [];
+				me.originalRows = [];
 				me.rows = [];
 				me.pageLimit = pageLimit
 				me.pagingRows = [];
@@ -22,7 +22,7 @@
 				if(me.find("tbody").length > 0 ){
 					var rows = me.find("tbody>tr");
 					me.rows= rows;
-					me.orginRows = me.rows.slice(0);
+					me.originalRows = me.rows.slice(0);
 				}
 				
 				// Headers
@@ -58,6 +58,10 @@
 					var remainders = rows.splice(pageLimit);
 					if (rows.toArray){
 						me.pagingRows.push(rows.toArray());
+					}else{
+						if(Array.isArray(rows)){
+							me.pagingRows.push(rows);
+						}
 					}
 					rows = remainders;
 					if (pageNum > 1 ){
@@ -87,6 +91,7 @@
 							}
 						});
 						pageBar.append(pageNumSpan);
+						pageBar.append($("<span>&nbsp;</span>"))
 					}
 					me.pageBar = pageBar;
 					pageBar.insertAfter(me);
@@ -106,7 +111,7 @@
 					var searchButton = $("<input type='button' value='search'/>");
 					searchButton.click($.proxy(function(){
 						var me = this;
-						me.rows = me.orginRows;
+						me.rows = me.originalRows;
 						var searchFields = me.searchFields;
 						searchFields.forEach(function(item, index, arr){
 							var me = this;
@@ -138,10 +143,13 @@
 				me.enableSearchHeader();
 				
 				return {
-					table: me, 
-					header: me.headers,
-					rows: me.rows,
-					pagingRows: me.pagingRows
+					table: me,
+					getRows: function(){
+						return me.rows;
+					},
+					getPagingRows: function(){
+						return me.pagingRows;
+					}
 				};
 			};
 			
