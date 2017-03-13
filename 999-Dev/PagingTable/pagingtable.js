@@ -91,6 +91,15 @@ $.fn.pagingTable = function(config){
 		pageBar.insertAfter(me);
 	}
 	
+	me.enableCountBar = function() {
+		var countBar = $("<div></div>");
+		var countValue = $("<span></span>");
+		countValue.html(me.rows.length);
+		countBar.append("<span><b>Totol: </b></span>")
+		countBar.append(countValue);
+		countBar.insertAfter(me);
+	};
+	
 	// search header
 	me.enableSearchHeader = function(){
 		var searchHeader = $("<div></div>");
@@ -102,7 +111,7 @@ $.fn.pagingTable = function(config){
 			searchHeader.append($("<span>&nbsp;&nbsp;&nbsp;</span>"))
 		}
 		searchHeader.append($("<br/>"));
-		var searchButton = $("<input type='button' value='search'/>");
+		var searchButton = $("<input type='button' value='Search'/>");
 		searchButton.click($.proxy(function(){
 			var me = this;
 			me.rows = me.originalRows;
@@ -126,6 +135,19 @@ $.fn.pagingTable = function(config){
 			}, me);
 			me.paging();
 		}, me));
+		var clearButton = $("<input type='button' value='Reset'/>")
+		clearButton.click($.proxy(function(){
+			var me = this;
+			me.rows = me.originalRows;
+			var searchFields = me.searchFields;
+			searchFields.forEach(function(item, index, arr){
+				var me = this;
+				var input = $(item[1]).val("");
+			}, me);
+			me.paging();
+		}, me));
+		searchHeader.append(clearButton);
+		searchHeader.append($("<span>&nbsp;</span>"));
 		searchHeader.append(searchButton);
 		searchHeader.append($("<br/>"));
 		searchHeader.append($("<br/>"));
@@ -139,6 +161,7 @@ $.fn.pagingTable = function(config){
 	if (config.enableSearchHeader){
 		me.enableSearchHeader();
 	}
+	me.enableCountBar();
 	
 	return {
 		table: me,
