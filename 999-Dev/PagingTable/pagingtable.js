@@ -147,6 +147,9 @@ $.fn.pagingTable = function(config){
 		},
 		getPagingRows: function(){
 			return me.pagingRows;
+		},
+		getConfig: function(){
+			return config;
 		}
 	};
 };
