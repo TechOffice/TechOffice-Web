@@ -45,7 +45,7 @@
 					this.filteredData = [];
 					for (var i=0; i<this.data.length; i++){
 						var item = this.data[i];
-						if (item.name.startsWith(this.queryStr)){
+						if (item.name.includes(this.queryStr)){
 							this.filteredData.push(item);
 						}
 					}

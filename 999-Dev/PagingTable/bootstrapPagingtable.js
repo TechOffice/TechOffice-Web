@@ -107,7 +107,6 @@ $.fn.pagingTable = function(config){
 			});
 			pageItem.append(pageNumSpan);
 			pageList.append(pageItem);
-			pageList.append($("<span>&nbsp;</span>"))
 		}
 		me.pageBar = pageBar;
 		pageBar.insertAfter(me);
