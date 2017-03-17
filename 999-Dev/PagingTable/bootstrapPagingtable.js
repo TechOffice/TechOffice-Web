@@ -147,10 +147,11 @@ $.fn.pagingTable = function(config){
 			}, me);
 			me.paging();
 		}, me);
-		var searchHeader = $("<div></div>");
+		var searchHeader = $("<div class='form-inline'></div>");
 		for (var i=0; i< me.headers.length; i++){
 			var header = me.headers[i];
-			var searhField = $("<span><b>" + $(header).html() + ": </b></span>" );
+			var fromGroup = $("<div class='form-group'></div>");
+			var searhField = $("<label><b>" + $(header).html() + ": </b></label>" );
 			var searchInput = $("<input/>");
 			searchInput.keypress(function(e){
 				var keycode = (e.keyCode ? e.keyCode : e.which);
@@ -163,7 +164,8 @@ $.fn.pagingTable = function(config){
 			});
 			searhField = searhField.add(searchInput);
 			me.searchFields.push(searhField);
-			searchHeader.append(searhField);
+			fromGroup.append(searhField)
+			searchHeader.append(fromGroup);
 			searchHeader.append($("<span>&nbsp;&nbsp;&nbsp;</span>"))
 		}
 		searchHeader.append($("<br/>"));
