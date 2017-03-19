@@ -15,7 +15,7 @@ $.fn.pagingTable = function(config){
 	$(me).addClass("table");
 	
 	if (config.checkboxSelection){
-		me.find("tr td:first-child").before("<td><input type='checkbox'></td>");
+		me.find("tr td:first-child").before("<td><div><input type='checkbox'></div></td>");
 	}
 	
 	// Rows
@@ -212,6 +212,7 @@ $.fn.pagingTable = function(config){
 	
 	return {
 		table: me,
+		config: config,
 		getRows: function(){
 			return me.rows;
 		},
@@ -224,12 +225,12 @@ $.fn.pagingTable = function(config){
 		enableSearchHeader: me.enableSearchHeader,
 		getSelected: function(){
 			var rows = $(this.getRows());
-			var selectedInput = rows.find("input:checked");
-			var selected = [];
-			if (selectedInput.length > 0){
-				selected =  selectedInput.parent().parent(); 
+			var selectedInputs = rows.find("input:checked");
+			var selectedRows;
+			if (selectedInputs.length > 0){
+				selectedRows =  selectedInputs.parent().parent();
 			}
-			return selected;
+			return selectedRows;
 		}
 	};
 };
