@@ -35,5 +35,38 @@
                 document.getElementById('container')
             );
         </script>
+		<pre>
+			<code>
+&lt;div id=&quot;container&quot;&gt;&lt;/div&gt;
+&lt;script type=&quot;text/babel&quot;&gt;
+	// define a compoent by JavaScript function
+	class Hello extends React.Component{
+		constructor(props){
+			super(props);
+			
+			// Blinding is required to make 'this' work in callback
+			this.handleClick = this.handleClick.bind(this);
+		}
+	
+		handleClick(){
+			console.log(&quot;clicked&quot;);
+		}
+		
+		render(){
+			return (
+				&lt;button onClick={this.handleClick}&gt;
+				Click Me
+				&lt;/button&gt;
+			);
+		}
+	};
+
+	ReactDOM.render(
+		&lt;Hello name=&quot;World&quot; /&gt;,
+		document.getElementById('container')
+	);
+&lt;/script&gt;
+			</code>
+		</pre>
     </body>
 </html>

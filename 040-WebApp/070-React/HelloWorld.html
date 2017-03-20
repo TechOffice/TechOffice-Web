@@ -19,5 +19,22 @@
                 document.getElementById('container')
             );
         </script>
+<pre>
+	<code>
+        <div id="container"></div>
+&lt;script type=&quot;text/babel&quot;&gt;
+	var Hello = React.createClass({
+		render: function() {
+			return &lt;div&gt;Hello {this.props.name}&lt;/div&gt;;
+		}
+	});
+
+	ReactDOM.render(
+		&lt;Hello name=&quot;World&quot; /&gt;,
+		document.getElementById('container')
+	);
+&lt;/script&gt;
+	</code>
+</pre>
     </body>
 </html>

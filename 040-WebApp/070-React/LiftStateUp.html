@@ -35,5 +35,38 @@
                 document.getElementById('container')
             );
         </script>
+		<pre>
+			<code>
+&lt;div id=&quot;container&quot;&gt;&lt;/div&gt;
+&lt;script type=&quot;text/babel&quot;&gt;
+	class Hello extends React.Component {
+		
+		constructor(props){
+			super(props);
+			this.handleChange = this.handleChange.bind(this);
+			this.state = {value: ''};
+		}
+	
+		handleChange(e) {
+			this.setState({value: e.target.value})
+		}
+	
+		render() {
+			return (
+				&lt;div&gt;
+					&lt;div&gt;The value input: {this.state.value}&lt;/div&gt;
+					&lt;input onChange={this.handleChange} /&gt;
+				&lt;/div&gt;
+			);
+		}
+	}
+
+	ReactDOM.render(
+		&lt;Hello/&gt;,
+		document.getElementById('container')
+	);
+&lt;/script&gt;
+			</code>
+		</pre>
     </body>
 </html>
