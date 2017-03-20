@@ -35,9 +35,17 @@ class PageBar extends React.Component{
 		var pageCount = this.pageCount;
 		for (var i=0; i<pageCount; i++){
 			var pageNo = i + 1;
-			pageSpan.push(<span onClick={this.changePage.bind(this, i)}>{pageNo}&nbsp;</span>)
+			pageSpan.push(<li><a onClick={this.changePage.bind(this, i)}>{pageNo}</a></li>);
 		}
-		return <div>{pageSpan}</div>;
+		return (
+			<nav>
+				<ul className="pagination">
+					<li><span>&laquo;</span></li>
+					{pageSpan}
+					<li><span>&raquo;</span></li>
+				</ul>
+			</nav>
+		);
 	}
 };
 
