@@ -58,9 +58,13 @@ class Detail extends React.Component {
 		}
 		this.data = props.data;
 		this.save = this.save.bind(this);
+		this.index;
+		this.arr;
 	}
-	show(data){
+	show(data, index, arr){
 		this.setState(data);
+		this.index = index;
+		this.arr = arr;
 	}
 	handleChange(field, event){
 		var data = this.state;
@@ -68,7 +72,8 @@ class Detail extends React.Component {
 		this.setState(data);
 	}
 	save(){
-		debugger;
+		this.arr[this.index] = this.state;
+		this.dataTable.table.setData(this.arr);
 	}
 	render(){
 		if (this.state){
@@ -113,6 +118,11 @@ class Table extends React.Component {
 		this.detail;
 	}
 	
+	setData(data){
+		this.data = data;
+		this.forceUpdate();
+	}
+	
 	setDetail(detail){
 		this.detail = detail;
 	}
@@ -126,8 +136,8 @@ class Table extends React.Component {
 		}
 	}
 	
-	showDetail(row, event){
-		this.detail.show(row);
+	showDetail(row, index, arr, event){
+		this.detail.show(row, index, arr);
 	}
 	
 	render(){
@@ -140,7 +150,7 @@ class Table extends React.Component {
 		me.labels.forEach(function(label){
 			thead.push(<th>{label}</th>);
 		});
-		me.data.forEach(function(row){
+		me.data.forEach(function(row, index, arr){
 			var cols = [];
 			if (me.config.rowSelection){
 				cols.push(<td><input type='checkbox' onClick={me.handleSelect.bind(me, row)}/></td>);
@@ -148,7 +158,7 @@ class Table extends React.Component {
 			me.columns.forEach(function(column){
 				cols.push(<td>{row[column]}</td>);
 			});
-			rows.push(<tr onClick={me.showDetail.bind(me, row)}>{cols}</tr>)
+			rows.push(<tr onClick={me.showDetail.bind(me, row, index, arr)}>{cols}</tr>)
 		});
 		return (
 			<table className="table">
