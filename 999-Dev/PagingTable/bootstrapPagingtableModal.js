@@ -14,10 +14,6 @@ $.fn.pagingTable = function(config){
 	
 	$(me).addClass("table");
 	
-	if (config.checkboxSelection){
-		me.find("tr td:first-child").before("<td><div><input type='checkbox'></div></td>");
-	}
-	
 	// Rows
 	if(me.find("tbody").length > 0 ){
 		var rows = null;
@@ -36,9 +32,6 @@ $.fn.pagingTable = function(config){
 	if(me.find("thead").length > 0 ){
 		var thead = me.find("thead");
 		me.headers = thead.find("th");
-		if (config.checkboxSelection){
-			me.find("thead th:first").before("<th>&nbsp;</th>");
-		}
 	}
 	
 	me.enableHeadersSorting = function(){
@@ -143,12 +136,7 @@ $.fn.pagingTable = function(config){
 				for (var i=0; i<rows.length; i++){
 					var row = $(rows[i]);
 					var cols = row.find("td");
-					var col;
-					if (config.checkboxSelection){
-						col = $(cols[index + 1]);
-					}else{
-						col = $(cols[index]);
-					}
+					var col = $(cols[index]);
 					var colValue = col.html();
 					if (value == "" || colValue.toUpperCase().includes(value.toUpperCase())){
 						filteredRows.push(rows[i]);
@@ -212,7 +200,6 @@ $.fn.pagingTable = function(config){
 	
 	return {
 		table: me,
-		config: config,
 		getRows: function(){
 			return me.rows;
 		},
@@ -222,15 +209,6 @@ $.fn.pagingTable = function(config){
 		getConfig: function(){
 			return config;
 		},
-		enableSearchHeader: me.enableSearchHeader,
-		getSelected: function(){
-			var rows = $(this.getRows());
-			var selectedInputs = rows.find("input:checked");
-			var selectedRows;
-			if (selectedInputs.length > 0){
-				selectedRows =  selectedInputs.parent().parent();
-			}
-			return selectedRows;
-		}
+		enableSearchHeader: me.enableSearchHeader
 	};
 };
