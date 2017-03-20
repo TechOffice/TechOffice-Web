@@ -66,7 +66,7 @@ class Detail extends React.Component {
 		if (this.state){
 			return (
 				<div>
-					<table>
+					<table className='table'>
 						<tr>
 							<td>Colum 3</td>
 							<td><input value={this.state.col1} onChange={this.handleChange.bind(this, 'col1')}/></td>
@@ -142,7 +142,14 @@ class Table extends React.Component {
 			});
 			rows.push(<tr onClick={me.showDetail.bind(me, row)}>{cols}</tr>)
 		});
-		return <table><thead><tr>{thead}</tr></thead><tbody>{rows}</tbody></table>;
+		return (
+			<table className="table">
+				<thead>
+					<tr>{thead}</tr>
+				</thead>
+				<tbody>{rows}</tbody>
+			</table>
+		);
 	}
 };
 
