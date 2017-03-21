@@ -1,8 +1,26 @@
-<table border="1">             
+<table>
+	<tr ng-repeat="column in columns ">
+		<td><b>{{labels[$index]}}:</b></td>
+		<td><input ng-model="criteria[column]" ng-change="search(column, criteria[column])"/></td>
+	</tr>
+</table>
+<br/>
+<table border="1">           
 	<tr>                        
 		<th ng-repeat="label in labels">{{label}}</th> 		   
 	</tr>                       
-	<tr ng-repeat="row in data">
+	<tr ng-repeat="row in data" ng-click="showDetail(row)">
 		<td ng-repeat="column in columns">{{row[column]}}</td>   
-	</tr>                       
-</table>                       
+	</tr>
+</table> 
+<div>
+	<span ng-repeat="i in [] | range:pageCount">{{i}}</span>
+</div>
+<br/>
+<table>
+	<tr ng-repeat="column in columns ">
+		<td><b>{{labels[$index]}}:</b></td>
+		<td><input ng-model="detail[column]" ng-value="selected[column]"/></td>
+	</tr>
+</table>
+<button>Update</button?>

@@ -1,8 +1,21 @@
-angular.module('testApp', []).component('angularTable', {
+var testApp = angular.module('testApp', []);
+testApp.filter('range', function(){
+	return function(input, total){
+		total = parseInt(total);
+		for (var i=1; i<total+1; i++){
+			input.push(i);
+		}
+		return input;
+	};
+});
+testApp.component('angularTable', {
 	templateUrl: "AngularPagingTableTemplate.html",
 	controller: function($scope){
 		$scope.labels = ['Name', 'Value'],
 		$scope.columns = ['name', 'value'],
+		$scope.pageCount = 20,
+		$scope.currentPage = 1,
+		$scope.selected;
 		$scope.data = [
 			{
 				'name' : 'name 1',
@@ -29,5 +42,11 @@ angular.module('testApp', []).component('angularTable', {
 				'value' : 'value 5'
 			}
 		];
+		$scope.search = function(value, column) {
+			debugger;
+		};
+		$scope.showDetail = function(row){
+			$scope.selected = row;
+		};
 	}
 });
