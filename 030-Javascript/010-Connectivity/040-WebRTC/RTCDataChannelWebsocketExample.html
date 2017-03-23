@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <script src="lib/adapter-1.0.2.js"></script>
+		 <script>
+            servers = null;
+            pc1 = new RTCPeerConnection(servers);
+			
+			// send channel
+			sendChannel = pc1.createDataChannel('sendDataChannel', null)
+			
+			// build connection
+			pc1.onicecandidate = function(event){
+				if (event.candidate){
+					// Send Ice Candidate to pc2
+					console.log(event.candidate.candidate);
+				}
+			};
+			
+			// 
+			pc1.createOffer().then(function(desc){
+				console.log("===Offer Desc===");
+				console.log(desc);
+				// set local description will trigger onicecandidate
+				pc1.setLocalDescription(desc);
+			});
+        </script>
+    </head>
+
+    <body>
+        <h1>Web RTC Data Channel Example</h1>
+		<table>
+			<tr>
+				<td><textarea id="sendMessage"></textarea></td>
+				<td><textarea id="receiveMessage"></textarea></td>
+			</tr>
+			<tr>
+				<td><button id="sendBtn">Send</button></td>
+				<td>&nbsp;</td>
+			</tr>
+		</table>
+		<script>
+			var sendMessageTextArea = document.querySelector("textarea#sendMessage");
+			var sendBtn = document.querySelector("button#sendBtn");
+			sendBtn.onclick = function(event){
+				var sendMessage = sendMessageTextArea.value;
+				sendChannel.send(sendMessage);
+			};
+
+		</script>
+    </body>
+</html>

@@ -6,10 +6,17 @@
     <body>
         <h1>Web RTC Peer Connection Example</h1>
         <script>
+			// server - it specify STUN and TURN servers
+			// STUN Servers could be used to get the IP address of the computer
+			// TURN server to function as relay servers in case peer-to-peer communication fails.
             servers = null;
+			
+			// Connection
+			// create connection pc1, pc2
             pc1 = new RTCPeerConnection(servers);
             pc2 = new RTCPeerConnection(servers);
 			
+			// Data Channel
 			// send channel
 			sendChannel = pc1.createDataChannel('sendDataChannel', null)
 			
@@ -21,21 +28,23 @@
 				};
 			};
 
-			// build connection
+			// Register
+			// build connection: register pc2 to pc1 and register pc1 to pc2.
 			pc1.onicecandidate = function(event){
 				if (event.candidate){
-					// Send Ice Candidate to pc2
+					// Send Candidate to pc2
 					pc2.addIceCandidate(event.candidate);
 				}
 			};
 			
 			pc2.onicecandidate = function(event){
 				if (event.candidate){
-					// Send Ice Candidate to pc1
+					// Send Candidate to pc1
 					pc1.addIceCandidate(event.candidate);
 				}
 			};
 			
+			// exchange config information by "createOffcer" and "createAnswer" 
 			pc1.createOffer().then(function(desc){
 				console.log("===Offer Desc===");
 				console.log(desc);
