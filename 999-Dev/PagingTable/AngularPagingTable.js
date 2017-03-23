@@ -45,8 +45,17 @@ testApp.component('angularTable', {
 		$scope.search = function(value, column) {
 			debugger;
 		};
-		$scope.showDetail = function(row){
+		$scope.detail = {};
+		$scope.showDetail = function(row, index){
 			$scope.selected = row;
+			$scope.selected.index = index;
 		};
+		$scope.update = function(){
+			$scope.columns.forEach(function(item, index, arr){
+				if ($scope.detail[item]){
+					$scope.data[$scope.selected.index][item] = $scope.detail[item];
+				}
+			});
+		}
 	}
 });

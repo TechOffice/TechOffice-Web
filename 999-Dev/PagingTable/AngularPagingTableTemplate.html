@@ -9,7 +9,7 @@
 	<tr>                        
 		<th ng-repeat="label in labels">{{label}}</th> 		   
 	</tr>                       
-	<tr ng-repeat="row in data" ng-click="showDetail(row)">
+	<tr ng-repeat="row in data" ng-click="showDetail(row, $index)">
 		<td ng-repeat="column in columns">{{row[column]}}</td>   
 	</tr>
 </table> 
@@ -23,4 +23,4 @@
 		<td><input ng-model="detail[column]" ng-value="selected[column]"/></td>
 	</tr>
 </table>
-<button>Update</button?>
+<button ng-click="update()">Update</button?>
