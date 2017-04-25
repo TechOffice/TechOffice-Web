@@ -1,3 +1,9 @@
+/**
+* Bootstrap Dialog jQuery Plugin
+* 
+* @author Ben
+* @param config Configuration of Dialog
+*/
 $.fn.dialog = function(config){
 	var me = this;
 	var config = config ? config : {};

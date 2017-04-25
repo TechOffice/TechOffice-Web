@@ -1,5 +1,5 @@
 /**
-* Paging Table jQuery Plugin 
+* Bootstrap Paging Table jQuery Plugin 
 * 
 * It convert jQuery Table Object into a Paging Table which includes the following features.
 * 
@@ -52,6 +52,11 @@ $.fn.pagingTable = function(config){
 	me.pageNum = 0;
 	
 	/**
+	* Current Page Numer
+	*/
+	me.currentPageNum = 0;
+	
+	/**
 	* Page Bar Control of Paging Table
 	*/ 
 	me.pageBar = null;
@@ -65,7 +70,6 @@ $.fn.pagingTable = function(config){
 	* List of Search Fields Controls in Search Header
 	*/ 
 	me.searchFields = [];
-	
 	
 	$(me).addClass("table");
 	
@@ -160,25 +164,82 @@ $.fn.pagingTable = function(config){
 	* Enable PageBar
 	*/
 	me.enablePageBar = function(){
+		
+		// Initialize Page Bar
 		var pageBar = $("<nav aria-label='Page navigation'></nav>");
 		var pageList = $("<ul class='pagination'></ul>");
 		pageBar.append(pageList);
+		me.pageBar = pageBar;
+		pageBar.insertAfter(me);
+		
+		// Initialize current Page Num
+		if (me.pageNum > 0 ){
+			if (me.currentPageNum == 0 ){
+				me.currentPageNum = 1;
+			}
+		}
+		
+		// Previous Item Span
+		var previousPageItem = $("<li></li>");
+		var previousPageSpan = $("<span>&laquo;</span>");
+		previousPageSpan.click(function(){
+			var previousPageNum = me.currentPageNum - 1;
+			if (previousPageNum > 0 ){
+				me.switchPage(previousPageNum);
+			}
+		});
+		previousPageItem.append(previousPageSpan);
+		pageList.append(previousPageItem);
+		
+		// Num Items Span
 		for (var i=0; i<me.pageNum; i++){
 			var pageItem = $("<li></li>");
-			var pageNumSpan = $("<span>" + (i+1) + "</span>");
+			var pageNumSpan = $("<span>" + (i+1) + "</span>");	
+			if ( (i+1) == me.currentPageNum){
+				pageNumSpan.css("font-weight", "bold");
+			}
 			pageNumSpan.click(function(){
 				var pageNum = parseInt($(this).html());
 				if (pageNum){
-					var rows = me.pagingRows[pageNum - 1];
-					var tbody = me.find("tbody");
-					tbody.html(rows);
-				}
+					me.switchPage(pageNum);
+				}									
 			});
 			pageItem.append(pageNumSpan);
 			pageList.append(pageItem);
 		}
-		me.pageBar = pageBar;
-		pageBar.insertAfter(me);
+		
+		// Next Item Span
+		var nextPageItem = $("<li></li>");
+		var nextPageSpan = $("<span>&raquo;</span>");
+		nextPageSpan.click(function(){
+			var nextPageNum = me.currentPageNum + 1;
+			if (nextPageNum <= me.pageNum ){
+				me.switchPage(nextPageNum);
+			}
+		});
+		nextPageItem.append(nextPageSpan);
+		pageList.append(nextPageItem);
+	}
+	
+	/**
+	* Switch Page
+	* 
+	* @param Page Num
+	*/
+	me.switchPage = function(pageNum){
+		if (pageNum != me.currentPageNum){
+			me.currentPageNum = pageNum;
+			var rows = me.pagingRows[pageNum - 1];
+			var tbody = me.find("tbody");
+			tbody.html(rows);
+			me.pageBar.find("ul>li>span").each(function(index, value){
+				if (pageNum == parseInt($(value).html())){
+					$(value).css("font-weight", "bold");
+				}else{
+					$(value).css("font-weight", "normal");
+				}
+			});
+		}
 	}
 	
 	/**

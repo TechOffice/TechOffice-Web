@@ -1,18 +1,81 @@
+/**
+* Paging Table jQuery Plugin 
+* 
+* It convert jQuery Table Object into a Paging Table which includes the following features.
+* 
+* - Paging Table
+* - Sorting 
+* - Search
+* - Mutiple Select 
+* 
+* @author Ben
+* @param config Configuration of Paging Table. 
+* @returns JSON object of Paiging Table.
+*/
 $.fn.pagingTable = function(config){
 	var me = this;
 	var config = config ? config: {};
+	
+	/**
+	* The Limit of rows per page
+	*/
 	me.pageLimit = config.pageLimit ? config.pageLimit : 20
+	
+	/**
+	* The Index Sequence of Paging in its container
+	*/ 
 	me.index = me.parent().children().index(me);
+	
+	/**
+	* List of Headers 
+	*/
 	me.headers = [];
+	
+	/**
+	* Original Row List
+	*/
 	me.originalRows = [];
+	
+	/**
+	* Ordered and Filtered Row List
+	*/
 	me.rows = [];
+	
+	/**
+	* Paging Rows 
+	*/
 	me.pagingRows = [];
+	
+	/**
+	* Number of Page
+	*/
 	me.pageNum = 0;
+	
+	/**
+	* Current Page Numer
+	*/
+	me.currentPageNum = 0;
+	
+	/**
+	* Page Bar Control of Paging Table
+	*/ 
 	me.pageBar = null;
-	me.searchFields = [];
+	
+	/**
+	* Search Header Control of Paging Table
+	*/ 
 	me.searchHeader = null;
 	
+	/**
+	* List of Search Fields Controls in Search Header
+	*/ 
+	me.searchFields = [];
+	
 	$(me).addClass("table");
+	
+	if (config.checkboxSelection){
+		me.find("tr td:first-child").before("<td><div><input type='checkbox'></div></td>");
+	}
 	
 	// Rows
 	if(me.find("tbody").length > 0 ){
@@ -32,8 +95,14 @@ $.fn.pagingTable = function(config){
 	if(me.find("thead").length > 0 ){
 		var thead = me.find("thead");
 		me.headers = thead.find("th");
+		if (config.checkboxSelection){
+			me.find("thead th:first").before("<th>&nbsp;</th>");
+		}
 	}
 	
+	/**
+	* Enable Headers Sorting 
+	*/ 
 	me.enableHeadersSorting = function(){
 		if (me.headers.length > 0){
 			me.headers.click($.proxy(function(event){
@@ -54,7 +123,9 @@ $.fn.pagingTable = function(config){
 		}
 	};
 	
-	// paging function
+	/** 
+	* Paging function to separated the rows of table into pages of row.
+	*/
 	me.paging = function(){
 		var rows = me.rows.slice(0);
 		var pageNum = Math.ceil(rows.length / me.pageLimit);
@@ -89,29 +160,94 @@ $.fn.pagingTable = function(config){
 		}
 	}
 	
-	// page bar
+	/**
+	* Enable PageBar
+	*/
 	me.enablePageBar = function(){
+		
+		// Initialize Page Bar
 		var pageBar = $("<nav aria-label='Page navigation'></nav>");
 		var pageList = $("<ul class='pagination'></ul>");
 		pageBar.append(pageList);
+		me.pageBar = pageBar;
+		pageBar.insertAfter(me);
+		
+		// Initialize current Page Num
+		if (me.pageNum > 0 ){
+			if (me.currentPageNum == 0 ){
+				me.currentPageNum = 1;
+			}
+		}
+		
+		// Previous Item Span
+		var previousPageItem = $("<li></li>");
+		var previousPageSpan = $("<span>&laquo;</span>");
+		previousPageSpan.click(function(){
+			var previousPageNum = me.currentPageNum - 1;
+			if (previousPageNum > 0 ){
+				me.switchPage(previousPageNum);
+			}
+		});
+		previousPageItem.append(previousPageSpan);
+		pageList.append(previousPageItem);
+		
+		// Num Items Span
 		for (var i=0; i<me.pageNum; i++){
 			var pageItem = $("<li></li>");
-			var pageNumSpan = $("<span>" + (i+1) + "</span>");
+			var pageNumSpan = $("<span>" + (i+1) + "</span>");	
+			if ( (i+1) == me.currentPageNum){
+				pageNumSpan.css("font-weight", "bold");
+			}
 			pageNumSpan.click(function(){
 				var pageNum = parseInt($(this).html());
 				if (pageNum){
-					var rows = me.pagingRows[pageNum - 1];
-					var tbody = me.find("tbody");
-					tbody.html(rows);
-				}
+					me.switchPage(pageNum);
+				}									
+					  
+	 
 			});
 			pageItem.append(pageNumSpan);
 			pageList.append(pageItem);
 		}
-		me.pageBar = pageBar;
-		pageBar.insertAfter(me);
+		
+		// Next Item Span
+		var nextPageItem = $("<li></li>");
+		var nextPageSpan = $("<span>&raquo;</span>");
+		nextPageSpan.click(function(){
+			var nextPageNum = me.currentPageNum + 1;
+			if (nextPageNum <= me.pageNum ){
+				me.switchPage(nextPageNum);
+			}
+		});
+		nextPageItem.append(nextPageSpan);
+		pageList.append(nextPageItem);
 	}
 	
+	/**
+	* Switch Page
+	* 
+	* @param Page Num
+	*/
+	me.switchPage = function(pageNum){
+		if (pageNum != me.currentPageNum){
+			me.currentPageNum = pageNum;
+			var rows = me.pagingRows[pageNum - 1];
+			var tbody = me.find("tbody");
+			tbody.html(rows);
+			me.pageBar.find("ul>li>span").each(function(index, value){
+				if (pageNum == parseInt($(value).html())){
+					$(value).css("font-weight", "bold");
+				}else{
+					$(value).css("font-weight", "normal");
+				}
+			});
+		}
+	}
+	
+	/**
+	* Enable CountBar. 
+	* Count Bar count the number of filtered rows.
+	*/ 
 	me.enableCountBar = function() {
 		var countBar = $("<div></div>");
 		var countValue = $("<span></span>");
@@ -121,7 +257,9 @@ $.fn.pagingTable = function(config){
 		countBar.insertAfter(me);
 	};
 	
-	// search header
+	/**
+	* Enable Searh Header
+	*/
 	me.enableSearchHeader = function(){
 		me.search = $.proxy(function(){
 			var me = this;
@@ -136,7 +274,12 @@ $.fn.pagingTable = function(config){
 				for (var i=0; i<rows.length; i++){
 					var row = $(rows[i]);
 					var cols = row.find("td");
-					var col = $(cols[index]);
+					var col;
+					if (config.checkboxSelection){
+						col = $(cols[index + 1]);
+					}else{
+						col = $(cols[index]);
+					}
 					var colValue = col.html();
 					if (value == "" || colValue.toUpperCase().includes(value.toUpperCase())){
 						filteredRows.push(rows[i]);
@@ -190,6 +333,7 @@ $.fn.pagingTable = function(config){
 		me.searchHeader.insertBefore(me);
 	}
 	
+	// Init Paging Table
 	me.paging();
 	me.enablePageBar();
 	me.enableHeadersSorting();
@@ -198,8 +342,10 @@ $.fn.pagingTable = function(config){
 	}
 	me.enableCountBar();
 	
+	// return JSON Object of Paging Table.
 	return {
 		table: me,
+		config: config,
 		getRows: function(){
 			return me.rows;
 		},
@@ -209,6 +355,15 @@ $.fn.pagingTable = function(config){
 		getConfig: function(){
 			return config;
 		},
-		enableSearchHeader: me.enableSearchHeader
+		enableSearchHeader: me.enableSearchHeader,
+		getSelected: function(){
+			var rows = $(this.getRows());
+			var selectedInputs = rows.find("input:checked");
+			var selectedRows;
+			if (selectedInputs.length > 0){
+				selectedRows =  selectedInputs.parent().parent();
+			}
+			return selectedRows;
+		}
 	};
 };
