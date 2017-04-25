@@ -1,16 +1,71 @@
+/**
+* Paging Table jQuery Plugin 
+* 
+* It convert jQuery Table Object into a Paging Table which includes the following features.
+* 
+* - Paging Table
+* - Sorting 
+* - Search
+* - Mutiple Select 
+* 
+* @author Ben
+* @param config Configuration of Paging Table. 
+* @returns JSON object of Paiging Table.
+*/
 $.fn.pagingTable = function(config){
 	var me = this;
 	var config = config ? config: {};
+	
+	/**
+	* The Limit of rows per page
+	*/
 	me.pageLimit = config.pageLimit ? config.pageLimit : 20
+	
+	/**
+	* The Index Sequence of Paging in its container
+	*/ 
 	me.index = me.parent().children().index(me);
+	
+	/**
+	* List of Headers 
+	*/
 	me.headers = [];
+	
+	/**
+	* Original Row List
+	*/
 	me.originalRows = [];
+	
+	/**
+	* Ordered and Filtered Row List
+	*/
 	me.rows = [];
+	
+	/**
+	* Paging Rows 
+	*/
 	me.pagingRows = [];
+	
+	/**
+	* Number of Page
+	*/
 	me.pageNum = 0;
+	
+	/**
+	* Page Bar Control of Paging Table
+	*/ 
 	me.pageBar = null;
-	me.searchFields = [];
+	
+	/**
+	* Search Header Control of Paging Table
+	*/ 
 	me.searchHeader = null;
+	
+	/**
+	* List of Search Fields Controls in Search Header
+	*/ 
+	me.searchFields = [];
+	
 	
 	$(me).addClass("table");
 	
@@ -41,6 +96,9 @@ $.fn.pagingTable = function(config){
 		}
 	}
 	
+	/**
+	* Enable Headers Sorting 
+	*/ 
 	me.enableHeadersSorting = function(){
 		if (me.headers.length > 0){
 			me.headers.click($.proxy(function(event){
@@ -61,7 +119,9 @@ $.fn.pagingTable = function(config){
 		}
 	};
 	
-	// paging function
+	/** 
+	* Paging function to separated the rows of table into pages of row.
+	*/
 	me.paging = function(){
 		var rows = me.rows.slice(0);
 		var pageNum = Math.ceil(rows.length / me.pageLimit);
@@ -96,7 +156,9 @@ $.fn.pagingTable = function(config){
 		}
 	}
 	
-	// page bar
+	/**
+	* Enable PageBar
+	*/
 	me.enablePageBar = function(){
 		var pageBar = $("<nav aria-label='Page navigation'></nav>");
 		var pageList = $("<ul class='pagination'></ul>");
@@ -119,6 +181,10 @@ $.fn.pagingTable = function(config){
 		pageBar.insertAfter(me);
 	}
 	
+	/**
+	* Enable CountBar. 
+	* Count Bar count the number of filtered rows.
+	*/ 
 	me.enableCountBar = function() {
 		var countBar = $("<div></div>");
 		var countValue = $("<span></span>");
@@ -128,7 +194,9 @@ $.fn.pagingTable = function(config){
 		countBar.insertAfter(me);
 	};
 	
-	// search header
+	/**
+	* Enable Searh Header
+	*/
 	me.enableSearchHeader = function(){
 		me.search = $.proxy(function(){
 			var me = this;
@@ -202,6 +270,7 @@ $.fn.pagingTable = function(config){
 		me.searchHeader.insertBefore(me);
 	}
 	
+	// Init Paging Table
 	me.paging();
 	me.enablePageBar();
 	me.enableHeadersSorting();
@@ -210,6 +279,7 @@ $.fn.pagingTable = function(config){
 	}
 	me.enableCountBar();
 	
+	// return JSON Object of Paging Table.
 	return {
 		table: me,
 		config: config,
