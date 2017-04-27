@@ -24,6 +24,31 @@
 
  <body>
     <test-component></test-component>
+	
+	<div>
+		<pre>
+			<code>
+&lt;script&gt;
+	var testApp = angular.module('testApp', []);
+	testApp.controller('TestController', function TestController($scope) {
+		$scope.name = &quot;Test Controller&quot;;
+		$scope.data = [
+			{
+				'name' : 'name 1',
+				'value' : 'value 1'
+			}, 
+			{
+				'name' : 'name 2',
+				'value' : 'value 2'
+			}
+		];
+	});
+&lt;/script&gt;
+&lt;test-component&gt;&lt;/test-component&gt;
+
+			</code>
+		</pre>
+	</div>
  </body>
 
 </html>
