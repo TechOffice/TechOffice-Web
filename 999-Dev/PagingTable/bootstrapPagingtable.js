@@ -11,6 +11,13 @@
 * @author Ben
 * @param config Configuration of Paging Table. 
 * @returns JSON object of Paiging Table.
+* 
+* @todo implementation of popup dialog. dialog object 
+* @todo the sorting hint
+* @todo handle the remote sorting
+* @todo handle the situation of too many pages
+* @todo radiobox for sigle select situation
+* 
 */
 $.fn.pagingTable = function(config){
 	var me = this;
@@ -70,6 +77,11 @@ $.fn.pagingTable = function(config){
 	* List of Search Fields Controls in Search Header
 	*/ 
 	me.searchFields = [];
+	
+	/**
+	 * Popup dialog
+	 */
+	me.dialog = null;
 	
 	$(me).addClass("table");
 	
@@ -158,7 +170,7 @@ $.fn.pagingTable = function(config){
 			thead.append(me.headers);
 			thead.insertBefore(tbody);
 		}
-	}
+	};
 	
 	/**
 	* Enable PageBar
@@ -219,7 +231,7 @@ $.fn.pagingTable = function(config){
 		});
 		nextPageItem.append(nextPageSpan);
 		pageList.append(nextPageItem);
-	}
+	};
 	
 	/**
 	* Switch Page
@@ -240,7 +252,7 @@ $.fn.pagingTable = function(config){
 				}
 			});
 		}
-	}
+	};
 	
 	/**
 	* Enable CountBar. 
@@ -329,7 +341,13 @@ $.fn.pagingTable = function(config){
 		searchHeader.append($("<br/>"));
 		me.searchHeader = searchHeader;
 		me.searchHeader.insertBefore(me);
-	}
+	};
+	
+	me.enableDialog = function(){
+		if (me.dialog != null){
+			debugger;
+		}
+	};
 	
 	// Init Paging Table
 	me.paging();
@@ -362,6 +380,12 @@ $.fn.pagingTable = function(config){
 				selectedRows =  selectedInputs.parent().parent();
 			}
 			return selectedRows;
+		},
+		setDialog: function(dialog){
+			me.dialog = dialog;
+		},
+		enableDialog: function(){
+			me.enableDialog();
 		}
 	};
 };
