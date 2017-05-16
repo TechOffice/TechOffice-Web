@@ -14,7 +14,7 @@
 * 
 * @todo implementation of popup dialog. dialog object 
 * @todo the sorting hint
-* @todo handle the remote sorting
+* @todo handle the remote sorting / searching 
 * @todo handle the situation of too many pages
 * @todo radiobox for sigle select situation
 * 
@@ -122,6 +122,10 @@ $.fn.pagingTable = function(config){
 				var target = $(event.target);
 				var index = me.headers.index(target);
 				var rows = me.rows;
+				
+				//var sortSpan = $("<span class='glyphicon glyphicon-sort-by-alphabet'><span>");
+				//var sortSpanAlt = $("<span class='glyphicon glyphicon-sort-by-alphabet-alt'></span");
+				
 				rows.sort($.proxy(function(a,b){
 					var index = this.index;
 					var jA = $(a).find("td")[index];
