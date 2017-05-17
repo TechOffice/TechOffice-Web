@@ -13,3 +13,32 @@
 * Provider
 * Decorators
 * Booststrap
+
+# Template
+
+# Service
+AngularJS Service is an object that can be wired using Dependency Injection (DI).
+	* Lazily instantiated
+	* Singleton
+	
+```
+var test = angular.module("test", []);
+test.factory("testService1", function() {
+	var message = "Testing";
+	
+	return {
+		getMessage: function(){
+			return message;
+		}
+	};
+});
+
+// after declaring testService1 as above, it can be inject to other service
+test.factory("testService2", function(testService1){
+	
+	return function(){
+		console.log(testService.getMessage());
+	};
+});
+
+```
