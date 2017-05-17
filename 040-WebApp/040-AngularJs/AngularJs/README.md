@@ -1,11 +1,21 @@
 # AngularJs 1x Example
+
+AngularJs is a framework for dynamic web apps. It could help the data binding and dependency inject for web application development.
+
+# Example
+
 * SimpleAnagularJsExample
 	* Hello World Example
 	* Controller Example
 	* Component Example
 	* File Structure Example
 
+# Components
 
+* Template
+* Controller
+* Component
+* Service
 * Component Router
 * Animation
 * Modules
@@ -14,9 +24,9 @@
 * Decorators
 * Booststrap
 
-# Template
+## Template
 
-# Service
+## Service
 AngularJS Service is an object that can be wired using Dependency Injection (DI).
 	* Lazily instantiated
 	* Singleton
