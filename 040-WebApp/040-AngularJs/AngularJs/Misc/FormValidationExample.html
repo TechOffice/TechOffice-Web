@@ -25,7 +25,7 @@
 		<div ng-controller="TestController">
 			<form name="form" ng-submit="update(user)" novalidate="novalidate">
 			    <div ng-show="form.$submitted">
-					<div ng-show="form.name.$error.required">{{form.name.$name}} is required</div>
+					<div ng-show="form.name.$error.required">{{form.name}} is required</div>
 				</div>
 				<label>Name: <input type="text" ng-model="user.name" name="name" required="true"/></label><br />
 				<button ng-submit="update(user)" value="Save" >Save</button>
