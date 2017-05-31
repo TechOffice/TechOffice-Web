@@ -40,15 +40,14 @@
 									var button = angular.element(elements[1]);
 									var clicked = false;
 									$timeout(function(){
-										elements[0].focus();
+										input[0].focus();
 									});
 									button.on('click', function(evt){
 										clicked = true;
+										input[0].focus();
 									});
 									input.on('blur', function (evt) {
 										clicked = false;
-										console.log(input);
-										console.log(button);
 										$timeout(function(){
 											if (!clicked){
 												$scope.stopEdit(evt);
