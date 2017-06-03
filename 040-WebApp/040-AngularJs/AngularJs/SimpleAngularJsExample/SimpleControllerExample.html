@@ -7,10 +7,10 @@
  <head>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script>
-        // define testApp module
-        var testApp = angular.module('testApp', []);
-        // define TestController on phonecatApp
-        testApp.controller('TestController', function TestController($scope) {
+        // define app module
+        var app = angular.module('app', []);
+        // define Ctrl on app
+        app.controller('Ctrl', function TestController($scope) {
             $scope.name = "Test Controller";
             $scope.data = [
                 {
@@ -27,7 +27,7 @@
  </head>
 
  <body>
-	<div ng-app="testApp" ng-controller="TestController">
+	<div ng-app="app" ng-controller="Ctrl">
 		 <p>
 			 {{name}}
 		 </p>

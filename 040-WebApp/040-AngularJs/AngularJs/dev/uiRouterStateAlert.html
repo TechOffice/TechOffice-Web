@@ -1,0 +1,43 @@
+<!--
+	https://ui-router.github.io/ng1/docs/0.3.1/index.html#/api/ui.router
+-->
+<html>
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+	<script>
+		// define testApp module
+		var app = angular.module('test', ['ui.router']);
+		app.config(function($stateProvider){
+			$stateProvider.state({
+				name: "test1",
+				url: "/test1",
+				template: "<div edit>test 1</div>"
+			});
+			
+			$stateProvider.state({
+				name: "test2",
+				url: "/test2",
+				template: "<div>test 2</div>"
+			});
+		});
+		app.directive("edit", function(){
+			return {
+				controller: function($scope, $rootScope){
+					$rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams, options){
+						alert("are you sure to leave this form");
+					});
+				}
+			};
+		})
+	</script>
+ </head>
+
+ <body ng-app="test">
+	<a ui-sref="test1">test 1</a>
+	<a ui-sref="test2">test 2</a>
+	<ui-view></ui-view>
+ </body>
+
+
+</html>

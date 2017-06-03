@@ -11,7 +11,7 @@
         var app = angular.module('app', []);
 		
 		app.controller("TestController", function($scope){
-			$scope = function(user){
+			$scope.update = function(user){
 				debugger;
 			}
 		});
@@ -21,13 +21,9 @@
 
  <body>
 	<div ng-app="app">
-		<message></message>
 		<div ng-controller="TestController">
-			<form name="form" ng-submit="update(user)" novalidate="novalidate">
-			    <div ng-show="form.$submitted">
-					<div ng-show="form.name.$error.required">{{form.name}} is required</div>
-				</div>
-				<label>Name: <input type="text" ng-model="user.name" name="name" required="true"/></label><br />
+			<form name="form" ng-submit="update(user)" >
+				<label>Name: </label><input type="text" ng-model="user.name" required/><br />
 				<button ng-submit="update(user)" value="Save" >Save</button>
 			</form>
 		</div>

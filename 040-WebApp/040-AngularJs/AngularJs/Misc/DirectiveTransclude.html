@@ -1,0 +1,42 @@
+
+<html>
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script>
+        var app = angular.module('app', []);
+		
+		// directive
+		app.directive('exampleDirective', function(){
+			return {
+				template: "<div><div>{{message}}</div><div><button ng-click='update()'>Update</button></div></div>",
+				scope: {
+					message: "=ngModel"
+				},
+				controller: function($scope){
+					$scope.update = function(){
+						$scope.message = "b";
+					};
+				}
+			};
+		});
+		
+		// controller
+		app.controller("Ctrl", function($scope){
+			$scope.tMessage = "original";
+			$scope.message = "a";
+		});
+		
+    </script>
+ </head>
+
+ <body>
+	<div ng-app="app">
+		<div ng-controller="Ctrl">
+			<div> Message: {{message}}</div>
+			<div> Transclude Message : {{tMessage}} </div> 
+			<example-directive ng-model="tMessage"></example-directive>
+		</div>
+	 </div>
+ </body>
+
+</html>
