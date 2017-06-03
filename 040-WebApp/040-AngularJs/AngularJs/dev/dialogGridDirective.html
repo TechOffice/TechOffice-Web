@@ -32,7 +32,6 @@
 			app.directive("dialogGridButton", function(){
 				return {
 					template: '<button ng-click="showDialog()">Show Dialog</button>',
-					transclude: true,	// this directive can have access to outside rather than inside
 					scope: {
 						value : "=ngModel" // $scope.value is specifed by attribute ng-model
 					},
@@ -79,15 +78,12 @@
 							});
 						}
 						
-						$scope.$emit("ready");
 					//
 					}
 				};
 			});
 			app.controller("Ctrl", function($scope){
 				$scope.value;
-				$scope.testing = "test";
-				$scope.$on("ready", function(){$scope; debugger;});
 			});
 		</script>
 	</head>

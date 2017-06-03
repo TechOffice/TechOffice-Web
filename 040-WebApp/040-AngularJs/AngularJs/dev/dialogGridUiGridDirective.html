@@ -39,8 +39,10 @@
 		app.directive("uiGridLovCellTemplate", function(uiGridConstants, uiGridEditConstants, $timeout){
 			return {
 				require: ['?^uiGrid', '?^uiGridRenderContainer'],
-				scope: true,
-				template: '<div class="ui-grid-cell-contents"><input ng-model="row.entity[col.name]"  /><button ng-click="showDialog()">Edit</button></div>',
+				
+				scope: true, // scope: true - create new scope by inheriting parent scope. Any Change made to new scope will not reflect back to parent scope. But any change in parent scope will reflect the new scope.
+				
+				template: '<div class="ui-grid-cell-contents"><input ng-model="row.entity[col.name]" /><button ng-click="showDialog()">Edit</button></div>',
 				controller: function($scope, uiGridConstants, uiGridEditConstants, $timeout, ngDialog, $element){
 					var field = $element.attr("field");
 					var dialog;
