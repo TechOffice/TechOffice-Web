@@ -1,0 +1,56 @@
+<!--
+    Hello World Example
+-->
+<html ng-app="app">
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+	<style>
+		.ajax-loader-mask {  
+			position:absolute;
+			top:0;
+			left:0;
+			width:100%;
+			height:100%;
+			z-index:1000;
+			background-color:grey;
+			opacity: .8;
+		 }
+
+		.ajax-loader {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin-left: -32px; /* -1 * image width / 2 */
+			margin-top: -32px;  /* -1 * image height / 2 */
+			display: block;     
+		}
+	</style>
+	<script>
+		var app = angular.module("app", []);
+		
+		app.directive("ajaxLoader", function(){
+			return {
+				template: '<div ng-if="ajaxLoading"><div class="ajax-loader-mask"><div class="ajax-loader">Loading</div></div><div>',
+				controller: function($scope, $rootScope){
+				
+				}
+			};
+		});
+		
+		app.controller("Ctrl", function($scope, $rootScope, $interval){
+			$scope.load = function(){
+				$rootScope.ajaxLoading = true;
+				$interval(function() {$rootScope.ajaxLoading = false;}, 1000);
+			};
+		});
+	</script>
+ </head>
+
+ <body>
+	<div ng-controller="Ctrl">
+		<button ng-click="load()">Load</button>
+	</div>
+	<ajax-loader></ajax-loader>
+ </body>
+
+</html>
