@@ -1,0 +1,76 @@
+<!doctype html>
+<html ng-app="app">
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+	<script src="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.min.css"/>
+	<style>
+		.grid {
+		  width: 500px;
+		  height: 250px;
+		}
+	</style>
+	<script>
+		// define app module
+		var app = angular.module('app', ['ui.grid', 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.cellNav', 'ui.grid.validate', 'ui.grid.selection']);
+		
+		app.controller("Ctrl", function($scope, $q){
+			$scope.gridOptions = {
+				enableSorting: true,
+				columnDefs: [
+					{ name:'firstName', field: 'firstName' },
+					{ name:'lastName', field: 'lastName', enableCellEdit: true},
+					{ name:'city', field: 'address.city'},
+					{ name:'getZip', field: 'getZip()', enableCellEdit:false}
+				],
+				data : [{
+					"firstName": "Test First Name",
+					"lastName": "Test Last Name",
+					"address": {street:"301 Dove Ave", city:"Laurel", zip:"39565"},
+					"getZip" : function() {return this.address.zip;}
+				}]
+			  };
+			
+			var columnDefs = $scope.gridOptions.columnDefs;
+			columnDefs = columnDefs || {};
+			columnDefs.unshift({
+				name: "markDelete", 
+				field: "markDelete", 
+				displayName: "", 
+				enableSorting: false,
+				cellTemplate: '<div class="ui-grid-cell-contents" ><div ng-if="grid.getCellValue(row, col)">Delete</div></div>'
+			});
+			
+			$scope.gridOptions.onRegisterApi = function (gridApi) {
+				$scope.gridApi = gridApi;
+				
+				gridApi.rowEdit.on.saveRow($scope, function(rowEntity){
+					var promise = $q.defer();
+					gridApi.rowEdit.setSavePromise( rowEntity, promise.promise );
+					promise.reject();
+					//promise.resolve();
+				});
+			}
+			
+			$scope.delete = function(){
+				var selectedRows = $scope.gridApi.selection.getSelectedRows();
+				if (selectedRows.length > 0){
+					var selectedRow = selectedRows[0];
+					selectedRow.markDelete = true;
+					$scope.gridApi.rowEdit.setRowsDirty([selectedRow]);
+				}
+			};
+			
+		});
+	</script>
+ </head>
+
+ <body>
+    <div ng-controller="Ctrl">
+		<button ng-click="delete()" >Delete</button>
+		<div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-selection ui-grid-row-edit class="grid"></div>
+    </div>
+ </body>
+
+
+</html>

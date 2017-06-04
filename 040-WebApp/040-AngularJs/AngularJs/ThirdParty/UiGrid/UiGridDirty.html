@@ -20,7 +20,7 @@
 	</style>
 	<script>
 		// define app module
-		var app = angular.module('app', ['ui.grid', 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.cellNav', 'ui.grid.validate']);
+		var app = angular.module('app', ['ui.grid', 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.cellNav', 'ui.grid.validate', 'ui.grid.selection']);
 		
 		// define alertService
 		app.factory("alertService", function($rootScope){
@@ -65,8 +65,7 @@
 			  
 			$scope.gridOptions.onRegisterApi = function(gridApi){
 				$scope.gridApi = gridApi;
-				gridApi.validate.on.validationFailed($scope,function(rowEntity, colDef, newValue, oldValue){
-				});
+				gridApi.validate.on.validationFailed($scope, function(rowEntity, colDef, newValue, oldValue){});
 				gridApi.rowEdit.on.saveRow($scope, function(rowEntity){
 					var promise = $q.defer();
 					gridApi.rowEdit.setSavePromise( rowEntity, promise.promise );
