@@ -12,9 +12,11 @@
 				scope: {
 					message: "=ngModel"
 				},
+				transclude: true,
 				controller: function($scope){
 					$scope.update = function(){
 						$scope.message = "b";
+						$scope.messageB = "b";
 					};
 				}
 			};
@@ -34,6 +36,7 @@
 		<div ng-controller="Ctrl">
 			<div> Message: {{message}}</div>
 			<div> Transclude Message : {{tMessage}} </div> 
+			<div> Message B : {{messageB}} </div> 
 			<example-directive ng-model="tMessage"></example-directive>
 		</div>
 	 </div>

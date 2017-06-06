@@ -1,11 +1,14 @@
-
+<!--
+	https://ui-router.github.io/ng1/docs/0.3.1/index.html#/api/ui.router
+-->
 <html>
  <head>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
-    <script>
-        var app = angular.module('app', []);
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
+	<script>
+		// define testApp module
+		var app = angular.module('test', ['ui.router']);
 		
-		// directive
 		app.directive('example1', function(){
 			return {
 				controller: function($scope){
@@ -61,23 +64,40 @@
 			};
 		});
 		
-		// controller
-		app.controller("Ctrl", function($scope){
-			console.log("Ctrl controller")
+		app.config(function($stateProvider){
+			$stateProvider.state({
+				name: "test1",
+				url: "/test1",
+				template: "<div>test 1</div>"
+			});
+			
+			$stateProvider.state({
+				name: "test2",
+				url: "/test2",
+				template: "<div>test 2<example1><example2></example2><example3></example3></example1></div>",
+				controller: function($scope, $rootScope){
+					console.log("test2 controller load");
+					$scope.$on('$viewContentLoaded', function(event){
+						console.log("test2 controller viewContentLoaded load");
+					});
+				}
+			});
 		});
 		
-    </script>
+	//	app.controller("Test2Controller	", function($scope, $rootScope){
+	//		console.log("test2 controller load");
+	//		$scope.$on('$viewContentLoaded', function(event){
+	//			console.log("test2 controller viewContentLoaded load");
+	//		});
+	//	})
+	</script>
  </head>
 
- <body>
-	<div ng-app="app">
-		<example1>
-			<div ng-controller="Ctrl">
-				<example2></example2>
-				<example3></example3>
-			</div>
-		</example>
-	 </div>
+ <body ng-app="test">
+	<a ui-sref="test1">test 1</a>
+	<a ui-sref="test2">test 2</a>
+	<ui-view></ui-view>
  </body>
+
 
 </html>
