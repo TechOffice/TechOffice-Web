@@ -8,7 +8,7 @@
 		// directive
 		app.directive('exampleDirective', function(){
 			return {
-				template: "<div><div>Message B: {{message}}</div><div><button ng-click='update()'>Update</button></div></div>",
+				template: "<div><div>{{message}}</div><div><button ng-click='update()'>Update</button></div></div>",
 				scope: {
 					message: "=ngModel"
 				},
@@ -32,10 +32,8 @@
  <body>
 	<div ng-app="app">
 		<div ng-controller="Ctrl">
-			<div> Message A: {{message}}</div>
-			<div> Message B: {{tMessage}} </div> 
-			<br/>
-			<div>Update Message B</div>
+			<div> Message: {{message}}</div>
+			<div> Transclude Message : {{tMessage}} </div> 
 			<example-directive ng-model="tMessage"></example-directive>
 		</div>
 	 </div>
