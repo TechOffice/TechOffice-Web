@@ -61,7 +61,7 @@
 							plain: true,
 							scope: $scope,
 							controller: function($scope){
-								
+								debugger;
 							}
 						});
 						dialog.closePromise.then(function (data) {
@@ -158,6 +158,8 @@
 		});
 
 		app.controller("Ctrl", function($scope){
+			$scope.form = {};
+			$scope.form.cValue = "Testing";
 			$scope.gridOptions = {
 				enableSorting: true,
 				columnDefs: [
@@ -177,6 +179,8 @@
 					}
 				]
 			  };
+			  $scope.gridOptions.form = $scope.form;
+
 
 		});
 	</script>
@@ -184,7 +188,8 @@
 
  <body>
     <div ng-controller="Ctrl">
-      <div id="grid1" ui-grid="gridOptions" ui-grid-edit class="grid"></div>
+		<div><input ng-model="form.cValue"/></div>
+		<div id="grid1" ui-grid="gridOptions" ui-grid-edit class="grid"></div>
     </div>
  </body>
 
