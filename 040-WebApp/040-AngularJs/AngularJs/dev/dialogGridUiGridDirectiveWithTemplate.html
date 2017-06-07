@@ -1,0 +1,223 @@
+<!doctype html>
+<!--
+	http://ui-grid.info/
+	
+	Note: <!doctype html> is required to add in the html document in order to avoid strange header height.
+	
+	
+-->
+<html ng-app="app">
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+	
+	<!-- UI Grid -->
+	<script src="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.min.css"/>
+	
+	<!-- ngDialog -->
+	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog.min.css">
+	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog-theme-default.min.css">
+	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog-theme-plain.min.css">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/js/ngDialog.min.js"></script>
+	
+	
+	<style>
+		.grid {
+		  width: 500px;
+		  height: 250px;
+		}
+		
+		.ngdialog.ngdialog-theme-plain.custom-width .ngdialog-content {
+			width: 70%;
+		}
+	</style>
+	
+	<script>
+		// define app module
+		var app = angular.module('app', ['ngDialog', 'ui.grid', 'ui.grid.edit', 'ui.grid.selection']);
+		
+		app.directive("uiGridLovCellTemplate", function(uiGridConstants, uiGridEditConstants, $timeout){
+			return {
+				require: ['?^uiGrid', '?^uiGridRenderContainer'],
+				
+				scope: true, // scope: true - create new scope by inheriting parent scope. Any Change made to new scope will not reflect back to parent scope. But any change in parent scope will reflect the new scope.
+				
+				template: '<div class="ui-grid-cell-contents"><input ng-model="row.entity[col.name]" /><button ng-click="showDialog()">Edit</button></div>',
+				controller: function($scope, uiGridConstants, uiGridEditConstants, $timeout, ngDialog, $element){
+					var field = $element.attr("field");
+					var dialog;
+				
+					var input = angular.element($element.children().children()[0]);
+					var button = angular.element($element.children().children()[1]);
+					
+					var showingDialog = false;
+					
+					// show dialog function
+					$scope.showDialog = function(){
+						showingDialog = true;
+						
+						dialogConfig = {
+							className: 'ngdialog-theme-plain custom-width',
+							plain: true,
+							scope: $scope
+						}
+						
+						// parenet Grid Options refer to the gridOption which passed to this grid 
+						var gridGridOptions = $scope.row.grid.options;
+						
+						// it allow the external template and controller to control the pop up dialog
+						if (gridGridOptions.popDialog){
+						
+							if (gridGridOptions.popDialog.template){
+								dialogConfig.template = gridGridOptions.popDialog.template;
+							}else {
+								dialogConfig.template = '<div ui-grid="gridOptions" ui-grid-selection class="grid"></div>';
+
+							}
+							
+							if (gridGridOptions.popDialog.controller){
+								dialogConfig.controller = gridGridOptions.popDialog.controller;
+							}else {
+								dialogConfig.controller = function($scope){};
+							}
+						}
+						
+						dialog = ngDialog.open(dialogConfig);
+						
+						dialog.closePromise.then(function (data) {
+							showingDialog = false;
+							input[0].focus();
+							if (data.value && data.value.entity){
+								$scope.row.entity[$scope.col.name] = data.value.entity[field];
+							}
+						});
+					};
+					
+					// grid option
+					$scope.gridOptions = {
+						enableRowSelection: true,
+						enableSorting: false,
+						columnDefs: [
+						  { name:'firstName', field: 'firstName' },
+						  { name:'lastName', field: 'lastName' }
+						],
+						data : [{
+							"firstName": "Test First Name",
+							"lastName": "Test Last Name"
+						}]
+					};
+					
+					$scope.gridOptions.onRegisterApi = function(gridApi){
+						gridApi.selection.on.rowSelectionChanged($scope,function(row){
+							if (dialog){
+								dialog.close(row);
+							}
+						});
+					}
+					
+					input.on("blur", function(event){
+						$timeout(function(){
+							if (!showingDialog){
+								$scope.stopEdit(event);
+							}
+						},300);
+					});
+					
+					$scope.$on(uiGridEditConstants.events.BEGIN_CELL_EDIT, function () {
+						input[0].focus()
+					});
+					
+					$scope.stopEdit = function (event) {
+						 $scope.$emit(uiGridEditConstants.events.END_CELL_EDIT);
+					};
+					
+				},
+				compile: function(){
+					return {
+						pre: function($scope, $elm, $attrs){
+							
+						},
+					
+						post: function($scope, $elm, $attrs, controllers){
+							var uiGridCtrl, renderContainerCtrl, ngModel;
+							if (controllers[0]) { uiGridCtrl = controllers[0]; }
+							if (controllers[1]) { renderContainerCtrl = controllers[1]; }
+							if (controllers[2]) { ngModel = controllers[2]; }
+							
+							var elements = $elm.children().children();
+							var input = angular.element(elements[0]);
+							var button = angular.element(elements[1]);
+							
+							input[0].style.width = ($elm[0].parentElement.offsetWidth - 1 - button[0].offsetWidth) + 'px';
+							
+							// destory event
+							$scope.$on('$destroy', function unbindEvents() {
+							  // unbind jquery events to prevent memory leaks
+							  $elm.off();
+							});
+							
+							// key down event
+							$elm.on('keydown', function (event) {
+								switch (event.keyCode) {
+								case uiGridConstants.keymap.ENTER: // Enter (Leave Field)
+								case uiGridConstants.keymap.TAB:   // TAB
+									event.stopPropagation();
+									event.preventDefault();
+									$scope.stopEdit(event);
+									break;
+								case uiGridConstants.keymap.ESC:	// ESC (Canel Edit)
+									event.stopPropagation();
+									$scope.$emit(uiGridEditConstants.events.CANCEL_CELL_EDIT);
+									break;
+								}
+							});
+						}
+					};
+				}
+			};
+		});
+
+		app.controller("Ctrl", function($scope){
+			$scope.form = {};
+			$scope.form.cValue = "Testing";
+			$scope.gridOptions = {
+				enableSorting: true,
+				columnDefs: [
+					{ name:'firstName', field: 'firstName' },
+					{ name:'lastName', field: 'lastName', enableCellEdit: true, 
+						editableCellTemplate: '<ui-grid-lov-cell-template field="firstName"></ui-grid-lov-cell-template>' 
+					}
+				],
+				data : [
+					{
+						"firstName": "Test First Name 1 1",
+						"lastName": "Test Last Name 1 2"
+					},
+					{
+						"firstName": "Test First Name 2 1",
+						"lastName": "Test Last Name 2 2",
+					}
+				]
+			  };
+			  $scope.gridOptions.form = $scope.form;
+			  
+			  $scope.gridOptions.popDialog = {
+				template: '<div><div><input ng-model="dialogValue"></div><div ui-grid="gridOptions" ui-grid-selection class="grid"></div></div>',
+				controller: function($scope){
+					$scope.dialogValue = "ok";
+				}
+			  };
+
+		});
+	</script>
+ </head>
+
+ <body>
+    <div ng-controller="Ctrl">
+		<div><input ng-model="form.cValue"/></div>
+		<div id="grid1" ui-grid="gridOptions" ui-grid-edit class="grid"></div>
+    </div>
+ </body>
+
+
+</html>
