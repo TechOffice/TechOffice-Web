@@ -18,10 +18,11 @@
 			app.directive("datepicker", function(){
 				return {
 					scope: {
-						dt: "=ngModel"
+						dt: "=ngModel",
 					},
 					template: '<p class="input-group"><input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup.opened" close-text="Close" /><span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button></span></p>',
 					controller: function($scope, uibDateParser){
+						debugger;
 						$scope.popup = {
 							opened: false
 						};
@@ -33,7 +34,9 @@
 				};
 			});
 			app.controller('ExampleCtrl', function ($scope, uibDateParser) {
-				
+				$scope.save = function(){
+					
+				};
 			});
 
 		</script>
@@ -42,13 +45,21 @@
 	<body >
 		<h1>AngularUI Bootstrap Datepicker</h1>
 		<div ng-controller="ExampleCtrl">
-		    <div class="row">
-				<div class="col-md-2">
-					<datepicker ng-model="dt"></datepicker>
+			<form ng-submit="save()">
+				<div class="row">
+					<div class="col-md-2">
+						<input required/>
+					</div>
+					<div class="col-md-2">
+						<datepicker ng-model="dt"></datepicker>
+					</div>
 				</div>
-			</div>
-          </span>
-
+				<div class="row">
+					<div class="col-md-2">
+						<button ng-click="save()">Save</button>
+					</div>
+				</div>
+			</form>
 		</div>
 	</body>
 </html>
