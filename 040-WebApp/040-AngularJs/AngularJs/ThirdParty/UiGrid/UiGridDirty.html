@@ -67,9 +67,9 @@
 				$scope.gridApi = gridApi;
 				gridApi.validate.on.validationFailed($scope, function(rowEntity, colDef, newValue, oldValue){});
 				gridApi.rowEdit.on.saveRow($scope, function(rowEntity){
-					var promise = $q.defer();
-					gridApi.rowEdit.setSavePromise( rowEntity, promise.promise );
-					promise.reject();
+					//var promise = $q.defer();
+					//gridApi.rowEdit.setSavePromise( rowEntity, promise.promise );
+					//promise.reject();
 					//promise.resolve();
 				});
 
