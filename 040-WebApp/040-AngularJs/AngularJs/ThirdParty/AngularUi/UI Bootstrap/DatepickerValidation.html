@@ -1,0 +1,102 @@
+<html ng-app="app">
+	<head>
+		<!-- AngularJs -->
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+		
+		<!-- Angular UI Bootstrap-->
+		<script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+		
+		<!-- Bootstrap-->
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		
+
+		<script>
+			var app = angular.module('app', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+			
+			app.directive("dateValidator", function(){
+				return {
+					require: "ngModel",
+					link: function(scope, elm, attrs, ngModel){
+						debugger;
+						function validate(value){
+							debugger;
+						}
+						
+						scope.$watch(function(){
+							return ngModel.$viewValue;
+						}, validate);
+					}
+				};
+			});
+			
+			app.directive("datepicker", function(){
+				return {
+					scope: {
+						dt: "=ngModel",
+					},
+					template: '<p class="input-group">'
+									+ '<input name="dateInput" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup.opened" close-text="Close" datepicker-options="dateOptions" ng-change="change()"/>'
+									+ '<span class="input-group-btn">'
+										+ '<button type="button" class="btn btn-default" ng-click="open()">'
+											+'<i class="glyphicon glyphicon-calendar"></i>'
+										+'</button>'
+									+'</span>'
+								+ '</p>',
+					controller: function($scope, $element, uibDateParser){
+						
+						var input = $element.find("input")[0];
+												
+						$scope.maxDate = new Date();
+						
+						$scope.dateOptions = {
+							formatYear: 'yy',
+							maxDate: new Date(2017, 5, 20),
+							minDate: new Date(),
+							startingDay: 1
+						};
+						
+						$scope.popup = {
+							opened: false
+						};
+						
+						$scope.open = function() {
+							$scope.popup.opened = true;
+						};
+					}
+				};
+			});
+			
+			
+			app.controller('ExampleCtrl', function ($scope, uibDateParser) {
+				$scope.save = function(){
+					$scope
+					debugger;
+				};
+			});
+
+		</script>
+	</head>
+	
+	<body >
+		<h1>AngularUI Bootstrap Datepicker</h1>
+		<div ng-controller="ExampleCtrl">
+			<form name="editForm" ng-submit="save()">
+				<div class="row">
+					<div class="col-md-2">
+						<input name="input1" required/>
+					</div>
+					<div class="col-md-2">
+						<datepicker ng-model="dt" date-validator></datepicker>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-2">
+						<button type="submit">Save</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>
