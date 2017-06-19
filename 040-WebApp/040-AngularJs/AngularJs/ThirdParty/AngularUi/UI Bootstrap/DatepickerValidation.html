@@ -11,22 +11,39 @@
 		<!-- Bootstrap-->
 		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 		
+		<style>
+			input.ng-invalid{
+				border: 1px solid red;
+			}
+		</style>
 
 		<script>
 			var app = angular.module('app', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 			
 			app.directive("dateValidator", function(){
 				return {
-					require: "ngModel",
-					link: function(scope, elm, attrs, ngModel){
-						debugger;
-						function validate(value){
-							debugger;
+					restrict: "A",	
+					require: 'ngModel',
+					link: function(scope, elm, attrs, ctrl){
+						ctrl.$validators.dateRange = function(modelValue, viewValue){
+						    if (ctrl.$isEmpty(modelValue)) {
+								return true;
+							}
+							
+							if (scope.maxDate){
+								if (modelValue > scope.maxDate){
+									return false;
+								}
+							}
+							
+							if (scope.minDate){
+								if (modelValue < scope.minDate){
+									return false;
+								}
+							}
+							
+							return true;
 						}
-						
-						scope.$watch(function(){
-							return ngModel.$viewValue;
-						}, validate);
 					}
 				};
 			});
@@ -35,9 +52,11 @@
 				return {
 					scope: {
 						dt: "=ngModel",
+						maxDate: "=maxDate",
+						minDate: "=minDate"
 					},
 					template: '<p class="input-group">'
-									+ '<input name="dateInput" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup.opened" close-text="Close" datepicker-options="dateOptions" ng-change="change()"/>'
+									+ '<input name="dateInput" type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup.opened" close-text="Close" datepicker-options="dateOptions" ng-change="change()" date-validator/>'
 									+ '<span class="input-group-btn">'
 										+ '<button type="button" class="btn btn-default" ng-click="open()">'
 											+'<i class="glyphicon glyphicon-calendar"></i>'
@@ -45,17 +64,21 @@
 									+'</span>'
 								+ '</p>',
 					controller: function($scope, $element, uibDateParser){
-						
+
 						var input = $element.find("input")[0];
-												
-						$scope.maxDate = new Date();
 						
 						$scope.dateOptions = {
 							formatYear: 'yy',
-							maxDate: new Date(2017, 5, 20),
-							minDate: new Date(),
 							startingDay: 1
 						};
+						
+						if ($scope.minDate){
+							$scope.dateOptions.minDate = $scope.minDate;
+						}
+						
+						if ($scope.maxDate){
+							$scope.dateOptions.maxDate = $scope.maxDate;
+						}
 						
 						$scope.popup = {
 							opened: false
@@ -70,9 +93,9 @@
 			
 			
 			app.controller('ExampleCtrl', function ($scope, uibDateParser) {
+				$scope.now = new Date();
+				
 				$scope.save = function(){
-					$scope
-					debugger;
 				};
 			});
 
@@ -85,10 +108,10 @@
 			<form name="editForm" ng-submit="save()">
 				<div class="row">
 					<div class="col-md-2">
-						<input name="input1" required/>
+						<input type="text" ng-model="input1" required/>
 					</div>
 					<div class="col-md-2">
-						<datepicker ng-model="dt" date-validator></datepicker>
+						<datepicker ng-model="dt" max-date="now"></datepicker>
 					</div>
 				</div>
 				<div class="row">

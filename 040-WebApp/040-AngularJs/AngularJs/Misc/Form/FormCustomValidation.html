@@ -17,7 +17,7 @@
 				link: function(scope, elm, attrs, form){
 					elm.bind('submit', function(event) {
 						debugger
-						if (form.$isValue){
+						if (form.$isInvalid){
 							event.preventDefault();
 						}
 					});
