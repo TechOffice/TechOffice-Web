@@ -1,0 +1,72 @@
+<!--
+    AngularJs Controller Example
+    1. define module and controller 
+    2. view get data from controller 
+-->
+<html>
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    
+	
+	<script>
+        // define testApp module
+        var app = angular.module('app', []);
+		
+		app.directive("myDirective", function(){
+			return {
+				compile: function(elm, attrs){
+					console.log("my directive");
+				}
+			};
+		});
+		
+		
+		app.config(function($provide){
+			$provide.decorator("ngRepeatDirective", 
+				function($delegate){
+					console.log("decorate ngRepeatDirective");
+					var directive = $delegate[0];
+					var originalCompile = directive.compile;
+					directive.controller = function($scope, $element){
+						$scope.$watch('$$childTail.$last', function(newVal, oldVal) {
+							if (newVal){
+								debugger;
+								$element;
+								$scope;
+							}
+						});
+					};
+					directive.compile = function(elm, attrs){
+						var r = originalCompile.apply(this, arguments);
+						return {
+							post: function(scope, elm, attrs){
+								console.log("before ng-repeat");
+								r.apply(this, arguments);
+								console.log("after ng-repeat");
+							}
+						};
+					};
+					return $delegate;
+				}
+			);
+		});
+		
+
+		
+		app.controller("Ctrl", function($scope, $element){
+		});
+		
+    </script>
+ </head>
+
+ <body>
+	<div ng-app="app">
+		<div ng-controller="Ctrl">
+			<div ng-repeat="n in [42, 42, 43, 43] track by $index">
+				{{n}}
+			</div>
+		</div>
+	 </div>
+ </body>
+
+</html>
