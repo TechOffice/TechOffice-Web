@@ -9,37 +9,33 @@
     
 	
 	<script>
-        // define testApp module
+        
         var app = angular.module('app', []);
-		
-		app.directive("myDirective", function(){
-			return {
-				compile: function(elm, attrs){
-					console.log("my directive");
-				}
-			};
-		});
-		
-		
+				
 		app.config(function($provide){
-			$provide.decorator("ngRepeatDirective", 
+			$provide.decorator("ngDisabledDirective", 
 				function($delegate){
-					console.log("decorate ngRepeatDirective");
 					var directive = $delegate[0];
 					var originalCompile = directive.compile;
-					directive.controller = function($scope, $element){
-						$scope.$watch('$$childTail.$last', function(newVal, oldVal) {
-							if (newVal){
-							}
-						});
-					};
 					directive.compile = function(elm, attrs){
 						var r = originalCompile.apply(this, arguments);
 						return {
 							post: function(scope, elm, attrs){
-								console.log("before ng-repeat");
+								console.log("before ng-disabled");
 								r.apply(this, arguments);
-								console.log("after ng-repeat");
+								
+								// custom function
+								attrs.$observe("disabled", function(value){
+									if (value){
+										console.log("ng-disabled set the element to be disabled");
+										elm.removeAttr("disabled");
+									}else{
+										console.log("ng-disabled set the element to be enabled");
+										elm.attr("disabled", "true");
+									}
+								});
+								
+								console.log("after ng-disabled");
 							}
 						};
 					};
@@ -47,8 +43,6 @@
 				}
 			);
 		});
-		
-
 		
 		app.controller("Ctrl", function($scope, $element){
 		});
@@ -59,9 +53,8 @@
  <body>
 	<div ng-app="app">
 		<div ng-controller="Ctrl">
-			<div ng-repeat="n in [42, 42, 43, 43] track by $index">
-				{{n}}
-			</div>
+			<input ng-model="test" ng-disabled="false"/>
+			<input ng-model="test" ng-disabled="true"/>
 		</div>
 	 </div>
  </body>
