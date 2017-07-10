@@ -1,0 +1,68 @@
+<!--
+    AngularJs Controller Example
+    1. define module and controller 
+    2. view get data from controller 
+-->
+<html>
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    	
+	<script>
+        // define testApp module
+        var app = angular.module('app', []);
+		
+		app.directive("formValidate", function(){
+			return {
+				require: "^form",
+				link: function(scope, elm, attrs, form){
+					elm.bind('submit', function(event) {
+						debugger
+						if (form.$isInvalid){
+							event.preventDefault();
+						}
+					});
+				}
+			};
+		});
+		
+		app.directive("customValidator", function(){
+			return {
+				require: "ngModel",
+				link: function(scope, elm, attrs, ctrl){
+					ctrl.$validators.customValidator =  function(modelValue, viewValue){
+						if (ctrl.$isEmpty(modelValue)) {
+							return true;
+						}
+						if (viewValue == "abc"){
+							debugger;
+							return false;
+						}
+						return true;
+					};
+				}
+			};
+		});
+		
+		
+		app.controller("TestController", function($scope){
+			$scope.update = function(user){
+				$scope;
+				debugger;
+			}
+		});
+		
+    </script>
+ </head>
+
+ <body>
+	<div ng-app="app">
+		<div ng-controller="TestController">
+			<form name="form" ng-submit="update(user)" novalidate form-validate>
+				<label for="username">Name: <input type="text" ng-model="user.name1" name="name" id="username" custom-validator required /></label><br />
+				<button type="submit" >Save</button>
+			</form>
+		</div>
+	 </div>
+ </body>
+
+</html>

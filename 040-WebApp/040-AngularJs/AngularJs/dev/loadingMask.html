@@ -40,7 +40,7 @@
 		app.controller("Ctrl", function($scope, $rootScope, $interval){
 			$scope.load = function(){
 				$rootScope.ajaxLoading = true;
-				$interval(function() {$rootScope.ajaxLoading = false;}, 1000);
+				$interval(function() {$rootScope.ajaxLoading = false;}, 100000);
 			};
 		});
 	</script>
@@ -49,6 +49,7 @@
  <body>
 	<div ng-controller="Ctrl">
 		<button ng-click="load()">Load</button>
+		<input/>
 	</div>
 	<ajax-loader></ajax-loader>
  </body>
