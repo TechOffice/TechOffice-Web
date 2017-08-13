@@ -1,0 +1,39 @@
+<!--
+    AngularJs Controller Example
+    1. define module and controller 
+    2. view get data from controller 
+-->
+<html>
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    
+	
+	<script>
+        
+        var app = angular.module('app', []);
+				
+
+		
+		app.controller("Ctrl", function($scope, $element){
+			debugger;
+
+			
+			$scope.showButtonFn = function(){
+				$scope.showButton = true; 
+			};
+		});
+		
+    </script>
+ </head>
+
+ <body>
+	<div ng-app="app">
+		<div ng-controller="Ctrl">
+			<div><div></div><div><div></div></div></div>
+			<button ng-click="showButtonFn()">Show</button>
+			<button ng-if="showButton">Edit</button>
+		</div>
+	 </div>
+ </body>
+
+</html>
