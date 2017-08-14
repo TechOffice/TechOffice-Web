@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/0.20.17/system.js"></script>
+		<script>
+			System.config({
+				baseURL: './',
+				// or 'traceur' or 'typescript'
+				transpiler: 'Babel',
+				// or traceurOptions or typescriptOptions
+				babelOptions: {
+					presets: ['es2015']
+				}
+			});
+			System.import('boot.js');
+		</script>
+	</head>
+	
+	<body>
+	
+	</body>
+</html>
