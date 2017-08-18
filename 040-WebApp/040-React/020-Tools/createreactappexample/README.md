@@ -9,3 +9,8 @@ npm install -g create-react-app
 ```
 create-react-app createreactappexample
 ```
+
+3. Start Web App
+```
+npm start
+```
