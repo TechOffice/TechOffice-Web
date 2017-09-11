@@ -1,0 +1,56 @@
+<!--
+    AngularJs Controller Example
+    1. define module and controller 
+    2. view get data from controller 
+-->
+<html>
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    
+	<style>
+		fieldset:disabled button{
+			display: none;
+		}
+	</style>
+	
+	<script>
+        
+        var app = angular.module('app', []);
+				
+
+		app.controller("Ctrl", function($scope, $element){
+			$scope.isViewMode = true;
+			
+			$scope.edit = function(){
+				$scope.isViewMode = false;
+			};
+			
+			$scope.disable = function(){
+				$scope.isViewMode = true;
+			};
+		});
+		
+    </script>
+ </head>
+
+ <body>
+	<div ng-app="app">
+		<div ng-controller="Ctrl">
+			<button ng-click="edit()">Edit</button>
+			<button ng-click="disable()">Disabled</button>
+			<fieldset ng-disabled="isViewMode">
+				<div>
+					<input ng-disabed="true"/>
+					<input/>
+					<input/>
+					<button>Save</button>
+					<select>
+						<option>abc</option>
+					</select>
+				</div>
+			</fieldset>
+		</div>
+	 </div>
+ </body>
+
+</html>
