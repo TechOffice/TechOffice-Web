@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<script>
+			function drag(dragevent){
+				console.log("dragging");
+				dragevent.dataTransfer.setData("data", "Drag it!");
+			}
+			
+			function allowDrop(event){
+			    event.preventDefault();
+			}
+			
+			function drop(event){
+				event.preventDefault();
+				var data = event.dataTransfer.getData("data");
+				event.target.append(data);
+			}
+		</script>
+	</head>
+	
+	<body>
+		<div draggable="true" ondragstart="drag(event)">Drag It!</div>
+		<div ondragover="allowDrop(event)" ondrop="drop(event)" style="border: 1px solid black; width: 200px; height: 100px"></div>
+	</body>
+</html>
