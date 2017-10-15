@@ -6,9 +6,6 @@
 ## CSS Framework
 * [020-Bootstrap](020-Bootstrap/) 
 
-## AMD (Asynchronous Module Definition) Framework
-* RequireJs
-
 ## MVW (Model View Whatever) Framework
 * [030-Angular](030-Angular/)    
 * [040-React](040-React/)      
