@@ -8824,8 +8824,16 @@ var App = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'row' },
-          _react2.default.createElement(_Sidebar2.default, null),
-          _react2.default.createElement(_Designer2.default, null)
+          _react2.default.createElement(
+            'div',
+            { className: 'col-md-3' },
+            _react2.default.createElement(_Sidebar2.default, null)
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'col-md-6' },
+            _react2.default.createElement(_Designer2.default, null)
+          )
         )
       );
     }
@@ -28975,6 +28983,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactBootstrap = __webpack_require__(91);
 
+var _Draggable = __webpack_require__(291);
+
+var _Draggable2 = _interopRequireDefault(_Draggable);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28997,11 +29009,24 @@ var Sidebar = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'col-md-3' },
+        { className: 'row' },
         _react2.default.createElement(
-          _reactBootstrap.ControlLabel,
-          null,
-          'Sidebar: '
+          'div',
+          { className: 'col-md-12' },
+          _react2.default.createElement(
+            _reactBootstrap.ControlLabel,
+            null,
+            'Sidebar: '
+          ),
+          _react2.default.createElement(
+            _Draggable2.default,
+            null,
+            _react2.default.createElement(
+              'span',
+              null,
+              'Testing'
+            )
+          )
         )
       );
     }
@@ -40232,11 +40257,15 @@ var Designer = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'col-md-3' },
+        { className: 'row' },
         _react2.default.createElement(
-          _reactBootstrap.ControlLabel,
-          null,
-          'Designer: '
+          'div',
+          { className: 'col-md-12' },
+          _react2.default.createElement(
+            _reactBootstrap.ControlLabel,
+            null,
+            'Designer: '
+          )
         )
       );
     }
@@ -40246,6 +40275,65 @@ var Designer = function (_Component) {
 }(_react.Component);
 
 exports.default = Designer;
+
+/***/ }),
+/* 291 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Draggable = function (_Component) {
+  _inherits(Draggable, _Component);
+
+  function Draggable(props) {
+    _classCallCheck(this, Draggable);
+
+    var _this = _possibleConstructorReturn(this, (Draggable.__proto__ || Object.getPrototypeOf(Draggable)).call(this, props));
+
+    _this.tag = "div";
+    return _this;
+  }
+
+  _createClass(Draggable, [{
+    key: "onDragStart",
+    value: function onDragStart(event) {
+      var children = this.props.children;
+      event.dataTransfer.setData("data", children);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(
+        "div",
+        { draggable: "true", onDragStart: this.onDragStart.bind(this) },
+        this.props.children
+      );
+    }
+  }]);
+
+  return Draggable;
+}(_react.Component);
+
+exports.default = Draggable;
 
 /***/ })
 /******/ ]);

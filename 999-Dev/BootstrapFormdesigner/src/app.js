@@ -8,8 +8,12 @@ class App extends Component{
     return (
       <form>
         <div className="row">
-          <Sidebar/>
-          <Designer/>
+          <div className="col-md-3">
+            <Sidebar/>
+          </div>
+          <div className="col-md-6">
+            <Designer/>
+          </div>
         </div>
       </form>
     );
