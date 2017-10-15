@@ -1,0 +1,22 @@
+{
+  "name": "bootstrap-formdesigner",
+  "homepage": "https://github.com/TechOffice/TechOffice-NodeJs",
+  "authors": [
+    "imben1109 <imben1109@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "bootstrap": "^3.3.7",
+    "jquery-ui": "^1.12.1"
+  }
+}
