@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-	entry: './src/app.js',
+	entry: './src/App.js',
 	output: {
 		path: path.resolve(__dirname, 'bin'),
 		filename: 'app.bundle.js'
@@ -12,10 +12,10 @@ module.exports = {
 				test: /\.js$/,
 				loader: 'babel-loader',
 				query: {
-                    presets: ['es2015']
+                    presets: ['es2015', 'react']
                 },
 				exclude: [
-					/bower_components/, 
+					/bower_components/,
 					/node_modules/
 				]
 			}
@@ -24,9 +24,9 @@ module.exports = {
 	resolve: {
         modules: [
 			"web_modules",
-			"node_modules", 
+			"node_modules",
 			"bower_components"
 		],
-		descriptionFiles: ['bower.json']
+		descriptionFiles: ['bower.json', 'package.json']
     }
-}; 
+};
