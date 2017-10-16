@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <script src="https://unpkg.com/react@15.3.2/dist/react.min.js"></script>
+        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.min.js"></script>
+        <script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+    </head>
+
+    <body>
+        <div id="container"></div>
+        <script type="text/babel">
+
+			class Container extends React.Component {
+			
+				constructor(props){
+					super(props);
+					this.add = this.add.bind(this);
+					this.childrens = [];
+					this.state = {childrens: this.childrens, desc: "testing"};
+				}
+				
+				add(e){
+					this.childrens.push(<div>Testing</div>);
+					this.setState({childrens: this.childrens});
+				}
+				
+				render(){
+					return (
+						<div>
+							<div><button onClick={this.add} >Add</button></div>
+							<div>{this.state.desc}</div>
+							<ui>{this.state.childrens}</ui>
+						</div>
+					);
+				}
+			};
+
+			ReactDOM.render(
+				<Container/>,
+				document.getElementById('container')
+			);
+        </script>
+    </body>
+</html>

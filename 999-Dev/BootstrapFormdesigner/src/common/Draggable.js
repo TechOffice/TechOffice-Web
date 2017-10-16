@@ -4,18 +4,19 @@ export default class Draggable extends Component{
 
   constructor(props){
     super(props);
-    this.tag = "div";
   }
 
   onDragStart(event){
     var children = this.props.children;
-    event.dataTransfer.setData("data", children);
+    if (this.data){
+      event.dataTransfer.setData("data", JSON.stringify(this.data));
+    }
   }
 
   render(){
     return (
       <div draggable="true" onDragStart={this.onDragStart.bind(this)}>
-        {this.props.children}
+        {this.desc}
       </div>
     );
   }
