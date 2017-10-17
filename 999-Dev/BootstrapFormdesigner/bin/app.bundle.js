@@ -8810,7 +8810,6 @@ var Draggable = function (_Component) {
   _createClass(Draggable, [{
     key: "onDragStart",
     value: function onDragStart(event) {
-      var children = this.props.children;
       if (this.data) {
         event.dataTransfer.setData("data", JSON.stringify(this.data));
       }
@@ -40461,7 +40460,7 @@ var Droppable = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Droppable.__proto__ || Object.getPrototypeOf(Droppable)).call(this, props));
 
     _this.childrens = [];
-    _this.childrens.push(_this.props.children);
+    _this.state = { childrens: _this.childrens };
     return _this;
   }
 
@@ -40473,28 +40472,24 @@ var Droppable = function (_Component) {
   }, {
     key: "onDrop",
     value: function onDrop(event) {
-      debugger;
       event.preventDefault();
-      var data = event.dataTransfer.getData("data");
-      this.childrens.push(_react2.default.createElement(
-        "div",
-        null,
-        "testing"
-      ));
+      var data = JSON.parse(event.dataTransfer.getData("data"));
+      var element = _react2.default.createElement(data.type, data.props);
+      this.childrens.push(element);
+      this.setState({ childrens: this.childrens });
     }
   }, {
     key: "render",
     value: function render() {
-      this.childrens.push(_react2.default.createElement(
-        "div",
-        { key: "" },
-        "testing"
-      ));
       return _react2.default.createElement(
         "div",
         { style: { height: this.height, width: this.width },
           onDragOver: this.allowDrop.bind(this), onDrop: this.onDrop.bind(this) },
-        this.childrens
+        _react2.default.createElement(
+          "div",
+          null,
+          this.state.childrens
+        )
       );
     }
   }]);

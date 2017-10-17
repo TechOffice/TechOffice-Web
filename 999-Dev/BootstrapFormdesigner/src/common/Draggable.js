@@ -7,7 +7,6 @@ export default class Draggable extends Component{
   }
 
   onDragStart(event){
-    var children = this.props.children;
     if (this.data){
       event.dataTransfer.setData("data", JSON.stringify(this.data));
     }

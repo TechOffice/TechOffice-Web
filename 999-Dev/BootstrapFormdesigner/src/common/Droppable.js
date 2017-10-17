@@ -5,7 +5,7 @@ export default class Droppable extends Component{
   constructor(props){
     super(props);
     this.childrens = [];
-    this.childrens.push(this.props.children);
+    this.state = {childrens: this.childrens};
   }
 
   allowDrop(event){
@@ -13,18 +13,18 @@ export default class Droppable extends Component{
   }
 
   onDrop(event){
-    debugger;
     event.preventDefault();
-    var data = event.dataTransfer.getData("data");
-    this.childrens.push(<div>testing</div>);
+    var data = JSON.parse(event.dataTransfer.getData("data"));
+    var element = React.createElement(data.type, data.props);
+    this.childrens.push(element);
+    this.setState({childrens: this.childrens});
   }
 
   render(){
-    this.childrens.push(<div key="">testing</div>);
     return (
       <div style={{height: this.height, width: this.width}}
         onDragOver={this.allowDrop.bind(this)} onDrop={this.onDrop.bind(this)}>
-        {this.childrens}
+        <div>{this.state.childrens}</div>
       </div>
     );
   }
