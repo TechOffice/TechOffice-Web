@@ -1,0 +1,43 @@
+<html>
+    <head>
+		<!-- React.js should be used for PropTypes. Otherwise, the warnning message cannot be shown -->
+        <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.min.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js" charset="utf-8"></script>
+		<script src="https://unpkg.com/prop-types/prop-types.min.js"></script>
+
+    </head>
+
+    <body>
+        <div id="container"></div>
+        <script type="text/babel">
+			
+			class Element extends React.Component {
+				render() {
+					return (<div>Testing</div>);
+				}
+			};
+			
+			function Wrap(Element){
+				return class extends React.Component {
+					render() {
+						return (
+							<div>
+								<div>Before</div>
+								<Element/>
+								<div>Before</div>
+							</div>
+						);
+					}
+				};
+			}
+
+			const WrapElement = Wrap(Element);
+			
+			ReactDOM.render(
+				<WrapElement/>,
+				document.getElementById('container')
+			);
+        </script>
+    </body>
+</html>
