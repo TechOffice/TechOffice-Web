@@ -5,13 +5,9 @@ export default class SidebarInputControl extends Draggable{
 
   constructor(props){
     super(props);
-    this.desc = "Input";
+    this.desc = "testing";
     this.data = {
-      type: "input",
-      props: {
-        className: "form-control",
-        disabled: true
-      }
+      type: "input"
     };
   }
 

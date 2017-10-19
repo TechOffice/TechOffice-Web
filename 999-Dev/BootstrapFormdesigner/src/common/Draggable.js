@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import DragDropManager from '../DragDropManager';
 
 export default class Draggable extends Component{
 
@@ -10,7 +9,6 @@ export default class Draggable extends Component{
   onDragStart(event){
     if (this.data){
       event.dataTransfer.setData("data", JSON.stringify(this.data));
-      DragDropManager.getInstance().setDraggable(this);
     }
   }
 
