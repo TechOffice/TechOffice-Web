@@ -8790,6 +8790,10 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _DragDropManager = __webpack_require__(298);
+
+var _DragDropManager2 = _interopRequireDefault(_DragDropManager);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8808,18 +8812,19 @@ var Draggable = function (_Component) {
   }
 
   _createClass(Draggable, [{
-    key: "onDragStart",
+    key: 'onDragStart',
     value: function onDragStart(event) {
       if (this.data) {
         event.dataTransfer.setData("data", JSON.stringify(this.data));
+        _DragDropManager2.default.getInstance().setDraggable(this);
       }
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "div",
-        { draggable: "true", onDragStart: this.onDragStart.bind(this) },
+        'div',
+        { draggable: 'true', onDragStart: this.onDragStart.bind(this) },
         this.desc
       );
     }
@@ -29048,6 +29053,18 @@ var _SidebarInputControl = __webpack_require__(291);
 
 var _SidebarInputControl2 = _interopRequireDefault(_SidebarInputControl);
 
+var _SidebarColControl = __webpack_require__(295);
+
+var _SidebarColControl2 = _interopRequireDefault(_SidebarColControl);
+
+var _SidebarRowControl = __webpack_require__(296);
+
+var _SidebarRowControl2 = _interopRequireDefault(_SidebarRowControl);
+
+var _SidebarLabelControl = __webpack_require__(297);
+
+var _SidebarLabelControl2 = _interopRequireDefault(_SidebarLabelControl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29079,6 +29096,9 @@ var Sidebar = function (_Component) {
             null,
             'Sidebar: '
           ),
+          _react2.default.createElement(_SidebarRowControl2.default, null),
+          _react2.default.createElement(_SidebarColControl2.default, null),
+          _react2.default.createElement(_SidebarLabelControl2.default, null),
           _react2.default.createElement(_SidebarInputControl2.default, null)
         )
       );
@@ -40304,9 +40324,13 @@ var SidebarInputControl = function (_Draggable) {
 
     var _this = _possibleConstructorReturn(this, (SidebarInputControl.__proto__ || Object.getPrototypeOf(SidebarInputControl)).call(this, props));
 
-    _this.desc = "testing";
+    _this.desc = "Input";
     _this.data = {
-      type: "input"
+      type: "input",
+      props: {
+        className: "form-control",
+        disabled: true
+      }
     };
     return _this;
   }
@@ -40437,11 +40461,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _DragDropManager = __webpack_require__(298);
+
+var _DragDropManager2 = _interopRequireDefault(_DragDropManager);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40459,37 +40489,47 @@ var Droppable = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Droppable.__proto__ || Object.getPrototypeOf(Droppable)).call(this, props));
 
+    _this.childrenSeq = 0;
     _this.childrens = [];
     _this.state = { childrens: _this.childrens };
     return _this;
   }
 
   _createClass(Droppable, [{
-    key: "allowDrop",
+    key: 'allowDrop',
     value: function allowDrop(event) {
       event.preventDefault();
     }
   }, {
-    key: "onDrop",
+    key: 'onDrop',
     value: function onDrop(event) {
+      event.stopPropagation();
       event.preventDefault();
       var data = JSON.parse(event.dataTransfer.getData("data"));
-      var element = _react2.default.createElement(data.type, data.props);
+      data.props = data.props || {};
+      var element = null;
+      if (data.type == 'div') {
+        element = _react2.default.createElement(Droppable, _extends({ key: this.childrenSeq }, data.props));
+      } else {
+        data.props.key = this.childrenSeq;
+        element = _react2.default.createElement(data.type, data.props);
+      }
+      this.childrenSeq++;
+
       this.childrens.push(element);
       this.setState({ childrens: this.childrens });
+
+      var manager = _DragDropManager2.default;
+      var draggable = _DragDropManager2.default.getInstance().getDraggable();
     }
   }, {
-    key: "render",
+    key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        "div",
-        { style: { height: this.height, width: this.width },
-          onDragOver: this.allowDrop.bind(this), onDrop: this.onDrop.bind(this) },
-        _react2.default.createElement(
-          "div",
-          null,
-          this.state.childrens
-        )
+        'div',
+        _extends({ style: { height: this.height, width: this.width },
+          onDragOver: this.allowDrop.bind(this), onDrop: this.onDrop.bind(this) }, this.props),
+        this.state.childrens
       );
     }
   }]);
@@ -40498,6 +40538,194 @@ var Droppable = function (_Component) {
 }(_react.Component);
 
 exports.default = Droppable;
+
+/***/ }),
+/* 295 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Draggable2 = __webpack_require__(136);
+
+var _Draggable3 = _interopRequireDefault(_Draggable2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SidebarColControl = function (_Draggable) {
+  _inherits(SidebarColControl, _Draggable);
+
+  function SidebarColControl(props) {
+    _classCallCheck(this, SidebarColControl);
+
+    var _this = _possibleConstructorReturn(this, (SidebarColControl.__proto__ || Object.getPrototypeOf(SidebarColControl)).call(this, props));
+
+    _this.desc = "Col";
+    _this.data = {
+      type: "div",
+      props: {
+        style: { minHeight: 10, minWidth: 10, border: "1px solid" },
+        className: "col-md-1"
+      }
+    };
+    return _this;
+  }
+
+  return SidebarColControl;
+}(_Draggable3.default);
+
+exports.default = SidebarColControl;
+
+/***/ }),
+/* 296 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Draggable2 = __webpack_require__(136);
+
+var _Draggable3 = _interopRequireDefault(_Draggable2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SidebarRowControl = function (_Draggable) {
+  _inherits(SidebarRowControl, _Draggable);
+
+  function SidebarRowControl(props) {
+    _classCallCheck(this, SidebarRowControl);
+
+    var _this = _possibleConstructorReturn(this, (SidebarRowControl.__proto__ || Object.getPrototypeOf(SidebarRowControl)).call(this, props));
+
+    _this.desc = "Row";
+    _this.data = {
+      type: "div",
+      props: {
+        style: { minHeight: 10, minWidth: 10, border: "1px solid" },
+        className: "row"
+      }
+    };
+    return _this;
+  }
+
+  return SidebarRowControl;
+}(_Draggable3.default);
+
+exports.default = SidebarRowControl;
+
+/***/ }),
+/* 297 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Draggable2 = __webpack_require__(136);
+
+var _Draggable3 = _interopRequireDefault(_Draggable2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SidebarLabelControl = function (_Draggable) {
+  _inherits(SidebarLabelControl, _Draggable);
+
+  function SidebarLabelControl(props) {
+    _classCallCheck(this, SidebarLabelControl);
+
+    var _this = _possibleConstructorReturn(this, (SidebarLabelControl.__proto__ || Object.getPrototypeOf(SidebarLabelControl)).call(this, props));
+
+    _this.desc = "Label";
+    _this.data = {
+      type: "label",
+      props: {
+        children: "label"
+      }
+    };
+    return _this;
+  }
+
+  return SidebarLabelControl;
+}(_Draggable3.default);
+
+exports.default = SidebarLabelControl;
+
+/***/ }),
+/* 298 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {
+  instance: null,
+  getInstance: function getInstance() {
+    if (!this.instance) {
+      var me = this;
+      this.instance = {
+        draggable: null,
+        doppable: null,
+        getDraggable: function getDraggable() {
+          return this.draggable;
+        },
+        setDraggable: function setDraggable(draggable) {
+          this.draggable = draggable;
+        },
+        getDroppable: function getDroppable() {
+          return thisdroppable;
+        },
+        setDroppable: function setDroppable(droppable) {
+          this.droppable = droppable;
+        }
+      };
+    }
+    return this.instance;
+  }
+};
 
 /***/ })
 /******/ ]);
