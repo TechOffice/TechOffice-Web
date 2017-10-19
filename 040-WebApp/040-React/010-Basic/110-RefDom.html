@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <script src="https://unpkg.com/react@15.3.2/dist/react.min.js"></script>
+        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.min.js"></script>
+        <script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+    </head>
+
+    <body>
+        <div id="container"></div>
+        <script type="text/babel">
+
+			class Container extends React.Component {
+			
+				constructor(props){
+					super(props);
+					this.inputFocus = this.inputFocus.bind(this);
+					this.input = null
+				}
+				
+				inputFocus(event){
+					this.refs.input.focus
+				}
+								
+				render(){
+					return (
+						<div>
+							<input ref="input"/>
+							<button onClick={this.inputFocus}>Get Focus on Input</button>
+						</div>
+					);
+				}
+			};
+
+			ReactDOM.render(
+				<Container/>,
+				document.getElementById('container')
+			);
+        </script>
+    </body>
+</html>
