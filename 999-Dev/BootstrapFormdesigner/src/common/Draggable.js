@@ -5,20 +5,21 @@ export default class Draggable extends Component{
 
   constructor(props){
     super(props);
+	this.control = (
+	  <div draggable="true" onDragStart={this.onDragStart.bind(this)}>
+        testing
+      </div>
+	);
+	this.state = {control: this.control};
   }
 
   onDragStart(event){
-    if (this.data){
-      event.dataTransfer.setData("data", JSON.stringify(this.data));
-      DragDropManager.getInstance().setDraggable(this);
+    if (this.control){
+      DragDropManager.getInstance().setDraggable({type:"div"});
     }
   }
 
   render(){
-    return (
-      <div draggable="true" onDragStart={this.onDragStart.bind(this)}>
-        {this.desc}
-      </div>
-    );
+    return (this.control);
   }
 }

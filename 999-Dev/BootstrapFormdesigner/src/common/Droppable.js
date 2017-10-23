@@ -8,31 +8,25 @@ export default class Droppable extends Component{
     this.childrenSeq = 0;
     this.childrens = [];
     this.state = {childrens: this.childrens};
+	this.seq = 0;
   }
-
+  
+  getSeq(){
+	this.seq = this.seq + 1;
+	return this.seq;
+  }
+  
   allowDrop(event){
     event.preventDefault();
   }
 
   onDrop(event){
     event.stopPropagation();
-    event.preventDefault();
-    var data = JSON.parse(event.dataTransfer.getData("data"));
-    data.props = data.props || {};
-    var element = null;
-    if (data.type == 'div'){
-      element = <Droppable key={this.childrenSeq} {...data.props}/>
-    }else {
-      data.props.key = this.childrenSeq;
-      element = React.createElement(data.type, data.props);
-    }
-    this.childrenSeq++;
-
-    this.childrens.push(element);
-    this.setState({childrens: this.childrens});
-
-    var manager = DragDropManager;
+    event.preventDefault()
     var draggable = DragDropManager.getInstance().getDraggable();
+	
+	this.childrens.push(clonedElement);
+    this.setState({childrens: this.childrens});
   }
 
   render(){

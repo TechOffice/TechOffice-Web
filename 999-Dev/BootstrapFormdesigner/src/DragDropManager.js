@@ -1,6 +1,8 @@
 
 export default {
+  
   instance: null,
+  
   getInstance: function(){
     if (!this.instance){
       var me = this;

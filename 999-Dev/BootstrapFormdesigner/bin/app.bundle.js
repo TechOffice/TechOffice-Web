@@ -2013,25 +2013,28 @@ var Draggable = function (_Component) {
   function Draggable(props) {
     _classCallCheck(this, Draggable);
 
-    return _possibleConstructorReturn(this, (Draggable.__proto__ || Object.getPrototypeOf(Draggable)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Draggable.__proto__ || Object.getPrototypeOf(Draggable)).call(this, props));
+
+    _this.control = _react2.default.createElement(
+      'div',
+      { draggable: 'true', onDragStart: _this.onDragStart.bind(_this) },
+      'testing'
+    );
+    _this.state = { control: _this.control };
+    return _this;
   }
 
   _createClass(Draggable, [{
     key: 'onDragStart',
     value: function onDragStart(event) {
-      if (this.data) {
-        event.dataTransfer.setData("data", JSON.stringify(this.data));
-        _DragDropManager2.default.getInstance().setDraggable(this);
+      if (this.control) {
+        _DragDropManager2.default.getInstance().setDraggable({ type: "div" });
       }
     }
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { draggable: 'true', onDragStart: this.onDragStart.bind(this) },
-        this.desc
-      );
+      return this.control;
     }
   }]);
 
@@ -8846,7 +8849,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
+
   instance: null,
+
   getInstance: function getInstance() {
     if (!this.instance) {
       var me = this;
@@ -40680,10 +40685,17 @@ var Droppable = function (_Component) {
     _this.childrenSeq = 0;
     _this.childrens = [];
     _this.state = { childrens: _this.childrens };
+    _this.seq = 0;
     return _this;
   }
 
   _createClass(Droppable, [{
+    key: 'getSeq',
+    value: function getSeq() {
+      this.seq = this.seq + 1;
+      return this.seq;
+    }
+  }, {
     key: 'allowDrop',
     value: function allowDrop(event) {
       event.preventDefault();
@@ -40693,22 +40705,10 @@ var Droppable = function (_Component) {
     value: function onDrop(event) {
       event.stopPropagation();
       event.preventDefault();
-      var data = JSON.parse(event.dataTransfer.getData("data"));
-      data.props = data.props || {};
-      var element = null;
-      if (data.type == 'div') {
-        element = _react2.default.createElement(Droppable, _extends({ key: this.childrenSeq }, data.props));
-      } else {
-        data.props.key = this.childrenSeq;
-        element = _react2.default.createElement(data.type, data.props);
-      }
-      this.childrenSeq++;
-
-      this.childrens.push(element);
-      this.setState({ childrens: this.childrens });
-
-      var manager = _DragDropManager2.default;
       var draggable = _DragDropManager2.default.getInstance().getDraggable();
+
+      this.childrens.push(clonedElement);
+      this.setState({ childrens: this.childrens });
     }
   }, {
     key: 'render',
