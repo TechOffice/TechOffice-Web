@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="../lib/jquery-3.1.1.min.js"></script>
+		<link rel="stylesheet" href="../lib/bootstrap.min.css" />
+		<link rel="stylesheet" href="../lib/bootstrap-theme.min.css"/>
+		<script src="../lib/bootstrap.min.js"></script>
+	</head>
+	
+	<body>
+		<div class="container-fluid">
+			<div class="panel panel-default">
+				<div class="panel-heading">Display</div>
+				<div class="panel-body">
+					<!-- Display Content -->
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#testModal">Open Modal</button>
+					<div id="testModal" class="modal fade" tabindex="-1" role="dialog">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+									<h4>Title</h4>
+								</div>
+								<div class="modal-body">
+									<p>Testing</p>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									<button type="button" class="btn btn-primary">Save Change</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">Code</div>
+				<div class="panel-body">
+					<pre>
+
+					</pre>
+				</div>
+			</div>
+			
+			<!-- Footer -->
+			<button onclick="goBack()">Back</button>
+			<script>
+				function goBack(){
+					window.history.back();
+				}
+			</script>
+		</div>
+	</body>
+<html>

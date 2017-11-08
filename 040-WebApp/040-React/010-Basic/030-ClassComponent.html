@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <script src="https://unpkg.com/react@15.3.2/dist/react.min.js"></script>
+        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.min.js"></script>
+        <script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+    </head>
+
+    <body>
+        <div id="container"></div>
+        <script type="text/babel">
+			// define a compoent by JavaScript function
+			class Hello extends React.Component{
+				render(){
+					return <div>Hello {this.props.name}</div>;
+				}
+            };
+
+            ReactDOM.render(
+                <Hello name="World" />,
+                document.getElementById('container')
+            );
+        </script>
+    </body>
+</html>

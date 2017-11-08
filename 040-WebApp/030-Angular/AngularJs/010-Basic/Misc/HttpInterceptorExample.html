@@ -1,0 +1,66 @@
+<!--
+    AngularJs Controller Example
+    1. define module and controller 
+    2. view get data from controller 
+-->
+<html>
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script>
+        // define testApp module
+        var app = angular.module('app', []);
+		
+		// define ErrorHttpInterceptor
+		app.factory("ErrorHttpInterceptor", function($rootScope, $q){
+			return {
+				
+				'response': function(response) {
+					$rootScope.message = "";
+					return response;
+				},
+
+				'responseError': function(rejection) {
+					$rootScope.message = "$http Error Occur";
+					return $q.reject(rejection);
+				}
+			};
+		});
+		
+		// config
+        app.config(function($httpProvider){
+			$httpProvider.interceptors.push("ErrorHttpInterceptor"); 
+		});
+		
+		// define controller
+        app.controller('TestController', function TestController($scope, $http) {
+			$scope.clickSuccess = function(){
+				$http.get('/data.json').then(function(){});
+			};
+			$scope.clickError = function(){
+				$http.get('/').then(function(){});
+			};
+        });
+		
+		// directive
+		app.directive('message', function(){
+			return {
+				template: "<div>{{message}}</div>",
+				controller: function($scope, $rootScope){
+					$scope.message = $rootScope.message;
+				}
+			};
+		});
+    </script>
+ </head>
+
+ <body>
+	<div ng-app="app">
+		<message></message>
+		<div ng-controller="TestController">
+			<button ng-click="clickSuccess()">Click Success</button>
+			<button ng-click="clickError()">Click Error</button>
+		</div>
+	 </div>
+ </body>
+
+</html>

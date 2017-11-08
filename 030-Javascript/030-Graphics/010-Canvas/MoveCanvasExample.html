@@ -9,8 +9,10 @@
     </head>
 
     <body>
-		<canvas id="simeplCanvas1"></canvas>
-		<canvas id="simeplCanvas2"></canvas>
+		<div id="canvasContainer">
+			<canvas id="simeplCanvas1"></canvas>
+			<canvas id="simeplCanvas2"></canvas>
+		</div>
         <script>
 		
 			// init simeplCanvas1 and simeplCanvas2
@@ -20,9 +22,9 @@
 			ctx1.strokeText("Canvas 1",10,50);
 			
 			var simeplCanvas2 = document.getElementById("simeplCanvas2");
-            var ctx1 = simeplCanvas1.getContext("2d");
-			ctx1.font = "30px Arial";
-			ctx1.strokeText("Canvas 2",10,100);
+            var ctx2 = simeplCanvas2.getContext("2d");
+			ctx2.font = "30px Arial";
+			ctx2.strokeText("Canvas 2",10,100);
 			
 			
         </script>

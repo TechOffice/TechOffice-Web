@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<style>
+			.ajaxLoader {
+				display: 	none;
+				position:   fixed;
+				z-index:    1000;
+				top:        0;
+				left:       0;
+				height:     85%;
+				width:      100%;
+				background: rgba( 255, 255, 255, .8 ) 
+							url('ajax-loader.gif') 
+							50% 50% 
+							no-repeat;
+			}
+			.loading{
+				display: block;
+			}
+		</style>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script>
+			function toggleLoading(){
+				var ajaxLoader = $(".ajaxLoader");
+				var toggleBtn = $("#toggleBtn");
+				if (ajaxLoader.hasClass("loading")){
+					$(".ajaxLoader").removeClass("loading");
+					toggleBtn.html("Loading");
+				}else{
+					$(".ajaxLoader").addClass("loading");
+					toggleBtn.html("Unloading");
+				}
+				
+			}
+		</script>
+	</head>
+	
+	<body>
+		<div style="height: 90%">
+			<form>
+				Name: <input />
+				<button>Submit</button>
+			</form>
+			<div class="ajaxLoader"></div>
+		</div>
+		<button id="toggleBtn" onclick="toggleLoading()">Loading</button>
+	</body>
+</html>

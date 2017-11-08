@@ -1,0 +1,90 @@
+<html>
+    <head>
+        <script src="https://unpkg.com/react@15.3.2/dist/react.min.js"></script>
+        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.min.js"></script>
+        <script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+    </head>
+
+    <body>
+        <div id="container"></div>
+        <script type="text/babel">
+			var data = [{col1: "col 11", col2: "col 12", col3: "col 13"}, 
+						{col1: "col 11", col2: "col 12", col3: "col 13"},
+						{col1: "col 11", col2: "col 12", col3: "col 13"},
+						{col1: "col 11", col2: "col 12", col3: "col 13"},
+						{col1: "col 11", col2: "col 12", col3: "col 13"},
+						{col1: "col 11", col2: "col 12", col3: "col 13"},
+						{col1: "col 11", col2: "col 12", col3: "col 13"},
+						{col1: "col 11", col2: "col 12", col3: "col 13"}];
+
+			// Paging Table 
+			class Table extends React.Component {
+				constructor(props){
+					super(props);
+					this.data = data
+					this.columns = ['col1', 'col2', 'col3'];
+					this.header = ['Column 1', 'Column 2', 'Column 3'];
+				}
+				render(){
+					var me = this;
+					var rows = [];
+					me.data.forEach(function(row){
+						var cols = [];
+						me.columns.forEach(function(column){
+							cols.push(<td>{row[column]}</td>);
+						});
+						rows.push(<tr>{cols}</tr>)
+					});
+					return <table>{rows}</table>;
+				}
+			};
+
+			ReactDOM.render(
+				<Table />,
+				document.getElementById('container')
+			);
+        </script>
+<pre>
+	<code>
+&lt;div id=&quot;container&quot;&gt;&lt;/div&gt;
+&lt;script type=&quot;text/babel&quot;&gt;
+	var data = [{col1: &quot;col 11&quot;, col2: &quot;col 12&quot;, col3: &quot;col 13&quot;}, 
+				{col1: &quot;col 11&quot;, col2: &quot;col 12&quot;, col3: &quot;col 13&quot;},
+				{col1: &quot;col 11&quot;, col2: &quot;col 12&quot;, col3: &quot;col 13&quot;},
+				{col1: &quot;col 11&quot;, col2: &quot;col 12&quot;, col3: &quot;col 13&quot;},
+				{col1: &quot;col 11&quot;, col2: &quot;col 12&quot;, col3: &quot;col 13&quot;},
+				{col1: &quot;col 11&quot;, col2: &quot;col 12&quot;, col3: &quot;col 13&quot;},
+				{col1: &quot;col 11&quot;, col2: &quot;col 12&quot;, col3: &quot;col 13&quot;},
+				{col1: &quot;col 11&quot;, col2: &quot;col 12&quot;, col3: &quot;col 13&quot;}];
+
+	// Paging Table 
+	class Table extends React.Component {
+		constructor(props){
+			super(props);
+			this.data = data
+			this.columns = ['col1', 'col2', 'col3'];
+			this.header = ['Column 1', 'Column 2', 'Column 3'];
+		}
+		render(){
+			var me = this;
+			var rows = [];
+			me.data.forEach(function(row){
+				var cols = [];
+				me.columns.forEach(function(column){
+					cols.push(&lt;td&gt;{row[column]}&lt;/td&gt;);
+				});
+				rows.push(&lt;tr&gt;{cols}&lt;/tr&gt;)
+			});
+			return &lt;table&gt;{rows}&lt;/table&gt;;
+		}
+	};
+
+	ReactDOM.render(
+		&lt;Table /&gt;,
+		document.getElementById('container')
+	);
+&lt;/script&gt;
+	</code>
+</pre>
+    </body>
+</html>

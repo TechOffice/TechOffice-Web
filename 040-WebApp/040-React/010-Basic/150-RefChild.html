@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <script src="https://unpkg.com/react@15.3.2/dist/react.min.js"></script>
+        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.min.js"></script>
+        <script src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>
+    </head>
+
+    <body>
+        <div id="container"></div>
+        <script type="text/babel">
+
+			class Child extends React.Component {
+				
+				constructor(props){
+					super(props);
+				}
+				
+				fn(){
+					console.log("child function");
+				}
+				
+				render(){
+					return(
+						<div>
+							Child
+						</div>
+					);
+				}
+			}
+			
+			class Parent extends React.Component {
+			
+				constructor(props){
+					super(props);
+				}
+						
+				call(){
+					this.refs.child.fn()
+				}
+				
+				render(){
+					return (
+						<div>
+							<Child ref="child"/>
+							<button onClick={this.call.bind(this)}>Call Child Function</button>
+						</div>
+					);
+				}
+			};
+
+			ReactDOM.render(
+				<Parent/>,
+				document.getElementById('container')
+			);
+        </script>
+    </body>
+</html>

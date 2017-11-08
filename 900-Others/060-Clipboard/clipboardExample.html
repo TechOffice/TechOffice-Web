@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.16/clipboard.min.js"></script>
+
+	</head>
+	<body>
+		<!-- Target -->
+		<textarea id="bar">Mussum ipsum cacilds...</textarea>
+
+		<!-- Trigger -->
+		<button class="btn"  data-clipboard-target="#bar">
+			Cut to clipboard
+		</button>
+		<script>
+			new Clipboard('.btn');
+		</script>
+	</body>
+</html>

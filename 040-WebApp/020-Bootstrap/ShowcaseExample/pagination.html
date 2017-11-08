@@ -1,0 +1,74 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="../lib/jquery-3.1.1.min.js"></script>
+		<link rel="stylesheet" href="../lib/bootstrap.min.css" />
+		<link rel="stylesheet" href="../lib/bootstrap-theme.min.css"/>
+		<script src="../lib/bootstrap.min.js"></script>
+	</head>
+	
+	<body>
+		<div class="container-fluid">
+			<div class="panel panel-default">
+				<div class="panel-heading">Display</div>
+				<div class="panel-body">
+					<nav aria-label="Page navigation">
+					  <ul class="pagination">
+						<li>
+						  <a href="#" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						  </a>
+						</li>
+						<li><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+						<li>
+						  <a href="#" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						  </a>
+						</li>
+					  </ul>
+					</nav>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">Code</div>
+				<div class="panel-body">
+					<pre>
+						<code>
+&lt;nav aria-label=&quot;Page navigation&quot;&gt;
+  &lt;ul class=&quot;pagination&quot;&gt;
+	&lt;li&gt;
+	  &lt;a href=&quot;#&quot; aria-label=&quot;Previous&quot;&gt;
+		&lt;span aria-hidden=&quot;true&quot;&gt;&amp;laquo;&lt;/span&gt;
+	  &lt;/a&gt;
+	&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;#&quot;&gt;1&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;#&quot;&gt;2&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;#&quot;&gt;3&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;#&quot;&gt;4&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&quot;#&quot;&gt;5&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;
+	  &lt;a href=&quot;#&quot; aria-label=&quot;Next&quot;&gt;
+		&lt;span aria-hidden=&quot;true&quot;&gt;&amp;raquo;&lt;/span&gt;
+	  &lt;/a&gt;
+	&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+						</code>
+					</pre>
+
+				</div>
+			</div>
+			<!-- Footer -->
+			<button onclick="goBack()">Back</button>
+			<script>
+				function goBack(){
+					window.history.back();
+				}
+			</script>
+		</div>
+	</body>
+<html>

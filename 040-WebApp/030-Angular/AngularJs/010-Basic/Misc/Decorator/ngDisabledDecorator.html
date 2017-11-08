@@ -1,0 +1,62 @@
+<!--
+    AngularJs Controller Example
+    1. define module and controller 
+    2. view get data from controller 
+-->
+<html>
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    
+	
+	<script>
+        
+        var app = angular.module('app', []);
+				
+		app.config(function($provide){
+			$provide.decorator("ngDisabledDirective", 
+				function($delegate){
+					var directive = $delegate[0];
+					var originalCompile = directive.compile;
+					directive.compile = function(elm, attrs){
+						var r = originalCompile.apply(this, arguments);
+						return {
+							post: function(scope, elm, attrs){
+								console.log("before ng-disabled");
+								r.apply(this, arguments);
+								
+								// custom function
+								attrs.$observe("disabled", function(value){
+									if (value){
+										console.log("ng-disabled set the element to be disabled");
+										elm.removeAttr("disabled");
+									}else{
+										console.log("ng-disabled set the element to be enabled");
+										elm.attr("disabled", "true");
+									}
+								});
+								
+								console.log("after ng-disabled");
+							}
+						};
+					};
+					return $delegate;
+				}
+			);
+		});
+		
+		app.controller("Ctrl", function($scope, $element){
+		});
+		
+    </script>
+ </head>
+
+ <body>
+	<div ng-app="app">
+		<div ng-controller="Ctrl">
+			<input ng-model="test" ng-disabled="false"/>
+			<input ng-model="test" ng-disabled="true"/>
+		</div>
+	 </div>
+ </body>
+
+</html>

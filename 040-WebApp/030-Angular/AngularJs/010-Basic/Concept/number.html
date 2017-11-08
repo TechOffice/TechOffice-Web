@@ -1,0 +1,60 @@
+<!--
+    AngularJs Controller Example
+    1. define module and controller 
+    2. view get data from controller 
+-->
+<html>
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script>
+        // define app module
+        var app = angular.module('app', []);
+        // define Ctrl on app
+        app.controller('Ctrl', function TestController($scope) {
+            $scope.name = "Test Controller";
+            $scope.data = [
+                {
+                    'name' : 'name 1',
+                    'value' : 'value 1'
+                }, 
+                {
+                    'name' : 'name 2',
+                    'value' : 'value 2'
+                }
+            ];
+			$scope.testSubmit = function(){
+				alert("testing");
+			};
+        });
+    </script>
+ </head>
+
+ <body>
+	<div ng-app="app" ng-controller="Ctrl">
+		 <p>
+			 {{name}}
+		 </p>
+		<table border="1">
+			<tr>
+				<th>Name</th>
+				<th>Value</th>
+			</tr>
+			<tr ng-repeat="row in data">
+				<td>{{row.name}}</td>
+				<td>{{row.value}}</td>
+			</tr>
+		 </table>
+		 <form ng-submit="testSubmit()">
+			<input type="number" max="9999999999" min="0" step="0.000000001" ng-model="test3">
+			<select ng-model="test2">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+			</select>
+			<button type="submit">submit</button>
+		 </form>
+	 <div>
+	
+ </body>
+
+</html>

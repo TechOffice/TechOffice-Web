@@ -1,0 +1,43 @@
+<html>
+	<head>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script>
+			$(function(){
+				if (window.localStorage){
+					var key = "LocalStorageTestKey";
+					var localStorage = window.localStorage;
+					var value = localStorage.getItem(key);
+					if (!value){
+						localStorage.setItem(key, "Testing Value");
+						$("#message").html("Testing Value");
+					}else{
+						$("#message").html(value);
+					}
+				}
+				
+				$("#updateBtn").click(function(){
+					var testingValue = $("#testingValueInput").val();
+					var localStorage = window.localStorage;
+					localStorage.setItem(key, testingValue);
+					$("#message").html(testingValue);
+				});
+			});
+		</script>
+		
+	</head>
+	
+	<body>
+		<h1>Local Storage Example</h1>
+		<br/>
+		<div>
+			<b>Testing Value in Local Storage: </b>
+			<span id="message"></span>
+		</div>
+		<table>
+			<tr>
+				<td><input id="testingValueInput"/></td>
+				<td><button id="updateBtn">Update</button></td>
+			</tr>
+		</table>
+	</body>
+</html>

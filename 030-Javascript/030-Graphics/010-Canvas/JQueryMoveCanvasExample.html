@@ -1,0 +1,43 @@
+<html>
+    <head>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+		<style>
+			canvas{
+				position: absolute;
+			}
+		</style>
+		<script>
+			$( function() {
+				// define drag is draggable
+				$("#simeplCanvas1").draggable();
+				
+				// define drag 2 is draggable
+				$("#simeplCanvas2").draggable();
+				$('#simeplCanvas2').animate({top: 100});
+
+			});
+		</script>
+    </head>
+
+    <body>
+		<div id="canvasContainer">
+			<canvas id="simeplCanvas1"></canvas>
+			<canvas id="simeplCanvas2"></canvas>
+		</div>
+        <script>
+		
+			// init simeplCanvas1 and simeplCanvas2
+            var simeplCanvas1 = document.getElementById("simeplCanvas1");
+            var ctx1 = simeplCanvas1.getContext("2d");
+			ctx1.font = "30px Arial";
+			ctx1.strokeText("Canvas 1",10,50);
+			
+			var simeplCanvas2 = document.getElementById("simeplCanvas2");
+            var ctx2 = simeplCanvas2.getContext("2d");
+			ctx2.font = "30px Arial";
+			ctx2.strokeText("Canvas 2",10,50);
+			
+        </script>
+    </body>
+</html>

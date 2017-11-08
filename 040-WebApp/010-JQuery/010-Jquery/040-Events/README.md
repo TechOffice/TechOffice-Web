@@ -1,12 +1,43 @@
-# JQuery Example
+# jQuery Event
 
-## JQuery 
-It is a Document Object Model (DOM) Manipulation Labrary.
+## Browser Event
+* .error()
+* .resize()
+* .scroll()
 
-## Content Delivery Network (CDN)
+## Document Loading
+* .ready()
 
-Google
-```
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-```
+## Event Handler Attachment
+* .off()
+* .on()
+* .one()
+* .trigger()
+* .triggerHandler()
 
+## Form Event
+* .blur()
+* .change()
+* .focus()
+* .focusin()
+* .focusout()
+* .select()
+* .submit()
+
+## Mouse Event
+* .click()
+* .contextmenu()
+* .dblclick()
+* .hover()
+* .mousedown()
+* .mouseenter()
+* .mouseleave()
+* .mousemove()
+* .mouseout()
+* .mouseover()
+* .mouseup()
+
+## Keyboard Event
+* .keydown()
+* .keypress()
+* .keyup()

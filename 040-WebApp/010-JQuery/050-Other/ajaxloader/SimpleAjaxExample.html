@@ -1,0 +1,82 @@
+<!--
+	jQuery provides method to register handlers to be called when any ajax request takes place on the page. 
+	Reference: http://api.jquery.com/category/ajax/global-ajax-event-handlers/
+	The following is the even occurred in ajax call.
+	* ajaxComplete
+	* ajaxError
+	* ajaxSend
+	* ajaxStart
+	* ajaxStop
+	* ajaxSuccess
+-->
+
+<html>
+	<head>
+		<style>
+			.ajaxLoader {
+				display: 	none;
+				position:   fixed;
+				z-index:    1000;
+				top:        0;
+				left:       0;
+				height:     100%;
+				width:      100%;
+				background: rgba( 255, 255, 255, .8 ) 
+							url('ajax-loader.gif') 
+							50% 50% 
+							no-repeat;
+			}
+			.loading{
+				display: block;
+			}
+		</style>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script>
+			// Blind Ajax Event Handler
+			$(function(){
+				$(document).ajaxStart(function(){
+					$(".log").append("<br/>");
+					var d = new Date();
+					$(".log").append(d.toString() + ": Ajax Start." );
+					$(".ajaxLoader").addClass("loading");
+				});
+
+				$(document).ajaxStop(function(){
+					$(".log").append("<br/>");	
+					var d = new Date();
+					$(".log").append(d.toString() + ": Ajax Stop." );
+					// Remove the ajaxLoad after 1s
+					setTimeout(function(){
+						$(".ajaxLoader").removeClass("loading");
+					}, 1000);
+					
+				});
+				
+				$(document).ajaxError(function(event, jqxhr, settings, thrownError){
+					$(".log").append("<br/>");	
+					var d = new Date();
+					$(".log").append(d.toString() + ": Ajax Error.");
+				});
+				
+				
+
+			});
+			
+			function callAjax(){
+				$.get("testing.html");
+			}
+			
+		</script>
+	</head>
+	
+	<body>
+		<div style="height: 90%">
+			<form>
+				Name: <input />
+				<button type="button" onclick="callAjax()">Ajax Call</button>
+			</form>
+			<div class="log"></div>
+		</div>
+		<div class="ajaxLoader"></div>
+	</body>
+</html>

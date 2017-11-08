@@ -1,9 +1,26 @@
 <html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="../../lib/jquery-3.1.1.min.js"></script>
+		<link rel="stylesheet" href="../../lib/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../lib/bootstrap-theme.min.css"/>
+		<script src="../../lib/bootstrap.min.js"></script>
+	</head>
+	
 	<body>
-		<h1>Backbrone</h1>
-		<ul>
-			<li><a href="HelloWorldExample.html">Hello World Example</a></li>
-			<li><a href="Students.html">Ajax Example</a></li>
-		</ul>
+		<div class="container-fluid">
+			<h1>Backbrone</h1>
+			<ul>
+				<li><a href="HelloWorldExample.html">Hello World Example</a></li>
+				<li><a href="Students.html">Ajax Example</a></li>
+			</ul>
+			<!-- Footer -->
+			<button onclick="goBack()">Back</button>
+			<script>
+				function goBack(){
+					window.history.back();
+				}
+			</script>
+		</div>
 	</body>
 </html>

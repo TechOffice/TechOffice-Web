@@ -7,7 +7,11 @@
 				color: green;
 			}
 		</style>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
 		<script>
 			$(function(){
 				$("#dataDiv").data("data", "Tech Office JQuery Data Test");
@@ -17,19 +21,21 @@
 	</head>
 
 	<body>
-		<h1>JQuery Data Example</h1>
-		<h2>.data()</h2>
-		<div>
-			<p>It would store arbitary data associated with the matched elements or return the value in the set of matched elements.</p>
+		<div class="container-fluid">
+			<h1>JQuery Data Example</h1>
+			<h2>.data()</h2>
+			<div>
+				<p>It would store arbitary data associated with the matched elements or return the value in the set of matched elements.</p>
+			</div>
+			
+			<div id="dataDiv" style="border: 1px solid black; display: inline-block; ">Data Div(id: dataDiv): It store a data.</div>
+			
+			<div>
+				<p>The Data Div would store data by JQuery Data, $("#dataDiv").data("data", "Tech Office JQuery Data Test");</p>
+			</div>
+			
+			<div><b>Data Div Value: </b><span id="dataDivValue"></span></div>			
 		</div>
-		
-		<div id="dataDiv" style="border: 1px solid black; display: inline-block; ">Data Div(id: dataDiv): It store a data.</div>
-		
-		<div>
-			<p>The Data Div would store data by JQuery Data, $("#dataDiv").data("data", "Tech Office JQuery Data Test");</p>
-		</div>
-		
-		<div><b>Data Div Value: </b><span id="dataDivValue"></span></div>
 		
 	</body>
 	

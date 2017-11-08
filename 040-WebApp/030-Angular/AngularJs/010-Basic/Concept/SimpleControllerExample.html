@@ -1,0 +1,87 @@
+<!--
+    AngularJs Controller Example
+    1. define module and controller 
+    2. view get data from controller 
+-->
+<html>
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script>
+        // define app module
+        var app = angular.module('app', []);
+        // define Ctrl on app
+        app.controller('Ctrl', function TestController($scope) {
+            $scope.name = "Test Controller";
+            $scope.data = [
+                {
+                    'name' : 'name 1',
+                    'value' : 'value 1'
+                }, 
+                {
+                    'name' : 'name 2',
+                    'value' : 'value 2'
+                }
+            ];
+        });
+    </script>
+ </head>
+
+ <body>
+	<div ng-app="app" ng-controller="Ctrl">
+		 <p>
+			 {{name}}
+		 </p>
+		<table border="1">
+			<tr>
+				<th>Name</th>
+				<th>Value</th>
+			</tr>
+			<tr ng-repeat="row in data">
+				<td>{{row.name}}</td>
+				<td>{{row.value}}</td>
+			</tr>
+		 </table>
+	 <div>
+	 
+	 <div>
+		<pre>
+			<code>
+&lt;script&gt;
+	// define testApp module
+	var testApp = angular.module('testApp', []);
+	// define TestController on phonecatApp
+	testApp.controller('TestController', function TestController($scope) {
+		$scope.name = &quot;Test Controller&quot;;
+		$scope.data = [
+			{
+				'name' : 'name 1',
+				'value' : 'value 1'
+			}, 
+			{
+				'name' : 'name 2',
+				'value' : 'value 2'
+			}
+		];
+	});
+&lt;/script&gt;
+&lt;div ng-app=&quot;testApp&quot; ng-controller=&quot;TestController&quot;&gt;
+	 &lt;p&gt;
+		 {{name}}
+	 &lt;/p&gt;
+	&lt;table border=&quot;1&quot;&gt;
+		&lt;tr&gt;
+			&lt;th&gt;Name&lt;/th&gt;
+			&lt;th&gt;Value&lt;/th&gt;
+		&lt;/tr&gt;
+		&lt;tr ng-repeat=&quot;row in data&quot;&gt;
+			&lt;td&gt;{{row.name}}&lt;/td&gt;
+			&lt;td&gt;{{row.value}}&lt;/td&gt;
+		&lt;/tr&gt;
+	 &lt;/table&gt;
+ &lt;div&gt;
+			</code>
+		</pre>
+	 </div>
+ </body>
+
+</html>

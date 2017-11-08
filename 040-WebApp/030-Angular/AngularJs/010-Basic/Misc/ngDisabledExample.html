@@ -1,0 +1,42 @@
+<!--
+    AngularJs Controller Example
+    1. define module and controller 
+    2. view get data from controller 
+-->
+<html>
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    
+
+	
+	<script>
+        // define testApp module
+        var app = angular.module('app', []);
+		
+		app.controller("TestController", function($scope){
+			$scope.update = function(user){
+				debugger;
+			}
+		});
+		
+    </script>
+ </head>
+
+ <body>
+	<div ng-app="app">
+		<div ng-controller="TestController">
+			<form name="form" ng-submit="update(user)" >
+				<label>
+				<input type="radio" ng-model="color.name" value="red" ng-disabled="color.name">
+				Red
+				</label>
+				<input type="radio" ng-model="color.name" value="blue" ng-disabled="color.name">
+				blue
+				</label>
+				<button ng-submit="update(user)" value="Save" >Save</button>
+			</form>
+		</div>
+	 </div>
+ </body>
+
+</html>

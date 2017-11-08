@@ -1,0 +1,53 @@
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.js"></script>
+		<link rel="stylesheet" href="../../lib/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../lib/bootstrap-theme.min.css"/>
+		<script src="../../lib/bootstrap.min.js"></script>
+
+		<script id="entry-template" type="text/x-handlebars-template">
+			// It would update by Ajax
+		</script>
+
+		<script>
+			$(function(){
+				// update entry-template
+				$.ajax({
+					type:'GET', 
+					url:'template.js', 
+					dataType: 'xml', 
+					success: function(xml){
+						var serializer = new XMLSerializer(); 
+						var xmlStr = serializer.serializeToString(xml)
+						$("#entry-template").html(xmlStr);
+						var source   	= $("#entry-template").html();
+						var template 	= Handlebars.compile(source);
+						var context 	= {title: "My New Post", body: "This is my first post!"};
+						var html    	= template(context);
+						$("#content").html(html);
+					}
+				});
+			});
+		</script>
+	</head>
+	
+	<body>
+		<div class="container-fluid">
+			<div class="panel panel-default">
+				<div class="panel-heading">Display</div>
+				<div class="panel-body">
+					<div id="content"></div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">Code</div>
+				<div class="panel-body">
+					<pre id="sourceCode">
+					</pre>
+				</div>
+			</div>	
+		</div>
+	</body>
+</html>

@@ -1,0 +1,48 @@
+<!--
+   Simple Component Example
+   1. Define a module and a component 
+   2. view reuse define component 
+-->
+<html ng-app="myApp">
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script>
+        angular.module('myApp', []);
+        /**
+         * Define myApp as Module and testComponent as Compoent
+         * with template and controller
+         */
+        angular.module("myApp").component('testComponent',{
+            template: "Hello, {{$ctrl.value}}",
+            controller: function testComponentController() {
+                this.value = "world";
+            }
+        });
+    </script>
+
+ </head>
+
+ <body>
+    <test-component></test-component>
+	
+	<pre>
+		<code>
+&lt;script&gt;
+	angular.module('myApp', []);
+	/**
+	 * Define myApp as Module and testComponent as Compoent
+	 * with template and controller
+	 */
+	angular.module(&quot;myApp&quot;).component('testComponent',{
+		template: &quot;Hello, {{ "{{$ctrl.value"+ "}" + "}" }}&quot;,
+		controller: function testComponentController() {
+			this.value = &quot;world&quot;;
+		}
+	});
+&lt;/script&gt;
+&lt;test-component&gt;&lt;/test-component&gt;
+		</code>
+	</pre>
+ </body>
+
+</html>

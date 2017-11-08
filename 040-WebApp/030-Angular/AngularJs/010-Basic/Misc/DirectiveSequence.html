@@ -1,0 +1,83 @@
+
+<html>
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script>
+        var app = angular.module('app', []);
+		
+		// directive
+		app.directive('example1', function(){
+			return {
+				controller: function($scope){
+					console.log("example 1 controller");
+				},
+				compile: function(element, attrs){
+					return {
+						pre: function(scope, element, attrs){
+							console.log("example 1 pre-link");
+						},
+						
+						post: function(scope, element, attrs){
+							console.log("example 1 post-link");
+						}
+					}
+				}
+			};
+		});
+		
+		app.directive('example2', function(){
+			return {
+				controller: function($scope){
+					console.log("example 2 controller");
+				},
+				compile: function(element, attrs){
+					return {
+						pre: function(){
+							console.log("example 2 pre link");
+						},
+						post: function(){
+							console.log("example 2 post link");
+						}
+					};
+				}
+			};
+		});
+		
+		app.directive('example3', function(){
+			return {
+				controller: function($scope){
+					console.log("example 3 controller");
+				},
+				compile: function(element, attrs){
+					return {
+						pre: function(){
+							console.log("example 3 pre link");
+						},
+						post: function(){
+							console.log("example 3 post link");
+						}
+					};
+				}
+			};
+		});
+		
+		// controller
+		app.controller("Ctrl", function($scope){
+			console.log("Ctrl controller")
+		});
+		
+    </script>
+ </head>
+
+ <body>
+	<div ng-app="app">
+		<example1>
+			<div ng-controller="Ctrl">
+				<example2></example2>
+				<example3></example3>
+			</div>
+		</example>
+	 </div>
+ </body>
+
+</html>

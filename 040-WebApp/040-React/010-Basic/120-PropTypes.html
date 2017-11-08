@@ -1,0 +1,41 @@
+<html>
+    <head>
+		<!-- React.js should be used for PropTypes. Otherwise, the warnning message cannot be shown -->
+        <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+        <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.min.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js" charset="utf-8"></script>
+		<script src="https://unpkg.com/prop-types/prop-types.min.js"></script>
+
+    </head>
+
+    <body>
+        <div id="container"></div>
+        <script type="text/babel">
+
+			class Container extends React.Component {
+				
+				static propTypes = {
+					name: React.PropTypes.string.isRequired
+				}
+				
+				constructor(props){
+					super(props);
+				}
+								
+				render(){
+					return (
+						<div>
+							<input ref="input"/>
+							<button>Get Focus on Input</button>
+						</div>
+					);
+				}
+			};
+			
+			ReactDOM.render(
+				<Container/>,
+				document.getElementById('container')
+			);
+        </script>
+    </body>
+</html>

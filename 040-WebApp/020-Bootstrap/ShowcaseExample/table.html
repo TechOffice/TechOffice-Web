@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="../lib/jquery-3.1.1.min.js"></script>
 		<link rel="stylesheet" href="../lib/bootstrap.min.css" />
 		<link rel="stylesheet" href="../lib/bootstrap-theme.min.css"/>
@@ -8,6 +9,73 @@
 	
 	<body>
 		<div class="container-fluid">
+		
+			<div class="panel panel-default">
+				<div class="panel-heading">Display</div>
+					<table class='table'>
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Age</th>
+								<th>Sex</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Tom</td>
+								<td>25</td>
+								<td>M</td>
+							</tr>
+							<tr>
+								<td>Mary</td>
+								<td>21</td>
+								<td>F</td>
+							</tr>
+							<tr>
+								<td>Peter</td>
+								<td>27</td>
+								<td>M</td>
+							</tr>
+						</tbody>
+					</table>
+				<div class="panel-body">
+				</div>
+			</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">Code</div>
+				<div class="panel-body">
+					<pre>
+&lt;table class='table'&gt;
+	&lt;thead&gt;
+		&lt;tr&gt;
+			&lt;th&gt;Name&lt;/th&gt;
+			&lt;th&gt;Age&lt;/th&gt;
+			&lt;th&gt;Sex&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;td&gt;Tom&lt;/td&gt;
+			&lt;td&gt;25&lt;/td&gt;
+			&lt;td&gt;M&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;Mary&lt;/td&gt;
+			&lt;td&gt;21&lt;/td&gt;
+			&lt;td&gt;F&lt;/td&gt;
+		&lt;/tr&gt;
+		&lt;tr&gt;
+			&lt;td&gt;Peter&lt;/td&gt;
+			&lt;td&gt;27&lt;/td&gt;
+			&lt;td&gt;M&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+					</pre>
+				</div>
+			</div>
+			
 			<!-- Footer -->
 			<button onclick="goBack()">Back</button>
 			<script>

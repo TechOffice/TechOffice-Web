@@ -1,0 +1,80 @@
+
+<html>
+	<head>
+		<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ember.js/2.10.2/ember.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ember.js/2.10.2/ember.debug.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ember.js/2.10.2/ember-template-compiler.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ember-data.js/2.11.0/ember-data.js"></script>
+	</head>
+
+	<body>
+		<div id='app'></div>
+		<pre id="logs"></pre>
+
+        <script type="text/x-handlebars" data-template-name="index">
+			<h2>Using setupController function:</h2>
+			{{content}}
+		</script>
+
+		
+      <script type="text/javascript">
+         App = Ember.Application.create();
+		 
+		 var attr = DS.attr;
+
+		App.TestModel = DS.Model.extend({
+		  attr1: attr(),
+		  attr2: attr(),
+		  attr3: attr()
+		});
+		 
+		 // Ember.js automatically define the name of routes. 
+		 // |	URL		Route Name		Controller			Route			Template
+		 // |	/		index			IndexController		IndexRoute		index
+		 // |	/about	about			AboutController		AboutRoute		about
+		 //	| 	/test	test			TestController		TestRoute		test
+         App.IndexRoute = Ember.Route.extend({
+            //set up the controller and its content
+
+			
+			model() {
+				var data = {
+				  data: [{
+					id: 1,
+					type: 'testModel',
+					attributes: {
+					  attr1: 'ID 1 Testing Attr 1',
+					  attr2: 'ID 1 Testing Attr 2',
+					  attr3: 10
+					},
+					relationships: {}
+				  }, {
+					id: 2,
+					type: 'testModel',
+					attributes: {
+					  attr1: 'ID 2 Testing Attr 1',
+					  attr2: 'ID 2 Testing Attr 2',
+					  attr3: 10
+					},
+					relationships: {}
+				  }]
+				};
+			
+				this.get('store').push(data);
+			},
+			
+			
+			setupController: function(controller) {
+				var testModel = this.store.peekRecord('testModel', 1);
+				var content = testModel.get('attr1');
+				controller.set('content', content);
+            }
+         });
+      </script>
+
+	</body>
+
+
+
+</html>

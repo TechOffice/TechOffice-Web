@@ -1,0 +1,107 @@
+<!doctype html>
+
+<html ng-app="app">
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+		
+		<!-- ngDialog -->
+		<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog.min.css">
+		<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog-theme-default.min.css">
+		<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog-theme-plain.min.css">
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/js/ngDialog.min.js"></script>
+		
+		<!-- uiGrid -->
+		<script src="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.min.css"/>
+		
+		<style>
+			.grid {
+			  width: 500px;
+			  height: 250px;
+			}
+			
+			.ngdialog.ngdialog-theme-plain.custom-width .ngdialog-content {
+				width: 70%;
+			}
+
+
+		</style>
+		
+		<script>
+			var app = angular.module("app", ['ngDialog', 'ui.grid', 'ui.grid.edit', 'ui.grid.selection']);
+			app.directive("dialogGridButton", function(){
+				return {
+					template: '<button ng-click="showDialog()">Show Dialog</button>',
+					scope: {
+						value : "=ngModel", // $scope.value is specifed by attribute ng-model
+						lovDialog: "=lovDialog"
+					},
+					controller: function($scope, ngDialog){
+						var dialog;
+						
+						// show dialog function
+						$scope.showDialog = function(){
+							dialog = ngDialog.open({
+								className: 'ngdialog-theme-plain custom-width',
+								template: '<div ui-grid="gridOptions" ui-grid-selection class="grid"></div>',
+								plain: true,
+								scope: $scope,
+								controller: function($scope){
+									$scope;
+									debugger;
+								}
+							});
+							dialog.closePromise.then(function (data) {
+								if (data.value && data.value.entity){
+									$scope.value = data.value.entity.firstName;
+								}
+							});
+						};
+						
+						// grid option
+						$scope.gridOptions = {
+							enableRowSelection: true,
+							enableSorting: false,
+							columnDefs: [
+							  { name:'firstName', field: 'firstName' },
+							  { name:'lastName', field: 'lastName' }
+							],
+							data : [{
+								"firstName": "Test First Name",
+								"lastName": "Test Last Name"
+							}]
+						};
+						
+						$scope.gridOptions.onRegisterApi = function(gridApi){
+							gridApi.selection.on.rowSelectionChanged($scope,function(row){
+								if (dialog){
+									dialog.close(row);
+								}
+							});
+						}
+						
+					//
+					}
+				};
+			});
+			app.controller("Ctrl", function($scope){
+				$scope.cValue;
+				$scope.popUpDialog = {};
+				$scope.lovDialog = {
+					controller: function() {},
+					template: "";
+				};
+			});
+		</script>
+	</head>
+
+	<body>
+		<div ng-controller="Ctrl">
+			<div>
+				<input ng-model="cValue"/>
+			</div>
+			<input ng-model="value"/><dialog-grid-button ng-model="value" lov-dialog="lovDialog"></dialog-grid-button>
+		</div>
+	</body>
+
+</html>

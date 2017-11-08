@@ -1,0 +1,21 @@
+<html>
+	<head>
+	</head>
+	<body>
+		<h1>encodeURIComponent</h1>
+		<p>This function is used to encodes a URI component. It would encode  ", / ? : @ & = + $ #"</p>
+		<div><b>Special Characters: </b><span id="specialChar">,/?:@&=+$#</span></div>
+		<br/>
+		<div><b>Encoded Characters: </b><span id="encodedChar"></span></div>
+		<br/>
+		<script>
+			var element = document.createElement('a');
+			element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(",/?:@&=+$#"));
+			element.setAttribute('download', "test.txt");
+			element.innerHTML = "download";
+			document.body.appendChild(element);
+			var encodedChar = document.getElementById("encodedChar");
+			encodedChar.innerHTML = encodeURIComponent(",/?:@&=+$#");
+		</script>
+	</body>
+</html>

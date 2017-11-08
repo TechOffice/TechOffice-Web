@@ -1,0 +1,91 @@
+<html>
+	<head>
+		<style>
+			table td {
+				border: 1px solid;
+			}
+		</style>
+		<script src="lib/jquery-3.1.1.min.js"></script>
+		<script src="lib/papaparse.min.js"></script>
+		<script src="lib/beautify.min.js"></script>
+		<script src="lib/beautify-html.min.js"></script>
+		<script src="src/CsvConvertor.js"></script>
+		<script src="src/FileReader.js"></script>
+		<script>
+			function readFileToRender (file){
+				fileReader.read(file, function(fileContent){
+					var csv = Papa.parse(fileContent);
+					var htmlCode = csvConvertor.convertCsvToTable(csv.data);
+					csvViewer = document.getElementById("csvViewer");
+					csvViewer.innerHTML = htmlCode;
+					document.querySelector("#downloadBtn").disabled = false;
+					$("#csvTable td").dblclick(function(td){
+						var csvTableTds = $("#csvTable td");
+						for (var i=0; i<csvTableTds.length; i++){
+							var csvTableTd = csvTableTds[i];
+							if (csvTableTd != td.target){
+								csvTableTd.contentEditable = false;
+							}
+						}
+						td.target.contentEditable = true
+					});
+				});
+			}
+
+			function allowDrop(event) {
+				event.preventDefault();
+			}
+
+			function drop(event){
+			    event.preventDefault();
+				document.getElementById("csvFileInput").files = event.dataTransfer.files;
+				var file = event.dataTransfer.files[0];
+				readFileToRender(file);
+			}
+
+			function selectCsvFile(){
+				var file = document.getElementById("csvFileInput").files[0];
+				readFileToRender(file);
+			}
+
+			function reset(){
+				document.getElementById("csvFileInput").value = "";
+				csvViewer = document.getElementById("csvViewer");
+				csvViewer.innerHTML = "";
+				document.querySelector("#downloadBtn").disabled = true;
+			}
+			
+			function download(){
+				var csvStr = csvConvertor.covertTableToCsv();
+				var element = document.createElement('a');
+				element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(csvStr));
+				var filename = document.querySelector("#csvFileInput").files[0].name;
+				element.setAttribute('download', filename);
+				element.style.display = 'none';
+				document.body.appendChild(element);
+				element.click();
+				document.body.removeChild(element);
+			}
+		</script>
+	</head>
+	
+	<body ondrop="drop(event)" ondragover="allowDrop(event)">
+		<h1>Simple Csv Viewer</h1>
+		<input id="csvFileInput" type="file" onchange="selectCsvFile()"/>
+		<button onclick="reset()">Clear</button>
+		<button id="downloadBtn" onclick="download()" disabled="true">Download</button>
+		<div id="csvViewer"></div>
+		<div>
+			<h2>Functionality</h2>
+			<ul>
+				<li>Drag and drop a csv into this page. The csv would transform into a html table format and render in this page.</li>
+				<li>Use the file input to select a file. The selected file would transform into a html table format and render in this page.</li>
+			</ul>
+			<h2>Dependencies</h2>
+			<ul>
+				<li>papaparse: it is used as csv parse</li>
+				<li>beautify: it is used to format the generated html table code</li>
+			</ul>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,33 @@
+<!--
+    AngularJs Controller Example
+    1. define module and controller 
+    2. view get data from controller 
+-->
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog.min.css">
+		<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog-theme-default.min.css">
+		<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog-theme-plain.min.css">
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/js/ngDialog.min.js"></script>
+
+		<script>
+			var app = angular.module("app", ['ngDialog']);
+			app.controller("Ctrl", function($scope, ngDialog){
+				$scope.showDialog = function(){
+					ngDialog.open({
+						template: '<p>my template</p>',
+						plain: true
+					});
+				};
+			});
+		</script>
+	</head>
+
+	<body ng-app="app" >
+		<div ng-controller="Ctrl">
+			<button ng-click="showDialog()">Show Dialog</button>
+		</div>
+	</body>
+
+</html>

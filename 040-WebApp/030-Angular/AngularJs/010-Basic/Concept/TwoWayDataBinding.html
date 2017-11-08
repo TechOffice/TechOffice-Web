@@ -1,0 +1,152 @@
+<!--
+    AngularJs Controller Example
+    1. define module and controller 
+    2. view get data from controller 
+-->
+<html>
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script id="testAppScript">
+        // define testApp module
+        var testApp = angular.module('testApp', []);
+        // define TestController on phonecatApp
+        testApp.controller('TestController', function TestController($scope) {
+            $scope.name = "Test Two-way Data Binding";
+			$scope.queryStr = "";
+            $scope.data = [
+                {
+                    'name' : 'name 1',
+                    'value' : 'value 1'
+                }, 
+                {
+                    'name' : 'name 2',
+                    'value' : 'value 2'
+                }, 
+                {
+                    'name' : 'name 3',
+                    'value' : 'value 3'
+                }, 
+				{
+                    'name' : 'name 33',
+                    'value' : 'value 33'
+                }, 
+                {
+                    'name' : 'name 4',
+                    'value' : 'value 4'
+                }, 
+                {
+                    'name' : 'name 5',
+                    'value' : 'value 5'
+                }
+            ];
+			$scope.filteredData = $scope.data;
+			$scope.query = function(){
+				if (this.queryStr != ''){
+					this.filteredData = [];
+					for (var i=0; i<this.data.length; i++){
+						var item = this.data[i];
+						if (item.name.includes(this.queryStr)){
+							this.filteredData.push(item);
+						}
+					}
+				}else{
+					this.filteredData = this.data;
+				}
+			}
+        });
+    </script>
+ </head>
+
+ <body>
+	<div ng-app="testApp" ng-controller="TestController">
+		{{name}}
+		 <div>
+			Name: 
+			<input ng-model="queryStr" ng-change="query()">
+		 </div>
+		<table border="1">
+			<tr>
+				<th>Name</th>
+				<th>Value</th>
+			</tr>
+			<tr ng-repeat="row in filteredData">
+				<td>{{row.name}}</td>
+				<td>{{row.value}}</td>
+			</tr>
+		 </table>
+	 </div>
+	 <div>
+		<pre>
+			<code>
+&lt;script id=&quot;testAppScript&quot;&gt;
+	// define testApp module
+	var testApp = angular.module('testApp', []);
+	// define TestController on phonecatApp
+	testApp.controller('TestController', function TestController($scope) {
+		$scope.name = &quot;Test Two-way Data Binding&quot;;
+		$scope.queryStr = &quot;&quot;;
+		$scope.data = [
+			{
+				'name' : 'name 1',
+				'value' : 'value 1'
+			}, 
+			{
+				'name' : 'name 2',
+				'value' : 'value 2'
+			}, 
+			{
+				'name' : 'name 3',
+				'value' : 'value 3'
+			}, 
+			{
+				'name' : 'name 33',
+				'value' : 'value 33'
+			}, 
+			{
+				'name' : 'name 4',
+				'value' : 'value 4'
+			}, 
+			{
+				'name' : 'name 5',
+				'value' : 'value 5'
+			}
+		];
+		$scope.filteredData = $scope.data;
+		$scope.query = function(){
+			if (this.queryStr != ''){
+				this.filteredData = [];
+				for (var i=0; i&lt;this.data.length; i++){
+					var item = this.data[i];
+					if (item.name.includes(this.queryStr)){
+						this.filteredData.push(item);
+					}
+				}
+			}else{
+				this.filteredData = this.data;
+			}
+		}
+	});
+&lt;/script&gt;
+&lt;div ng-app=&quot;testApp&quot; ng-controller=&quot;TestController&quot;&gt;
+	{{name}}
+	 &lt;div&gt;
+		Name: 
+		&lt;input ng-model=&quot;queryStr&quot; ng-change=&quot;query()&quot;&gt;
+	 &lt;/div&gt;
+	&lt;table border=&quot;1&quot;&gt;
+		&lt;tr&gt;
+			&lt;th&gt;Name&lt;/th&gt;
+			&lt;th&gt;Value&lt;/th&gt;
+		&lt;/tr&gt;
+		&lt;tr ng-repeat=&quot;row in filteredData&quot;&gt;
+			&lt;td&gt;{{row.name}}&lt;/td&gt;
+			&lt;td&gt;{{row.value}}&lt;/td&gt;
+		&lt;/tr&gt;
+	 &lt;/table&gt;
+ &lt;/div&gt;
+			</code>
+		</pre>
+	 </div>
+ </body>
+
+</html>

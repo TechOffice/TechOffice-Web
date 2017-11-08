@@ -1,0 +1,76 @@
+<!doctype html>
+<html ng-app="app">
+ <head >
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script>
+        // define app module
+        var app = angular.module('app', []);
+        // define Ctrl on app
+        app.controller('Ctrl', function ($scope) {
+            $scope.search = function(){
+				alert("search");
+			};	
+        });
+		
+		app.directive("enterTrigger", function(){
+			return {
+				scope:{
+					search: "&method"
+				},
+				link: function(scope, elements, attrs){
+					var inputs = elements.find("input");
+					for (var i=0; i<inputs.length; i++){
+						var input = angular.element(inputs[i]);
+						input.on("keyup", function(event){
+							if (event.keyCode === 13){
+								scope.search();
+							} 
+						});
+					}
+				}
+			};
+		});
+		
+		app.directive("firstInputFocus", function(){
+			return {
+				link: function(scope, elements, attrs){
+					var inputs = elements.find("input");
+					if (inputs.length > 0){
+						inputs[0].focus();
+					}
+				}
+			};
+		});
+		
+		app.directive("fakeInput", function(){
+			return {
+				template: "<input/>"
+			};
+		});
+    </script>
+ </head>
+
+ <body>
+	<div ng-controller="Ctrl">
+		<h1>Search</h1>
+		<div enter-trigger method="search()" first-input-focus>
+			<fake-input></fake-input>
+			<input/>
+			<input/>
+			<input/>
+			<div>
+				<input/>
+				<div>
+					<input/>
+					<input/>
+				</div>
+			</div>
+		</div>
+		<h1>Not Search</h1>
+		<input>
+		<input>
+		<input>
+	 <div>
+ </body>
+
+</html>

@@ -1,0 +1,62 @@
+
+<html>
+	<head>
+		<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ember.js/2.10.2/ember.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ember.js/2.10.2/ember.debug.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ember.js/2.10.2/ember-template-compiler.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ember-data.js/2.11.0/ember-data.js"></script>
+	</head>
+
+	<body>
+		<div id='app'></div>
+		<pre id="logs"></pre>
+
+		<script type="text/x-handlebars" data-template-name="application">
+			<!-- link-to for navigation between the routes -->
+			<h1>Ember Route Example</h1>
+			<ul>
+				<li>{{#link-to 'authors'}}Authors{{/link-to}}</li>
+				<li>{{#link-to 'books'}}Books{{/link-to}}</li>
+			</ul>
+			<p>The below content would be dynamicaly rendered when the above link is cliked</p>
+			<br/>
+			<div>
+				{{outlet}}
+			</div>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="authors">
+			<h3>Authors Page </h3>
+			<ul>
+				<li>Author 1</li>
+				<li>Author 2</li>
+			</ul>
+		</script>
+
+		<script type="text/x-handlebars" data-template-name="books">
+			<h3>Books Page</h3>
+			<ul>
+				<li>Book 1</li>
+				<li>Book 2</li>
+			</ul>
+			  {{input type="text" value=search action="query"}}
+
+		</script>
+
+		<script type="text/javascript">
+			App = Ember.Application.create();
+			
+			App.Router.map(function() {
+				//refers to the authors template and path refers within page
+				this.route('authors', {path: '/authors'});
+				//refers to the books template
+				this.route('books');
+			});
+		</script>
+
+	</body>
+
+
+
+</html>

@@ -1,0 +1,19 @@
+<html>
+	<head>
+		<script>
+			var debug = {hello: "world"};
+			var blob = new Blob([JSON.stringify(debug, null, 2)], {type : 'application/json'});
+		</script>
+	</head>
+	<body>
+		<h1>Blob</h1>
+		<p>A Blob object represents a file-like object of immutable, raw data. </p>
+		<script>
+			var element = document.createElement('a');
+			element.setAttribute('href', URL.createObjectURL(blob) );
+			element.setAttribute('download', 'test.txt');
+			element.innerHTML = "download"
+			document.body.appendChild(element);
+		</script>
+	</body>
+</html>

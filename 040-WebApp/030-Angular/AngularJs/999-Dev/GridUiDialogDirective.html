@@ -1,0 +1,143 @@
+<!doctype html>
+<!--
+	http://ui-grid.info/
+	
+	Note: <!doctype html> is required to add in the html document in order to avoid strange header height.
+	
+	
+-->
+<html ng-app="app">
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+	
+	<!-- UI Grid -->
+	<script src="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.min.css"/>
+	
+	<!-- ngDialog -->
+	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog.min.css">
+	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog-theme-default.min.css">
+	<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/css/ngDialog-theme-plain.min.css">
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.4.0/js/ngDialog.min.js"></script>
+	
+	
+	<style>
+		.grid {
+		  width: 500px;
+		  height: 250px;
+		}
+		
+		.ngdialog.ngdialog-theme-plain.custom-width .ngdialog-content {
+			width: 70%;
+		}
+	</style>
+	
+	<script>
+		// define app module
+		var app = angular.module('app', ['ngDialog', 'ui.grid', 'ui.grid.edit', 'ui.grid.selection']);
+		
+		// define alertService
+		app.factory("alertService", function($rootScope){
+			$rootScope.messages = $rootScope.messages || [];
+			
+			return {
+				show: function(message){
+					$rootScope.messages.push(message);
+				},
+				clear: function(){
+					$rootScope.messages = [];
+				}
+			};
+		});
+
+		app.directive("message", function(){
+			return {
+				template: '<div ng-repeat="message in messages">{{message}}</div>',
+				controller: function($rootScope, $scope){
+				}
+			};
+		});
+		
+		app.directive("gridUiDialog", function(){
+			return {
+				template: '<button ng-click="edit()">Edit</button>',
+				scope: {
+					gridApi: "=gridApi",
+					dialogTemplate: "=dialogTemplate" 
+				},
+				controller: function($scope, ngDialog, alertService ){
+					$scope.edit = function(){
+						var selectedRows = $scope.gridApi.selection.getSelectedRows();
+						if (selectedRows.length != 1){
+							alertService.show("Please select one row for edit");
+						}else{
+							alertService.clear();
+							var selectedRow = $scope.gridApi.selection.getSelectedRows()[0];
+							var dialogScope = $scope.$new();
+							dialogScope.form = selectedRow;
+							$scope.dialog = ngDialog.open({
+								template: $scope.dialogTemplate.template,
+								controller: $scope.dialogTemplate.controller,
+								scope: dialogScope,
+								plain: true
+							});
+							// callback when close dialog 
+							$scope.dialog.closePromise.then(function (data) {
+								if (data.value){
+									//$scope.gridApi.selection.getSelectedRows()[0] = data.value;
+								}
+							});
+
+						}
+					};
+				}
+			};
+		});
+		
+		// define controller, Ctrl
+		app.controller("Ctrl", function($rootScope, $scope, alertService, ngDialog){
+
+			// Ctrl  
+			$scope.gridOptions = {
+				enableSorting: true,
+				enableRowSelection: true,
+				columnDefs: [
+					{ name:'firstName', field: 'firstName' },
+					{ name:'lastName', field: 'lastName'}
+				],
+				data : [
+					{
+						"firstName": "Test First Name 1 1",
+						"lastName": "Test Last Name 1 2"
+					},
+					{
+						"firstName": "Test First Name 2 1",
+						"lastName": "Test Last Name 2 2",
+					}
+				]
+			};
+			$scope.gridOptions.onRegisterApi = function (gridApi) {
+				$scope.gridApi = gridApi;
+			}
+			$scope.dialogTemplate = {
+				template: '<div><div>First Name: <input ng-model="form.firstName"></div><div>Last Name: <input ng-model="form.lastName"></div><button ng-click="update()">Update</button></div>',
+				controller: function($scope, $rootScope){
+					$scope.update = function(){
+						$scope.dialog.close($scope.form);
+					}
+				},
+			}
+		});
+	</script>
+ </head>
+
+ <body>
+    <div ng-controller="Ctrl">
+		<message></message>
+		<grid-ui-dialog grid-api="gridApi" dialog-template="dialogTemplate">Edit</grid-ui-dialog>
+		<div id="grid1" ui-grid="gridOptions" ui-grid-selection ui-grid-edit class="grid" ></div>
+    </div>
+ </body>
+
+
+</html>

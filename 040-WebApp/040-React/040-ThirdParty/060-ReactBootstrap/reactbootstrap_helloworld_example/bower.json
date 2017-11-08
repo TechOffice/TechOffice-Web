@@ -1,0 +1,20 @@
+{
+  "name": "reactbootstrap_helloworld_example",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "imben1109 <imben1109@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/TechOffice/TechOffice-Web",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}

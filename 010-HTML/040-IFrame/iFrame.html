@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	</head>
+	<body>
+		<table>
+			<tr>
+				<td><textarea id="htmlTextArea" style="width: 700px; height: 500px"></textarea></td>
+				<td style="vertical-align: top;"><div id="iframeContainer"></div></td>
+			</tr>
+		</table>
+		<script>
+			var iframeContainer = document.getElementById("iframeContainer");
+			var iframe = document.createElement('iframe');
+			var htmlTextArea = document.getElementById("htmlTextArea");
+			iframe.width = 600;
+			iframe.height = 500;
+			iframe.id = "previewIframe"
+			var html = "<html><body></body><body><h1>This is an iFrame.</h1></body></html>";
+			htmlTextArea.value = html
+			iframe.src = "data:text/html;charset=utf-8," + encodeURI(html);
+			iframeContainer.appendChild(iframe);
+			
+			$("#htmlTextArea").on("keyup paste change", function(){
+				var currentVal = $(this).val();
+				if (currentVal == html){
+					return;
+				}
+				html = currentVal;
+				iframe.src = "data:text/html;charset=utf-8," + encodeURI(html);
+			});
+			
+			$("#htmlTextArea").on("keydown", function(e){
+				if (e.keyCode == 9){
+					var selectionStart = this.selectionStart;
+					var selectionEnd = this.selectionEnd;
+					e.preventDefault();
+					var textBeforeSelectionStart = this.value.substring(0, selectionStart);
+					var textAfterSelectionEnd = this.value.substring(selectionEnd, this.value.length);
+					this.value = textBeforeSelectionStart + "\t" + textAfterSelectionEnd;
+					this.selectionStart = selectionStart + 1;
+					this.selectionEnd = selectionStart + 1;
+				}
+			});
+		</script>
+	</body>
+</html>

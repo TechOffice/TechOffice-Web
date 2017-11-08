@@ -1,0 +1,117 @@
+<!doctype html>
+<!--
+	http://ui-grid.info/
+	
+	Note: <!doctype html> is required to add in the html document in order to avoid strange header height.
+	
+	
+-->
+<html ng-app="app">
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+	<script src="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.min.css"/>
+	<style>
+		.grid {
+		  width: 500px;
+		  height: 250px;
+		}
+	</style>
+	<script>
+		// define app module
+		var app = angular.module('app', ['ui.grid', 'ui.grid.edit']);
+		
+		app.directive("uiGridLovInput", function(uiGridConstants, uiGridEditConstants, $timeout){
+			return {
+			    require: ['?^uiGrid', '?^uiGridRenderContainer'],
+				scope: true,
+				compile : function (){
+					return {
+						pre: function ($scope, $elm, $attrs) {
+
+						},
+						post: function ($scope, $elm, $attrs, controllers) {
+							// Start Edit Event
+							$scope.$on(uiGridEditConstants.events.BEGIN_CELL_EDIT, function () {
+								var elements = $elm.children();
+								
+								if (elements.length == 2){
+									var input = angular.element(elements[0]);
+									var button = angular.element(elements[1]);
+									var clicked = false;
+									$timeout(function(){
+										input[0].focus();
+									});
+									button.on('click', function(evt){
+										clicked = true;
+										input[0].focus();
+									});
+									input.on('blur', function (evt) {
+										clicked = false;
+										$timeout(function(){
+											if (!clicked){
+												$scope.stopEdit(evt);
+											}
+										}, 100);
+									});
+									input[0].style.width = ($elm[0].parentElement.offsetWidth - 1 - button[0].offsetWidth) + 'px';
+								}else{
+									$scope.stopEdit(evt);
+								}
+							});
+							
+							// Stop Edit Function
+							$scope.stopEdit = function (evt) {
+								 $scope.$emit(uiGridEditConstants.events.END_CELL_EDIT);
+							};
+							
+							// destory event
+							$scope.$on('$destroy', function unbindEvents() {
+							  // unbind jquery events to prevent memory leaks
+							  $elm.off();
+							});
+							
+							// key down event
+							$elm.on('keydown', function (evt) {
+							
+							});
+						}
+					};
+				}
+
+			};
+		});
+		
+
+		
+		app.controller("Ctrl", function($scope){
+			$scope.gridOptions = {
+				enableSorting: true,
+				columnDefs: [
+					{ name:'firstName', field: 'firstName' },
+					{ name:'lastName', field: 'lastName', enableCellEdit: true, 
+						editableCellTemplate: '<div class="ui-grid-cell-contents" ui-grid-lov-input><input ng-model="MODEL_COL_FIELD"  /><button>Edit</button></div>' 
+					},
+					{ name:'city', field: 'address.city'},
+					{ name:'getZip', field: 'getZip()', enableCellEdit:false}
+				],
+				data : [{
+					"firstName": "Test First Name",
+					"lastName": "Test Last Name",
+					"address": {street:"301 Dove Ave", city:"Laurel", zip:"39565"},
+					"getZip" : function() {return this.address.zip;}
+				}]
+			  };
+
+		});
+	</script>
+ </head>
+
+ <body>
+    <div ng-controller="Ctrl">
+      <div id="grid1" ui-grid="gridOptions" ui-grid-edit class="grid"></div>
+    </div>
+ </body>
+
+
+</html>

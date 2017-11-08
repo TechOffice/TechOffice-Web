@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/processing.js/1.6.4/processing.min.js"></script>
+		<script type="text/processing" data-processing-target="testCanvas">
+			void setup()
+			{
+			  size(200,200);
+			  background(125);
+			  fill(255);
+			  noLoop();
+			  PFont fontA = loadFont("courier");
+			  textFont(fontA, 14);  
+			}
+
+			void draw(){  
+			  text("Hello Web!",20,20);
+			  println("Hello ErrorLog!");
+			}
+		</script>
+	</head>
+	
+	<body>
+		<canvas id="testCanvas"></canvas>
+	</body>
+</html>

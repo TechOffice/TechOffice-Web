@@ -1,0 +1,51 @@
+<html>
+    <head>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
+	
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.1/require.min.js"></script>
+        <script>
+            require(['main']);
+        </script>
+    </head>
+    <body>
+		<h3>Display</h3>
+        <div id="messageDiv"></div>
+		<h3>Code</h3>
+		<p>RequireJsExample.html</p>
+		<div id="code">
+			<pre>
+				<code>
+&lt;script&gt;
+	require(['main']);
+&lt;/script&gt;
+				</code>
+			</pre>
+			
+			main.js
+			<pre>
+				<code>
+requirejs.config({
+    baseUrl: 'lib',
+    paths: {
+        app: '../app'
+    }
+});
+
+define(function(require){
+    module1 = require(&quot;app/module1&quot;);
+    module2 = require(&quot;app/module2&quot;);
+    console.log(module1.name)
+    console.log(module1.name)
+    var messageDiv = document.querySelector(&quot;#messageDiv&quot;);
+    var message = &quot;module1.name : &quot; + module1.name ;
+    message = message + &quot;&lt;br/&gt;&quot;;
+    message = message + &quot;module2.name : &quot; + module2.name ;
+    messageDiv.innerHTML = message;
+});				
+				</code>
+			</pre>
+		</div>
+    </body>
+</html>

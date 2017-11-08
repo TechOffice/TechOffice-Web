@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<script>
+			function selectFile(){
+				var fileInput = document.getElementById("fileInput");
+				var file = fileInput.files[0];
+				var reader = new FileReader();
+				reader.onload = function(e){
+					var content = reader.result;
+					var fileContent = document.getElementById('fileContent')
+					fileContent.value = content;
+				}
+				
+				if (file){
+					// when select a file
+					reader.readAsText(file);
+				}else{
+					var fileContent = document.getElementById('fileContent')
+					fileContent.value = "";
+				}
+			
+			}
+		</script>
+	</head>
+	<body>
+		<input id="fileInput" type="file" onchange="selectFile()"/>
+		<br/>
+		<textarea id="fileContent" style="width: 1000px; height: 500px"></textarea>
+	</body>
+</html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<!--
+	http://ui-grid.info/
+	
+	Note: <!doctype html> is required to add in the html document in order to avoid strange header height.
+	
+	
+-->
+<html ng-app="app">
+ <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+	<script src="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/angular-ui/bower-ui-grid/master/ui-grid.min.css"/>
+	<style>
+		.grid {
+		  width: 500px;
+		  height: 250px;
+		}
+
+	</style>
+	<script>
+		// define app module
+		var app = angular.module('app', ['ui.grid', 'ui.grid.edit', 'ui.grid.rowEdit', 'ui.grid.cellNav', 'ui.grid.validate', 'ui.grid.selection']);
+		
+		// define alertService
+		app.factory("alertService", function($rootScope){
+			$rootScope.messages = $rootScope.messages || [];
+			
+			return {
+				show: function(message){
+					$rootScope.messages.push(message);
+				},
+				clear: function(){
+					$rootScope.messages = [];
+				}
+			};
+		});
+		
+		app.directive("message", function(){
+			return {
+				template: '<div><div ng-repeat="message in messages track by $index">{{message}}</div></div>',
+				controller: function($rootScope){
+				}
+			};
+		});
+		
+		app.controller("Ctrl", function($scope, $rootScope, $q, alertService, uiGridValidateService){
+			$scope.gridOptions = {
+				enableSorting: true,
+				columnDefs: [
+				  { name:'firstName', field: 'firstName', displayName: "First Name", validators:{required: true}, cellTemplate: 'ui-grid/cellTitleValidator'},
+				  { name:'lastName', field: 'lastName', displayName: "Last Name" }
+				],
+				data : [
+					{
+						"firstName": "First Name 1",
+						"lastName": "Last Name 1"
+					},
+					{
+						"firstName": "First Name 2",
+						"lastName": "Last Name 2"
+					}
+				]
+			};
+			  
+			$scope.gridOptions.onRegisterApi = function(gridApi){
+				$scope.gridApi = gridApi;
+				gridApi.validate.on.validationFailed($scope, function(rowEntity, colDef, newValue, oldValue){});
+				gridApi.rowEdit.on.saveRow($scope, function(rowEntity){
+					//var promise = $q.defer();
+					//gridApi.rowEdit.setSavePromise( rowEntity, promise.promise );
+					//promise.reject();
+					//promise.resolve();
+				});
+
+			};
+
+			$scope.save = function(){
+				alertService.clear();
+				var data = $scope.gridOptions.data;
+				for (var i =0; i<data.length ; i++){
+					var row = data[i];
+					var columnDefs = $scope.gridOptions.columnDefs;
+					angular.forEach(columnDefs, function(columnDef, key) {
+						if (uiGridValidateService.isInvalid(row, columnDef)){
+							alertService.show( "[" + (i+1) + "] " + columnDef.displayName + " : Invalid");
+						} 
+					});
+				}
+			}
+		});
+	</script>
+ </head>
+
+ <body>
+    <div ng-controller="Ctrl">	
+		<message></message>
+		<div id="grid1" ui-grid="gridOptions" ui-grid-edit ui-grid-row-edit ui-grid-validate class="grid"></div>
+		<button ng-click="save()">Save</button>
+    </div>
+ </body>
+
+
+</html>

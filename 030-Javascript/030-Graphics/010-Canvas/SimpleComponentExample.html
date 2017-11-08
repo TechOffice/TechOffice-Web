@@ -1,0 +1,119 @@
+<html>
+    <head>
+		<style>
+			#canvasContainer{
+				display: inline-block;
+				border: 1px solid;
+			}
+		</style>
+    </head>
+
+    <body>
+        <h1>Http5 Canvas - Simple Component Example</h1>
+        <div id="canvasContainer"></div>
+		<p>This is a Canvas Components Example. The Canvas would automatically update for a specified interval.</p>
+		<p>There a JavaScript Canvas Component Object which provide update() function which would update context object of Canvas</p>
+		<ul>
+			<li>StrokeText</li>
+			<li>FillText</li>
+			<li>FillRect</li>
+		</ul>
+        <script>
+			var simpleCanvas = (function(containerId, interval){
+				var components = [];
+				var canvas = document.createElement("canvas");
+				var canvasContainer = document.getElementById(containerId);
+				canvasContainer.append(canvas);
+				var context = canvas.getContext("2d");
+				return {
+					
+					getContainerId: function(){
+						return containerId;
+					},
+					
+					getInterval: function(){
+						return interval;
+					},
+					
+					setInterval: function(lInterval){
+						interval = lInterval;
+					},
+					
+					getCanvas: function(){
+						return canvas;
+					},
+					
+					getComponents: function(){
+						return components;
+					},
+					
+					getContext: function(){
+						return context;
+					},
+					
+					add: function(component){
+						components.push(component);
+					},
+					
+					update: function(){
+						context.clearRect(0, 0, canvas.width, canvas.height);
+						for (var i=0; i<components.length; i++){
+							var component = components[i];
+							component.update(context);
+						}
+					},
+					
+					start: function(){
+						setInterval(this.update, interval)
+					}
+					
+				};
+			})("canvasContainer", 500); 	
+		
+			function CanvasStrokeText(str, x, y){
+				this.str = str;
+				this.x = x;
+				this.y = y;
+				this.font;
+				this.update = function(context){
+					if (this.font){
+						context.font = this.font;
+					}
+					context.strokeText(this.str, this.x, this.y);
+				};
+				this.setX = function(x){
+					this.x = x;
+				};
+				this.setY = function(y){
+					this.y = y;
+				};
+				this.setFont = function(font){
+					this.font = font;
+				};
+			}
+			
+			function CanvasFillText(str, x, y){
+				this.str = str;
+				this.x = x;
+				this.y = y;
+				this.update = function(context){
+					context.fillText(str, x, y);
+				};
+			}
+			
+			function CanvasFillRect(x, y, width, height){
+				this.x = x;
+				this.y = y;
+				this.width = width;
+				this.height = height;
+				this.update = function(context){
+					context.fillRect(this.x, this.y, this.width, this.height);
+				};
+			}
+			
+			var text = new CanvasStrokeText("Test", 0, 30 );
+			simpleCanvas.add(text);
+			simpleCanvas.start();
+        </script>
+    </body>
+</html>

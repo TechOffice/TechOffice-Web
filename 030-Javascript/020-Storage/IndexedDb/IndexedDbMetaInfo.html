@@ -1,0 +1,172 @@
+<html>
+	<head>
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script>
+			var indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+			
+			var databaseList;
+			var selectedDatabaseName;
+			var db // selected database
+				
+			$(function(){
+
+				function getDataBaseList(callback){
+					if (indexedDB.webkitGetDatabaseNames){
+						var getDatabaseNamesRequest = indexedDB.webkitGetDatabaseNames();
+						getDatabaseNamesRequest.onsuccess = function(result){
+							var results = result.target.result;
+							callback(results);
+						}
+					}
+				}
+				
+				function databaseListToHtml(databaseList){
+					var table = $("<table></table>")
+					for (var i=0; i<databaseList.length; i++){
+						var database = databaseList[i];
+						var row = $("<tr></tr>");
+						var radioboxCol = $("<td></td>")
+						var databaseSelect = $("<input type='radio' name='databaseSelect'/>");
+						databaseSelect.val(database);
+						radioboxCol.append(databaseSelect);
+						var col = $("<td></td>");
+						col.append(database);
+						row.append(radioboxCol);
+						row.append(col);
+						table.append(row);
+					}
+					return table;
+				}
+				
+				function objectStoreListToHtml(objectStoreList){
+					var table = $("<table></table>")
+					for (var i=0; i<objectStoreList.length; i++){
+						var objectStoreName = objectStoreList[i];
+						var row = $("<tr></tr>");
+						var radioboxCol = $("<td></td>")
+						var objectStoreSelect = $("<input type='radio' name='objectStoreSelect'/>");
+						objectStoreSelect.val(objectStoreSelect);
+						radioboxCol.append(objectStoreSelect);
+						var col = $("<td></td>");
+						col.append(objectStoreName);
+						row.append(radioboxCol);
+						row.append(col);
+						table.append(row);
+					}
+					return table;
+				}
+				
+				function createDatabase(databaseName, callback){
+					var conn = indexedDB.open(databaseName);
+					conn.onsuccess = function(){
+						callback();
+					}
+				}
+				
+				function deleteDatabase(databaseName, callback){
+					db.close();
+					indexedDB.deleteDatabase(databaseName);
+				}
+				
+				function updateDatabaseList(){
+					getDataBaseList(function(result){
+						databaseList = result;
+						var databaseListHtml = databaseListToHtml(databaseList);
+						var databaseListDiv = $("#databaseList");
+						databaseListDiv.html(databaseListHtml);
+					});
+				}
+				
+				function createSchema(schema, callback){
+					debugger;
+					db.close();
+					var conn = indexedDB.open(selectedDatabaseName, db.version + 1);
+					conn.onupgradeneeded = function() {
+						db = this.result;
+						var store = db.createObjectStore(schema, {keyPath: "id", autoIncrement:true});				
+					};
+					conn.onsuccess = function() {
+						db = this.result;
+						console.log("connected to " + db.name + " (version: " + db.version + " )");
+						callback();
+					}
+				}
+				
+				function updateObjectStoreResult(){
+					var objectStores = db.objectStoreNames;
+					var objectStoresHtml = objectStoreListToHtml(objectStores);
+					var objectStoreListDiv = $("#objectStoreList");
+					objectStoreListDiv.html(objectStoresHtml);
+					$("#databameMeta").show();
+				}
+				
+				// Main Program 
+				updateDatabaseList();	
+				$("#createNewDatabaseBtn").click(function(){
+					var databaseName = $("#newDatabaseName").val();
+					createDatabase(databaseName, function(){
+						updateDatabaseList();
+					});
+				});
+				$("#deleteDatabaseBtn").click(function(){
+					var databaseSelects = $("input[name=databaseSelect]:checked");
+					if (databaseSelects.length > 0){
+						var databaseSelectName = databaseSelects.val();
+						deleteDatabase(databaseSelectName);
+						updateDatabaseList();
+						$("#databameMeta").hide();
+					}
+				});
+				$("#listDataStoreBtn").click(function(){
+					var databaseSelects = $("input[name=databaseSelect]:checked");
+					if (databaseSelects.length > 0){
+						var databaseSelectName = databaseSelects.val();
+						var conn = indexedDB.open(databaseSelectName);
+						conn.onsuccess = function(){
+							db = this.result;
+							selectedDatabaseName = databaseSelectName;
+							$("#currentDatabase").html(databaseSelectName);
+							updateObjectStoreResult();
+						}
+					}
+				});
+				$("#createNewSchemaBtn").click(function(){
+					var newSchemaName = $("#newSchemaName").val();
+					createSchema(newSchemaName, updateObjectStoreResult);
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<h3>IndexedDB Database List</h3>
+		<div>
+			<div>
+				<b>Database Name: </b>
+				<input id="newDatabaseName"/>
+				<button id="createNewDatabaseBtn">Create</button>
+				<button id="deleteDatabaseBtn">Delete</button>
+				<button id="listDataStoreBtn">List</button>
+			</div>
+		</div>
+		<br/>
+		<div><b>Database List</b></div>
+		<div id="databaseList"></div>
+		<br/>
+		<br/>
+		<br/>
+		<div id="databameMeta" style="display:none">
+			<br/>
+			<div><b>Current Database: </b><span id="currentDatabase"></span></div>
+			<br/>
+			<div>
+				<b>Schema Name: </b>
+				<input id="newSchemaName"/>
+				<button id="createNewSchemaBtn">Create</button>
+				<button id="deleteSchemaBtn">Delete</button>
+			</div>
+			<br/>
+			<div><b>Object Store List</b></div>
+			<div id="objectStoreList"></div>
+		</div>		
+	</body>
+</html>
