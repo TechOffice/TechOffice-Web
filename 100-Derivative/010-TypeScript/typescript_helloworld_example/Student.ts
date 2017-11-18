@@ -1,8 +1,6 @@
-import { ClassRoom } from './ClassRoom';
 
 class Student{
 	private fullname: string;
-	private classroom: ClassRoom;
 	public constructor(fullname: string){
 		this.fullname = fullname;
 	}

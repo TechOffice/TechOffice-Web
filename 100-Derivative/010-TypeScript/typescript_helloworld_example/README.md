@@ -28,11 +28,11 @@ console.log(student.getFullname());
 
 **Compile**
 ```
-tsc helloworld.ts
+tsc Student.ts
 ```
 
 **Execute**
 ```
-node helloworld.js
+node Student.js
 ``
 
