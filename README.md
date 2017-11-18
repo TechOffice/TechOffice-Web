@@ -13,7 +13,7 @@
 * [900-Others](900-Others/)              
 * [999-Dev](999-Dev/)
 
-This is a Tech Office Web Example Project. You could find many Front-end Examples here.
+This is a Tech Office Client-side Web Example Project. You could find many Front-end Examples here.
 
 Github Page: https://techoffice.github.io/TechOffice-Web/
 
