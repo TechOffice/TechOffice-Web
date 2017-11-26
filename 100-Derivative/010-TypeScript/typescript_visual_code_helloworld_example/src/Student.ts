@@ -1,4 +1,4 @@
-import { ClassRoom } from './ClassRoom';
+import { ClassRoom } from "./ClassRoom";
 
 class Student{
 	private fullname: string;
