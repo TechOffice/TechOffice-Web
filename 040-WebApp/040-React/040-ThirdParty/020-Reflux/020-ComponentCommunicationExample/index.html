@@ -1,0 +1,100 @@
+<html>
+	<head>
+		<title>Reflux Hello World Example</title>
+		<script src="bower_components/babel/browser.js"></script>
+		<script src="bower_components/react/react.production.min.js"></script>
+		<script src="bower_components/react/react-dom.production.min.js"></script>
+		<script src="bower_components/reflux/dist/reflux.min.js"></script>
+		<script type="text/babel">
+			
+			// Action
+			var Actions = Reflux.createActions(['addChildren', 'getChildrens']);
+			
+			// Store
+			class StatusStore extends Reflux.Store{
+				constructor(){
+					super();
+					this.childrens = [];
+					this.state = {childrens: this.childrens}; 
+					this.listenTo(Actions.addChildren, this.addChildren); 
+					this.listenTo(Actions.getChildrens, this.getChildrens);
+				}
+
+				addChildren(children){
+					this.childrens.push(children);
+					this.setState({childrens: this.childrens});
+				}
+				
+				getChildrens(){
+					return this.state.childrens;
+				}
+			}
+			
+			class MyComponent2 extends Reflux.Component{
+				constructor(props){
+					super(props);
+					this.state = {};
+					this.store = StatusStore;
+					this.add = this.add.bind(this);
+				}
+				
+				add(){
+					var childrens = this.state.childrens;
+					var seq = 0;
+					if (childrens && childrens.length > 0){
+						seq = childrens.length;
+					}
+					Actions.addChildren({seq: seq});
+				}
+				
+				render(){
+					return (
+						<div>
+							<button onClick={this.add}>Add</button>
+						</div>
+					);
+				}
+			}
+			
+			// Component
+			class MyComponent extends Reflux.Component{
+				constructor(props){
+					super(props);
+					this.state = {};
+					this.store = StatusStore;
+				}
+				
+				render(){ 
+					var childrens = [];
+					if (this.state.childrens.length > 0){
+						childrens = this.state.childrens;
+					}
+					return (
+						<div>
+							<h1>Hello World</h1>
+							<MyComponent2/>
+							{
+								childrens.map(function(children, index){
+									return (<div key={index}>{children.seq}</div>);
+								})
+							}
+						</div>
+					);
+				}
+			}
+
+			
+			ReactDOM.render(
+                <MyComponent/>,
+                document.getElementById('container')
+            );
+		</script>
+	</head>
+	
+	<body>
+		<div id="container"></div>
+
+	</body>
+	
+
+</html>

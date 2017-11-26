@@ -5,15 +5,14 @@ export default class Droppable extends Component{
 
   constructor(props){
     super(props);
-    this.childrenSeq = 0;
     this.childrens = [];
     this.state = {childrens: this.childrens};
 	this.seq = 0;
   }
   
   getSeq(){
-	this.seq = this.seq + 1;
-	return this.seq;
+	this.seq++;
+	return seq;
   }
   
   allowDrop(event){
@@ -24,16 +23,20 @@ export default class Droppable extends Component{
     event.stopPropagation();
     event.preventDefault()
     var draggable = DragDropManager.getInstance().getDraggable();
-	
-	this.childrens.push(clonedElement);
+	this.childrens.push(draggable);
     this.setState({childrens: this.childrens});
   }
 
   render(){
+	var me = this;
     return (
       <div style={{height: this.height, width: this.width}}
         onDragOver={this.allowDrop.bind(this)} onDrop={this.onDrop.bind(this)} {...this.props}>
-        {this.state.childrens}
+		{
+			this.state.childrens.map(function(children, index){
+				return <children.type key={index}/>
+			})
+		}
       </div>
     );
   }

@@ -40682,7 +40682,6 @@ var Droppable = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Droppable.__proto__ || Object.getPrototypeOf(Droppable)).call(this, props));
 
-    _this.childrenSeq = 0;
     _this.childrens = [];
     _this.state = { childrens: _this.childrens };
     _this.seq = 0;
@@ -40692,8 +40691,8 @@ var Droppable = function (_Component) {
   _createClass(Droppable, [{
     key: 'getSeq',
     value: function getSeq() {
-      this.seq = this.seq + 1;
-      return this.seq;
+      this.seq++;
+      return seq;
     }
   }, {
     key: 'allowDrop',
@@ -40706,18 +40705,20 @@ var Droppable = function (_Component) {
       event.stopPropagation();
       event.preventDefault();
       var draggable = _DragDropManager2.default.getInstance().getDraggable();
-
-      this.childrens.push(clonedElement);
+      this.childrens.push(draggable);
       this.setState({ childrens: this.childrens });
     }
   }, {
     key: 'render',
     value: function render() {
+      var me = this;
       return _react2.default.createElement(
         'div',
         _extends({ style: { height: this.height, width: this.width },
           onDragOver: this.allowDrop.bind(this), onDrop: this.onDrop.bind(this) }, this.props),
-        this.state.childrens
+        this.state.childrens.map(function (children, index) {
+          return _react2.default.createElement(children.type, { key: index });
+        })
       );
     }
   }]);
