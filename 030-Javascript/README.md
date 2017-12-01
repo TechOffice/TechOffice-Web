@@ -1,3 +1,5 @@
-# HTML5 Example
-HTML 5 is a version of HTML. It provide various new funcationality to HTML. 
+# JavaScript
 
+
+# Reference
+* https://developer.mozilla.org/en-US/docs/Web/JavaScript
