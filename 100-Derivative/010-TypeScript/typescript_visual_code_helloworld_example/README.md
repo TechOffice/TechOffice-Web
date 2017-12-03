@@ -1,38 +1,16 @@
-# TypeScript Hello World Example
+# TypeScript Visaul Studio Code Example
 
-## Prerequistie
-* NodeJs
-* TypeScript
-
-**Install TypeScript**
+Build
 ```
-npm install -g typescript
+Ctrl + b 
 ```
 
-## Example
-**helloworld.ts**
-```
-class Student{
-	private fullname: string;
-	public constructor(fullname: string){
-		this.fullname = fullname;
-	}
-	public getFullname(): string{
-		return this.fullname;
-	}
-}
+**select:** tsc: build
 
-var student = new Student("This is my full name");
-console.log(student.getFullname());
+
+Run
+```
+F5
 ```
 
-**Compile**
-```
-tsc helloworld.ts
-```
-
-**Execute**
-```
-node helloworld.js
-``
 
