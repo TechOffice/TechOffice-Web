@@ -1,0 +1,30 @@
+<html>
+	<body>
+		<script>
+			var jsonObj = {d: new Date()};
+			var jsonStr = JSON.stringify(jsonObj, function(name, value){
+				if (typeof(value) === 'object') {
+					for (var k in value) {
+						if (value[k] instanceof Date) {
+							value[k] = value[k].getTime();
+						}
+					}
+				}
+				return value;
+			});
+		</script>
+		
+		<script>
+			var scripts = document.getElementsByTagName("script");
+			var script = scripts[0];
+			var content = document.createElement("div");
+			content.innerText = script.innerText;
+			document.body.append(content);
+			
+			var result = document.createElement("div");
+			result.innerText = "Result: " + jsonStr;
+			document.body.append(result);
+
+		</script>
+	</body>
+</html>
