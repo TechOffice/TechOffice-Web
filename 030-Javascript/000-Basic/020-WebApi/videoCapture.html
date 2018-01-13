@@ -1,0 +1,62 @@
+<html>
+	<body>
+		<script>
+			var getUserMedia = function (callback, errorCallBack){
+				var me = this;
+				if (navigator.getUserMedia){
+					navigator.getUserMedia({video: true}, 
+					function(stream){
+						var streamObjUrl = window.URL.createObjectURL(stream);
+						callback(streamObjUrl);
+					}, 
+					function(){
+						// error call back
+						errorCallBack();
+					})
+				}else if(navigator.webkitGetUserMedia) { 
+					navigator.webkitGetUserMedia({ video: true }, 
+					function(stream){
+						var streamObjUrl = window.webkitURL.createObjectURL(stream);
+						callback(streamObjUrl);
+					}, function(){
+						// error call back
+						errorCallBack();
+					});
+				} else if(navigator.mozGetUserMedia) { 
+					navigator.mozGetUserMedia({ video: true }, 
+					function(stream){
+						var streamObjUrl = window.URL.createObjectURL(stream);
+						callback(streamObjUrl);
+					}, function(){
+						// error call back
+						errorCallBack();
+					});
+				}
+			};
+
+			var video = null
+			getUserMedia(function(streamObjUrl){
+				video = document.createElement("video");
+				video.src = streamObjUrl;
+				document.body.append(video);
+				video.play();
+			}, function(){
+				console.log("error occur!");
+			});
+			
+			// create button and canvas elements. 
+			var canvas = document.createElement("canvas");
+			document.body.append(canvas);
+			
+			var screenCaptureButtonOnclick = function(){
+				var canvas2dContext = canvas.getContext("2d");	
+				canvas2dContext.drawImage(video, 0, 0, canvas.width, canvas.height);			
+			};
+			
+			var screenCaptureButton = document.createElement("button");
+			document.body.append(screenCaptureButton);
+			screenCaptureButton.innerText = "Screen Capture"
+			screenCaptureButton.onclick = screenCaptureButtonOnclick;
+		</script>
+	</body>
+</html>
