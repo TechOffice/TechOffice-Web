@@ -36,6 +36,7 @@
 
 			var video = null
 			getUserMedia(function(streamObjUrl, stream){
+				debugger;
 				video = document.createElement("video");
 				if ("srcObject" in video){
 					video.srcObject = stream;

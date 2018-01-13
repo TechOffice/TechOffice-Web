@@ -1,0 +1,20 @@
+<html>
+	<head>
+	
+		<script>
+			var download = function(){
+				var contentTextarea = document.getElementById("content");
+				debugger;
+				var content = contentTextarea.value;
+				var blob = new Blob([content], {type: "application/octect-stream"})
+				var blobUrl = URL.createObjectURL(blob);
+			}
+		</script>
+	</head>
+	
+	<body>
+		<textarea id="content"></textarea>
+		<button onclick="download()">Download Contenxt in textarea</button>
+	</body>
+
+</html>
