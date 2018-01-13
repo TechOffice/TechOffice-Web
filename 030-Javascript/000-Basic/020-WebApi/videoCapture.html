@@ -7,7 +7,7 @@
 					navigator.getUserMedia({video: true}, 
 					function(stream){
 						var streamObjUrl = window.URL.createObjectURL(stream);
-						callback(streamObjUrl);
+						callback(streamObjUrl, stream);
 					}, 
 					function(){
 						// error call back
@@ -17,7 +17,7 @@
 					navigator.webkitGetUserMedia({ video: true }, 
 					function(stream){
 						var streamObjUrl = window.webkitURL.createObjectURL(stream);
-						callback(streamObjUrl);
+						callback(streamObjUrl, stream);
 					}, function(){
 						// error call back
 						errorCallBack();
@@ -26,7 +26,7 @@
 					navigator.mozGetUserMedia({ video: true }, 
 					function(stream){
 						var streamObjUrl = window.URL.createObjectURL(stream);
-						callback(streamObjUrl);
+						callback(streamObjUrl, stream);
 					}, function(){
 						// error call back
 						errorCallBack();
@@ -35,9 +35,14 @@
 			};
 
 			var video = null
-			getUserMedia(function(streamObjUrl){
+			getUserMedia(function(streamObjUrl, stream){
 				video = document.createElement("video");
-				video.src = streamObjUrl;
+				if ("srcObject" in video){
+					video.srcObject = stream;
+				}else {
+					video.src = streamObjUrl;
+				}
+				
 				document.body.append(video);
 				video.play();
 			}, function(){
