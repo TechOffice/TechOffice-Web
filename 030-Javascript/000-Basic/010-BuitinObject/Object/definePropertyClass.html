@@ -1,0 +1,38 @@
+<html>
+	<head>
+		
+	</head>
+	<body>
+		<div id="app">
+			<input class="ngModel-name"/>
+			<input class="ngModel-age"/>
+		</div>
+		
+		<script>
+			function Student(dom){
+				this.dom = dom;
+			}
+			
+			Student.prototype.state = {name: "", age: ""};
+			
+			Student.prototype.setState = function(newState){
+				this.state = newState;
+				for (property in newState){
+					if (this.dom){
+						var collection = this.dom.getElementsByClassName("ngModel-" + property);
+						for (var i=0; i<collection.length; i++){
+							var item = collection[i];
+							item.value = newState[property];
+						}
+					}
+				}
+			}
+			
+			var s = new Student(document.getElementById("app"));
+			s.setState({
+				name: "test",
+				age: "100"
+			})
+		</script>
+	</body>
+</html>
