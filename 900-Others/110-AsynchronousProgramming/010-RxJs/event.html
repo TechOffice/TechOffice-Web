@@ -1,0 +1,19 @@
+<html>
+	<head>
+		<script src="https://unpkg.com/rxjs/bundles/Rx.min.js"></script>
+		
+
+	</head>
+	
+	<body>
+		<input/>
+		<input/>
+		<script>
+			var observable = Rx.Observable
+				.fromEvent(document.querySelectorAll("input"), "input")
+				.map(function(event){return event.target.value});
+			observable.subscribe(function(x){console.log(x)});
+		</script>
+	</body>
+
+</html>
