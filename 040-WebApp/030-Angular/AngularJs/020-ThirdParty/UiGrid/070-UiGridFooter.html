@@ -16,39 +16,31 @@
 		  width: 500px;
 		  height: 250px;
 		}
+		
+	
+		
+		div.ui-grid-cell input {
+			height: 100px;
+		}
 	</style>
 	<script>
 		// define app module
 		var app = angular.module('app', ['ui.grid', 'ui.grid.edit']);
-		app.controller("Ctrl", function($scope, $timeout){
-		
-			$scope.updateColDef = function(){
-				var columnDefs = angular.copy($scope.gridOptions.columnDefs);
-				var data = angular.copy($scope.gridOptions.data);
-				for (var i=0; i<columnDefs.length; i++){
-					var columnDef = columnDefs[i];
-					columnDef.enableCellEdit = false;
-				}
-				$scope.gridOptions.columnDefs = columnDefs;
-				$scope.gridOptions.data = data;
-			};
-		
+		app.controller("Ctrl", function($scope, uiGridConstants ){
 			$scope.gridOptions = {
 				enableSorting: true,
+				showColumnFooter: true, 
 				columnDefs: [
 				  { name:'firstName', field: 'firstName' },
 				  { name:'lastName', field: 'lastName' },
-				  { name:'city', field: 'address.city'},
+				  { name:'city', field: 'address.city', aggregationType: uiGridConstants.aggregationTypes.sum, footerCellFilter: "number", footerCellClass : "grid-right"}
 				],
-				onRegisterApi: function(gridApi){
-					$scope.gridOptions.gridApi = gridApi; 
-				},
 				data : [{
-					"first-name": "Cox",
-					"friends": ["friend0"],
-					"address": {street:"301 Dove Ave", city:"Laurel", zip:"39565"}
+					firstName: '1',
+					city: 1
 				}]
 			  };
+
 
 		});
 	</script>
@@ -56,10 +48,7 @@
 
  <body>
     <div ng-controller="Ctrl">
-		<div>
-			<button ng-click="updateColDef()">Update Column Definition</button>
-		</div>
-		<div id="grid1" ui-grid="gridOptions" ui-grid-edit class="grid"></div>
+      <div id="grid1" ui-grid="gridOptions" ui-grid-edit class="grid"></div>
     </div>
  </body>
 
