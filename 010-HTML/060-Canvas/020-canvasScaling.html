@@ -1,0 +1,32 @@
+<html>
+	<head>	
+		<script>
+			function updateImage(event){
+				if (event && event.target && event.target.files && event.target.files.length > 0){
+					var file = event.target.files[0];
+					var canvas = document.createElement("canvas");
+					var context = canvas.getContext("2d");
+					
+					var dataUrl = URL.createObjectURL(file); 
+					var image = new Image();
+					image.src = dataUrl;
+					image.onload = function(event){
+						canvas.width = this.width/2;
+						canvas.height = this.height/2;
+						context.drawImage(this, 0, 0, this.width/2, this.height/2);
+						var canvasContainer = document.getElementById("canvasContainer");
+						canvasContainer.appendChild(canvas);
+						canvasContainer.appendChild(this);
+					}
+				}
+			}
+		</script>
+	</head>
+	
+	<body>
+		<input type="file" accept="image/*" onchange="updateImage(event)"/>
+		<div id="canvasContainer">
+		
+		</div>
+	</body>
+</html>
