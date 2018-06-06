@@ -13,7 +13,7 @@
 					image.onload = function(event){
 						canvas.width = this.width/2;
 						canvas.height = this.height/2;
-						context.drawImage(this, 0, 0, this.width/2, this.height/2);
+						context.drawImage(this, 0, 0, this.width, this.height);
 						var canvasContainer = document.getElementById("canvasContainer");
 						canvasContainer.appendChild(canvas);
 						canvasContainer.appendChild(this);
