@@ -1,0 +1,35 @@
+<html>
+	
+	<head>
+		<script>
+			function onUploadFile(event){
+				if (event && event.target && event.target.files && event.target.files.length > 0){
+					var file = event.target.files[0];
+					
+					// display image and get image info
+					var image = new Image();
+					var src = window.URL.createObjectURL(file);
+					image.src = src;
+					image.onload = function() {
+						var imageInfoWidth = document.getElementById("imageInfoWidth");
+						var imageInfoHeight = document.getElementById("imageInfoHeight");
+						var imageDist = document.getElementById("imageDist");
+						imageInfoWidth.innerHTML = this.width;
+						imageInfoHeight.innerHTML = this.height;
+						imageDist.innerHTML = "";
+						imageDist.appendChild(this)
+					};
+				}
+			}
+		</script>
+	</head>
+	
+	<body>
+		<input type="file" onchange="onUploadFile(event)" accept="image/*"/>
+		<div>Width:  <span id="imageInfoWidth"></span></div>
+		<div>Height: <span id="imageInfoHeight"></span></div>
+		<div id="imageDist">
+		</div>
+	</body>
+
+</html>
