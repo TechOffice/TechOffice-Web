@@ -1,0 +1,19 @@
+<html>
+	<head>
+		<script>
+			function inputOnChange(event){
+				event.preventDefault();
+			}
+		</script>
+	</head>
+	
+	<body>
+		<input onkeydown="inputOnChange(event)"/>
+		<div>
+			This is an example showing how to use preventDefault in Javascript of Input field.
+			There are default keydown event in Brower which would "launch text composition system" which can be stopped by preventDefault().
+			For Detail. https://developer.mozilla.org/en-US/docs/Web/Events/keydown
+		</div>
+	</body>
+
+</html>

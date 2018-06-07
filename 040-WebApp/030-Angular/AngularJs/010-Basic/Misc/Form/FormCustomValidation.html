@@ -16,9 +16,15 @@
 				require: "^form",
 				link: function(scope, elm, attrs, form){
 					elm.bind('submit', function(event) {
-						debugger
-						if (form.$isInvalid){
+						if (!form.$valid){
 							event.preventDefault();
+							alert("invalid inputs")
+							
+						}else {
+							var formValidateFn = attrs.formValidate;
+							scope.$apply(function(){
+								scope.$eval(formValidateFn);
+							})
 						}
 					});
 				}
@@ -34,7 +40,6 @@
 							return true;
 						}
 						if (viewValue == "abc"){
-							debugger;
 							return false;
 						}
 						return true;
@@ -45,9 +50,9 @@
 		
 		
 		app.controller("TestController", function($scope){
+			$scope.updated = false;
 			$scope.update = function(user){
-				$scope;
-				debugger;
+				$scope.updated = true;
 			}
 		});
 		
@@ -57,9 +62,10 @@
  <body>
 	<div ng-app="app">
 		<div ng-controller="TestController">
-			<form name="form" ng-submit="update(user)" novalidate form-validate>
+			<form name="form" novalidate form-validate="update(user)">
 				<label for="username">Name: <input type="text" ng-model="user.name1" name="name" id="username" custom-validator required /></label><br />
 				<button type="submit" >Save</button>
+				{{updated}}
 			</form>
 		</div>
 	 </div>
