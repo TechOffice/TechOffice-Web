@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src='https://cloud.tinymce.com/stable/tinymce.min.js'></script>
+	<script>
+	
+		tinymce.PluginManager.add('example', function(editor, url) {
+			// Add a button that opens a window
+			editor.addButton('example', {
+				text: 'My button',
+				icon: false,
+				onclick: function() {
+						// Open window
+						editor.windowManager.open({
+							title: 'Example plugin',
+							body: [
+								{type: 'textbox', name: 'title', label: 'Title'}
+							],
+						onsubmit: function(e) {
+							// Insert content when the window form is submitted
+							editor.insertContent('Title: ' + e.data.title);
+						}
+					});
+				}
+			});
+		
+		
+			// Adds a menu item to the tools menu
+			editor.addMenuItem('example', {
+				text: 'Example plugin',
+				context: 'tools',
+				onclick: function() {
+					// Open window with a specific url
+					editor.windowManager.open({
+						title: 'TinyMCE site',
+						url: 'https://www.tinymce.com',
+						width: 800,
+						height: 600,
+						buttons: [{
+							text: 'Close',
+							onclick: 'close'
+						}]
+					});
+				}
+			});
+
+			return {
+				getMetadata: function () {
+					return  {
+						name: "Example plugin",
+						url: "http://exampleplugindocsurl.com"
+					};
+				}
+			};
+		});
+
+		tinymce.init({
+			selector: '#mytextarea',
+			plugins: 'example',
+			toolbar: 'example'
+		});
+	</script>
+</head>
+
+	<body>
+		<h1>TinyMCE Plugin Example</h1>
+		<form method="post">
+			<textarea id="mytextarea">Hello, World!</textarea>
+		</form>
+		<h2>Reference</h2>
+		<ul>
+			<li>
+				<a href="https://www.tiny.cloud/docs/advanced/creating-a-plugin/">
+					https://www.tiny.cloud/docs/advanced/creating-a-plugin/
+				</a>
+			</li>
+		</ul>
+	</body>
+</html>
