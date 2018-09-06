@@ -1,0 +1,36 @@
+<html>
+	
+	<head>
+		<script>
+			function doSomething(){
+				var formData = new FormData();
+				
+				var fileSelect = document.getElementById("fileSelect");
+				if(fileSelect.files && fileSelect.files.length == 1){
+					var file = fileSelect.files[0]
+					formData.append("file", file , file.name);
+				}
+				
+				var input1 = document.getElementById("input1");
+				formData.append("input1", input1.value)
+				
+				var request = new XMLHttpRequest();
+				request.open('POST', "http://localhost:8080/testMultipart");
+				request.send(formData);
+			}
+		</script>
+	</head>
+	
+	<body>
+		<div>
+			<input type="text" id="input1"/>
+		</div>
+		<div>
+			<input type="file" id="fileSelect"/>
+		</div>
+		<div>
+			<button onclick="doSomething()">Click</button>
+		</div>
+	</body>
+
+</html>
